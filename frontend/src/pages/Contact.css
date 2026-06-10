@@ -1,0 +1,23 @@
+.contact-header {
+  background: linear-gradient(135deg, #0a3d8f 0%, #1a5abf 100%);
+  padding: 40px 20px; color: #fff;
+}
+.contact-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
+.contact-header p { font-size: 14px; color: rgba(255,255,255,0.8); }
+.contact-body { padding: 32px 20px; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.contact-info h2, .contact-form-card h2 { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+.info-item { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 18px; font-size: 14px; }
+.info-item span { font-size: 22px; }
+.info-item strong { display: block; font-weight: 600; margin-bottom: 2px; }
+.info-item p { color: var(--text-gray); font-size: 13px; }
+.contact-map { margin-top: 20px; }
+.contact-form-card { background: #fff; border-radius: 12px; padding: 28px; box-shadow: var(--shadow); }
+.cform { display: flex; flex-direction: column; gap: 14px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group label { font-size: 12px; font-weight: 600; color: var(--text-gray); text-transform: uppercase; }
+.form-group input, .form-group textarea { padding: 10px 14px; border: 2px solid var(--border); border-radius: 8px; font-size: 14px; font-family: 'Poppins',sans-serif; outline: none; transition: border 0.2s; }
+.form-group input:focus, .form-group textarea:focus { border-color: var(--blue-mid); }
+.form-success { text-align: center; padding: 32px 0; }
+.form-success p { font-size: 16px; color: #16a34a; margin-bottom: 16px; font-weight: 600; }
+@media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; } }

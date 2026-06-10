@@ -1,0 +1,115 @@
+.footer {
+  background: linear-gradient(160deg, #0a1e4a 0%, #0a2d6e 100%);
+  color: #fff;
+}
+
+.footer-main {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 40px;
+  padding: 56px 20px 48px;
+}
+
+/* Brand */
+.footer-brand p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.footer-logo span {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 10px;
+}
+
+.social-btn {
+  width: 36px;
+  height: 36px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: background 0.18s;
+  text-decoration: none;
+}
+.social-btn:hover { background: rgba(255,255,255,0.2); }
+
+/* Columns */
+.footer-col h4 {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 16px;
+}
+
+.footer-col a {
+  display: block;
+  font-size: 13.5px;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 10px;
+  text-decoration: none;
+  transition: color 0.18s;
+}
+.footer-col a:hover { color: #7dd3fc; }
+
+/* Contact items */
+.footer-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 10px;
+}
+.footer-contact-item span:first-child { flex-shrink: 0; }
+
+/* Bottom bar */
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding: 16px 20px;
+}
+.footer-bottom .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.footer-bottom p { font-size: 12.5px; color: rgba(255,255,255,0.5); }
+.footer-bottom-links { display: flex; gap: 20px; }
+.footer-bottom-links a {
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: color 0.18s;
+}
+.footer-bottom-links a:hover { color: #7dd3fc; }
+
+/* Mobile */
+@media (max-width: 900px) {
+  .footer-main { grid-template-columns: 1fr 1fr; gap: 30px; }
+  .footer-brand { grid-column: 1 / -1; }
+}
+
+@media (max-width: 480px) {
+  .footer-main { grid-template-columns: 1fr; padding: 40px 16px 32px; }
+  .footer-bottom .container { flex-direction: column; text-align: center; }
+}

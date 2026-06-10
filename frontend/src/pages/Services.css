@@ -1,0 +1,61 @@
+.services-header {
+  background: linear-gradient(135deg, #0a3d8f 0%, #1a5abf 100%);
+  padding: 40px 20px;
+  color: #fff;
+}
+
+.services-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
+.services-header p { font-size: 14px; color: rgba(255,255,255,0.8); }
+
+.services-body { padding: 32px 20px; }
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.service-full-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 24px;
+  display: flex;
+  gap: 18px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.service-full-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.sfcard-icon {
+  width: 72px;
+  height: 72px;
+  min-width: 72px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sfcard-body h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.sfcard-body p {
+  font-size: 13px;
+  color: var(--text-gray);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.sfcard-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--blue-mid);
+}
