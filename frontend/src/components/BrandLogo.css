@@ -1,0 +1,109 @@
+.brand-logo {
+  --brand-logo-width: 168px;
+  --brand-word-size: 30px;
+  --brand-service-size: 11px;
+  display: inline-flex;
+  width: var(--brand-logo-width);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.brand-logo-surface {
+  position: relative;
+  width: 100%;
+  min-height: calc(var(--brand-word-size) + 18px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 4px 14px 4px 4px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0) 44%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 4px),
+    linear-gradient(135deg, #064a9c 0%, #0a58b8 48%, #033c86 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.28),
+    inset 0 -10px 28px rgba(0,17,56,0.22),
+    0 8px 18px rgba(2,18,54,0.18);
+}
+
+.brand-logo-surface::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 42%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
+  opacity: 0.26;
+  pointer-events: none;
+}
+
+.brand-logo-word,
+.brand-logo-reflection {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: var(--brand-word-size);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #f6f1e8;
+  text-shadow:
+    0 1px 0 #ffffff,
+    0 2px 0 #d9d2c5,
+    0 8px 13px rgba(0,0,0,0.42);
+}
+
+.brand-logo-word {
+  position: relative;
+  z-index: 2;
+}
+
+.brand-logo-reflection {
+  position: absolute;
+  z-index: 1;
+  bottom: -14px;
+  opacity: 0.16;
+  transform: scaleY(-0.55);
+  filter: blur(0.4px);
+}
+
+.brand-logo-services {
+  margin-top: 4px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: var(--brand-service-size);
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  color: #ffffff;
+  text-shadow: 0 2px 9px rgba(0,21,64,0.28);
+}
+
+.brand-logo--nav {
+  --brand-logo-width: 158px;
+  --brand-word-size: 27px;
+  --brand-service-size: 9px;
+}
+
+.brand-logo--footer {
+  --brand-logo-width: 176px;
+  --brand-word-size: 31px;
+  --brand-service-size: 10px;
+}
+
+.brand-logo--login {
+  --brand-logo-width: 220px;
+  --brand-word-size: 42px;
+  --brand-service-size: 13px;
+}
+
+@media (max-width: 480px) {
+  .brand-logo--nav {
+    --brand-logo-width: 138px;
+    --brand-word-size: 23px;
+  }
+
+  .brand-logo--login {
+    --brand-logo-width: 188px;
+    --brand-word-size: 36px;
+  }
+}

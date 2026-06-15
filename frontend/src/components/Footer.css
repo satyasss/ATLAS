@@ -21,14 +21,7 @@
 .footer-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
   margin-bottom: 16px;
-}
-
-.footer-logo span {
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: 3px;
 }
 
 .footer-social {

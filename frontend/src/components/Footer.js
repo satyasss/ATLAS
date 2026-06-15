@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import BrandLogo from './BrandLogo';
 import './Footer.css';
 
 export default function Footer() {
@@ -8,15 +9,7 @@ export default function Footer() {
       <div className="footer-main container">
         <div className="footer-brand">
           <div className="footer-logo">
-            <svg viewBox="0 0 32 22" width="28" fill="none">
-              <rect x="0" y="3" width="22" height="16" rx="2.5" fill="#fff" opacity="0.8"/>
-              <rect x="22" y="7" width="10" height="12" rx="1.5" fill="#c7dcff" opacity="0.7"/>
-              <rect x="0" y="3" width="22" height="4.5" rx="2" fill="#2e7de9"/>
-              <circle cx="6" cy="21" r="2.5" fill="#fff" opacity="0.7"/>
-              <circle cx="16" cy="21" r="2.5" fill="#fff" opacity="0.7"/>
-              <circle cx="28" cy="21" r="2.5" fill="#fff" opacity="0.7"/>
-            </svg>
-            <span>ATLAS</span>
+            <BrandLogo variant="footer" />
           </div>
           <p>Your trusted delivery and logistics partner for agriculture, aquaculture, electrical, industrial &amp; specialty supplies across 9 sectors.</p>
           <div className="footer-social">
@@ -54,7 +47,7 @@ export default function Footer() {
           </div>
           <div className="footer-contact-item">
             <span>📧</span>
-            <span>info@atlasdelivery.com</span>
+            <span>info@atlasservices.com</span>
           </div>
           <div className="footer-contact-item">
             <span>📍</span>
@@ -69,7 +62,7 @@ export default function Footer() {
 
       <div className="footer-bottom">
         <div className="container">
-          <p>© 2025 Atlas Delivery Services. All rights reserved.</p>
+          <p>© 2025 Atlas Services Services. All rights reserved.</p>
           <div className="footer-bottom-links">
             <a href="#">Privacy Policy</a>
             <a href="#">Terms of Service</a>
