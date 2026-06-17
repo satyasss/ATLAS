@@ -3,15 +3,15 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --blue-dark:  #0a2d6e;
-  --blue-mid:   #0a3d8f;
-  --blue-main:  #1a5abf;
-  --blue-light: #2e7de9;
-  --green:      #2da44e;
-  --green-dark: #1f7a38;
-  --green-hover:#238c3e;
-  --gold:       #f59e0b;
-  --gray-bg:    #f0f4fb;
+  --blue-dark:  #031329;
+  --blue-mid:   #061b44;
+  --blue-main:  #0b4a9f;
+  --blue-light: #1687e8;
+  --green:      #0f8e46;
+  --green-dark: #064e3b;
+  --green-hover:#16a34a;
+  --gold:       #d4af37;
+  --gray-bg:    #f6f9ff;
   --white:      #ffffff;
   --text-dark:  #0f172a;
   --text-mid:   #374151;
@@ -29,7 +29,7 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Poppins', system-ui, sans-serif;
-  background: var(--gray-bg);
+  background: linear-gradient(180deg, #f6f9ff, #eef5ff);
   color: var(--text-dark);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;

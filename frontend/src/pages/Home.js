@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getProductsBySector } from "../services/api";
 import ProductCard from "../components/ProductCard";
+import BrandLogo from "../components/BrandLogo";
 import "./Home.css";
 
 const SECTORS_GRID = [
@@ -46,7 +47,11 @@ export default function Home() {
 
         <div className="hero-content container">
           <div className="hero-text">
-            <div className="hero-badge">⚡ Fast & Reliable</div>
+            <div className="hero-logo-3d">
+              <BrandLogo variant="hero" />
+            </div>
+
+            <div className="hero-badge">⚡ Premium verified marketplace</div>
 
             <h1>
               Industrial &amp; Agricultural
@@ -55,9 +60,8 @@ export default function Home() {
             </h1>
 
             <p>
-              Your trusted logistics partner for 9 sectors — agriculture,
-              aquaculture, electrical, electronics, mechanical, civil, chemical,
-              food &amp; nanobio.
+              A premium supply platform for 9 sectors with verified sellers,
+              fast logistics, admin-approved documents and clean product discovery.
             </p>
 
             <div className="hero-btns">

@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { getAllProducts, createProduct, updateProduct, deleteProduct } from '../services/api';
 import ProductCard from '../components/ProductCard';
-import './Admin.css'; // reuse admin CSS
+import ImageCropper from '../components/ImageCropper';
+import './Admin.css';
 
 const EMPTY = { name: '', description: '', price: '', imageUrl: '', sector: 'agri', stock: '' };
 
@@ -14,26 +15,22 @@ const SECTOR_ICONS = {
 
 export default function SellerDashboard() {
   const { user } = useAuth();
-  const [myProducts, setMyProducts]   = useState([]);
-  const [form, setForm]               = useState(EMPTY);
-  const [editing, setEditing]         = useState(null);
-  const [loading, setLoading]         = useState(true);
-  const [saving, setSaving]           = useState(false);
-  const [msg, setMsg]                 = useState({ text: '', type: '' });
-  const [filter, setFilter]           = useState('all');
-  const fileInputRef                  = useRef(null);
+  const [myProducts, setMyProducts] = useState([]);
+  const [form, setForm] = useState(EMPTY);
+  const [editing, setEditing] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [msg, setMsg] = useState({ text: '', type: '' });
+  const [filter, setFilter] = useState('all');
+  const [cropSource, setCropSource] = useState('');
+  const fileInputRef = useRef(null);
 
-  // Each seller's products are tagged with sellerEmail in description or a separate field.
-  // We store sellerEmail in product as a custom field via imageUrl alt or via description prefix.
-  // Cleanest approach: we filter products by sellerEmail stored in localStorage alongside product id.
-  // Actually the backend Product model doesn't have sellerEmail, so we track which products
-  // belong to this seller using localStorage.
   const getMyProductIds = () => {
     try { return JSON.parse(localStorage.getItem(`seller_products_${user.email}`) || '[]'); } catch { return []; }
   };
   const addMyProductId = (id) => {
     const ids = getMyProductIds();
-    if (!ids.includes(id)) { ids.push(id); localStorage.setItem(`seller_products_${user.email}`, JSON.stringify(ids)); }
+    if (!ids.includes(id)) localStorage.setItem(`seller_products_${user.email}`, JSON.stringify([...ids, id]));
   };
   const removeMyProductId = (id) => {
     const ids = getMyProductIds().filter(i => i !== id);
@@ -46,7 +43,7 @@ export default function SellerDashboard() {
       .then(r => {
         const all = r.data || [];
         const myIds = getMyProductIds();
-        setMyProducts(all.filter(p => myIds.includes(p.id)));
+        setMyProducts(all.filter(p => p.sellerEmail === user.email || myIds.includes(p.id)));
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -62,12 +59,23 @@ export default function SellerDashboard() {
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (!file.type.startsWith('image/')) { showMsg('❌ Please select a valid image file.', 'error'); return; }
-    if (file.size > 3 * 1024 * 1024) { showMsg('❌ Image size must be less than 3MB.', 'error'); return; }
+    if (!file.type.startsWith('image/')) { showMsg('Please select a valid image file.', 'error'); return; }
+    if (file.size > 5 * 1024 * 1024) { showMsg('Image size must be less than 5MB.', 'error'); return; }
     const reader = new FileReader();
-    reader.onloadend = () => setForm(prev => ({ ...prev, imageUrl: reader.result }));
-    reader.onerror = () => showMsg('❌ Could not read image file.', 'error');
+    reader.onloadend = () => setCropSource(reader.result);
+    reader.onerror = () => showMsg('Could not read image file.', 'error');
     reader.readAsDataURL(file);
+  };
+
+  const handleCropApply = (dataUrl) => {
+    setForm(prev => ({ ...prev, imageUrl: dataUrl }));
+    setCropSource('');
+    showMsg('Image cropped and ready to upload.');
+  };
+
+  const handleCropCancel = () => {
+    setCropSource('');
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const removeSelectedImage = () => {
@@ -77,24 +85,32 @@ export default function SellerDashboard() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.name || !form.price || !form.sector) { showMsg('❌ Please fill required fields.', 'error'); return; }
+    if (!form.name || !form.price || !form.sector) { showMsg('Please fill required fields.', 'error'); return; }
     setSaving(true);
     try {
-      const data = { ...form, price: parseFloat(form.price), stock: parseInt(form.stock, 10) || 0 };
+      const data = {
+        ...form,
+        price: parseFloat(form.price),
+        stock: parseInt(form.stock, 10) || 0,
+        createdByRole: 'seller',
+        sellerEmail: user.email,
+        sellerName: user.name,
+      };
       if (editing) {
         await updateProduct(editing, data);
-        showMsg('✅ Product updated! Visible to customers immediately.');
+        showMsg('Product updated. Visible to customers immediately.');
       } else {
         const res = await createProduct(data);
         const newId = (res.data || {}).id;
         if (newId) addMyProductId(newId);
-        showMsg('✅ Product added! Visible to customers immediately.');
+        showMsg('Product added. Visible to customers immediately.');
       }
-      setForm(EMPTY); setEditing(null);
+      setForm(EMPTY);
+      setEditing(null);
       if (fileInputRef.current) fileInputRef.current.value = '';
       load();
     } catch {
-      showMsg('❌ Error saving product. Check backend connection.', 'error');
+      showMsg('Error saving product. Check backend connection.', 'error');
     }
     setSaving(false);
   };
@@ -106,30 +122,36 @@ export default function SellerDashboard() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleCancelEdit = () => { setEditing(null); setForm(EMPTY); if (fileInputRef.current) fileInputRef.current.value = ''; };
+  const handleCancelEdit = () => {
+    setEditing(null);
+    setForm(EMPTY);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this product?')) return;
     try {
       await deleteProduct(id);
       removeMyProductId(id);
-      showMsg('🗑️ Product deleted.');
+      showMsg('Product deleted.');
       load();
     } catch {
-      showMsg('❌ Could not delete product.', 'error');
+      showMsg('Could not delete product.', 'error');
     }
   };
 
   const displayed = filter === 'all' ? myProducts : myProducts.filter(p => p.sector === filter);
 
   return (
-    <div className="admin-page">
+    <div className="admin-page seller-dashboard-page">
+      {cropSource && <ImageCropper source={cropSource} onCancel={handleCropCancel} onApply={handleCropApply} />}
+
       <div className="admin-header">
         <div className="container">
           <div className="admin-header-inner">
             <div>
               <h1>🏪 Seller Dashboard</h1>
-              <p>Welcome, {user.name} — manage your products. Changes are visible to customers immediately.</p>
+              <p>Welcome, {user.name}. Add, crop, edit and manage your verified seller products.</p>
             </div>
             <div className="admin-stats">
               <div className="stat-pill"><span>{myProducts.length}</span>My Products</div>
@@ -142,11 +164,9 @@ export default function SellerDashboard() {
       </div>
 
       <div className="admin-body container">
-        {msg.text && (
-          <div className={`admin-msg ${msg.type === 'error' ? 'error' : ''}`}>{msg.text}</div>
-        )}
+        {msg.text && <div className={`admin-msg ${msg.type === 'error' ? 'error' : ''}`}>{msg.text}</div>}
 
-        <div className="admin-form-card">
+        <div className="admin-form-card premium-panel">
           <div className="form-card-header">
             <h2>{editing ? '✏️ Edit Product' : '➕ Add New Product'}</h2>
             {editing && <button className="btn-cancel-edit" onClick={handleCancelEdit}>✕ Cancel Edit</button>}
@@ -186,19 +206,19 @@ export default function SellerDashboard() {
             </div>
 
             <div className="form-group">
-              <label>Product Image</label>
+              <label>Product Image Crop Upload</label>
               <div className="file-upload-box">
-                <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageChange} className="image-file-input" id="productImage" />
-                <label htmlFor="productImage" className="image-file-label">
-                  <span className="upload-icon">📁</span>
-                  <div><strong>Choose image from your files</strong><p>PNG, JPG, JPEG, WEBP up to 3MB</p></div>
+                <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageChange} className="image-file-input" id="sellerProductImage" />
+                <label htmlFor="sellerProductImage" className="image-file-label">
+                  <span className="upload-icon">✂️</span>
+                  <div><strong>Choose image and crop before upload</strong><p>Adjust image size and position exactly before saving.</p></div>
                 </label>
               </div>
               {form.imageUrl && (
                 <div className="img-preview live-preview">
                   <img src={form.imageUrl} alt="Product preview" onError={e => { e.target.style.display='none'; }} />
                   <div className="preview-info">
-                    <span>Live Preview</span>
+                    <span>Cropped Preview</span>
                     <button type="button" className="btn-remove-image" onClick={removeSelectedImage}>Remove Image</button>
                   </div>
                 </div>
@@ -214,17 +234,15 @@ export default function SellerDashboard() {
           </form>
         </div>
 
-        <div className="admin-list-section">
+        <div className="admin-list-section premium-panel">
           <div className="admin-list-header">
             <h2>My Products</h2>
-            <p style={{fontSize:'13px',color:'#64748b',margin:0}}>All changes are live — customers see them immediately after saving.</p>
+            <p style={{fontSize:'13px',color:'#64748b',margin:0}}>Only products uploaded by this approved seller appear here.</p>
           </div>
 
           {myProducts.length > 0 && (
             <div className="admin-filter">
-              <button className={filter==='all'?'active':''} onClick={()=>setFilter('all')}>
-                All <span className="filter-count">{myProducts.length}</span>
-              </button>
+              <button className={filter==='all'?'active':''} onClick={()=>setFilter('all')}>All <span className="filter-count">{myProducts.length}</span></button>
               {SECTORS.map(s => {
                 const count = myProducts.filter(p=>p.sector===s).length;
                 return count > 0 ? (
@@ -239,16 +257,12 @@ export default function SellerDashboard() {
           {loading ? (
             <div className="admin-loading"><div className="spinner" /><p>Loading your products...</p></div>
           ) : displayed.length === 0 ? (
-            <div className="admin-empty">
-              <p>{myProducts.length === 0 ? 'You have no products yet. Add your first product above!' : 'No products in this sector.'}</p>
-            </div>
+            <div className="admin-empty"><p>{myProducts.length === 0 ? 'You have no products yet. Add your first product above.' : 'No products in this sector.'}</p></div>
           ) : (
             <>
               <p className="admin-results">{displayed.length} product{displayed.length!==1?'s':''}</p>
               <div className="admin-grid">
-                {displayed.map(p => (
-                  <ProductCard key={p.id} product={p} isAdmin onEdit={handleEdit} onDelete={handleDelete} />
-                ))}
+                {displayed.map(p => <ProductCard key={p.id} product={p} isAdmin onEdit={handleEdit} onDelete={handleDelete} />)}
               </div>
             </>
           )}

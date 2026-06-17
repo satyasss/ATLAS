@@ -72,6 +72,9 @@ public class DataSeeder implements CommandLineRunner {
             p.setImageUrl(d[3]);
             p.setSector(d[4]);
             p.setStock(Integer.parseInt(d[5]));
+            p.setCreatedByRole("admin");
+            p.setSellerName("Atlas Admin");
+            p.setSellerEmail("admin@atlas.com");
             productRepository.save(p);
         }
         System.out.println("✅ Sample products seeded.");

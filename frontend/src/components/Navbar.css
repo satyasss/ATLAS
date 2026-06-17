@@ -191,3 +191,21 @@
     border-radius: 10px !important;
   }
 }
+
+/* Premium nav skin */
+.navbar {
+  background:
+    linear-gradient(135deg, rgba(3,19,41,0.98) 0%, rgba(6,27,68,0.98) 50%, rgba(11,74,159,0.98) 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(16px);
+}
+
+.nav-login-btn {
+  color: #061b44 !important;
+}
+
+.nav-links-inner a.active,
+.nav-links-inner a:hover {
+  background: rgba(255,255,255,0.13);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+}

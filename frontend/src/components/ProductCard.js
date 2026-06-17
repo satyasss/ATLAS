@@ -32,6 +32,11 @@ export default function ProductCard({ product, onEdit, onDelete, isAdmin }) {
           <span className="sector-dot" style={{ background: sc.dot }} />
           {product.sector?.charAt(0).toUpperCase() + product.sector?.slice(1)}
         </div>
+        {product.createdByRole && (
+          <div className={`seller-badge ${product.createdByRole === 'seller' ? 'seller' : 'admin'}`}>
+            {product.createdByRole === 'seller' ? 'Verified Seller' : 'Admin Listed'}
+          </div>
+        )}
         {product.stock === 0 && <div className="oos-overlay">Out of Stock</div>}
       </div>
 
@@ -40,6 +45,10 @@ export default function ProductCard({ product, onEdit, onDelete, isAdmin }) {
         {product.description && (
           <p className="product-desc">{product.description}</p>
         )}
+        {product.sellerName && (
+          <div className="seller-line">Sold by <strong>{product.sellerName}</strong></div>
+        )}
+
         <div className="product-meta">
           <span className="price">₹{product.price?.toLocaleString('en-IN')}</span>
           <span className={`stock-tag ${product.stock === 0 ? 'out' : product.stock < 10 ? 'low' : 'ok'}`}>

@@ -37,6 +37,9 @@ public class ProductService {
             p.setImageUrl(updated.getImageUrl());
             p.setSector(updated.getSector());
             p.setStock(updated.getStock());
+            p.setSellerEmail(updated.getSellerEmail());
+            p.setSellerName(updated.getSellerName());
+            p.setCreatedByRole(updated.getCreatedByRole());
             return productRepository.save(p);
         }).orElseThrow(() -> new RuntimeException("Product not found: " + id));
     }
