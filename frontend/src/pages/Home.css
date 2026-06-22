@@ -509,15 +509,15 @@
 
   .hero-bg-image {
     display: block;
-    background-position: 78% center;
-    background-size: cover;
+    background-position: 78% bottom;
+    background-size: auto 78%;
     opacity: 1;
   }
 
   .hero-overlay {
     background:
-      linear-gradient(180deg, rgba(0, 31, 105, 0.93) 0%, rgba(0, 62, 170, 0.7) 42%, rgba(0, 95, 210, 0.18) 74%, rgba(0, 110, 232, 0.02) 100%),
-      linear-gradient(90deg, rgba(0, 35, 111, 0.78) 0%, rgba(0, 68, 181, 0.24) 58%, rgba(0, 132, 226, 0) 100%);
+      linear-gradient(180deg, rgba(0, 31, 105, 0.94) 0%, rgba(0, 62, 170, 0.78) 42%, rgba(0, 95, 210, 0.12) 68%, rgba(0, 110, 232, 0) 100%),
+      linear-gradient(90deg, rgba(0, 35, 111, 0.72) 0%, rgba(0, 68, 181, 0.18) 55%, rgba(0, 132, 226, 0) 100%);
   }
 
   .hero-content {
@@ -649,7 +649,8 @@
   }
 
   .hero-bg-image {
-    background-position: 81% center;
+    background-position: 80% bottom;
+    background-size: auto 74%;
   }
 
   .hero-text h1 {
