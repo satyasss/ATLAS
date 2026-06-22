@@ -494,6 +494,51 @@
   }
 }
 
+@media (min-width: 701px) and (max-width: 980px) {
+  .hero {
+    min-height: 640px;
+    padding: 72px 0 118px;
+  }
+
+  .hero-bg-image {
+    background-position: 72% center;
+    background-size: cover;
+  }
+
+  .hero-overlay {
+    background:
+      linear-gradient(90deg, rgba(0, 35, 111, 0.96) 0%, rgba(0, 68, 181, 0.78) 42%, rgba(0, 132, 226, 0.08) 72%, rgba(0, 132, 226, 0) 100%),
+      radial-gradient(circle at 32% 48%, rgba(48, 174, 255, 0.18), transparent 32%);
+  }
+
+  .hero-text {
+    max-width: 450px;
+  }
+
+  .hero-text h1 {
+    max-width: 430px;
+    font-size: clamp(40px, 5vw, 50px);
+  }
+
+  .hero-subtitle,
+  .hero-copy {
+    max-width: 420px;
+  }
+
+  .hero-btns {
+    gap: 10px;
+  }
+
+  .hero-cta {
+    min-width: 178px;
+    padding-inline: 18px;
+  }
+
+  .stats-panel {
+    margin-top: -64px;
+  }
+}
+
 @media (max-width: 700px) {
   .home .container {
     width: min(100% - 28px, 1120px);
