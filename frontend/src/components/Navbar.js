@@ -6,6 +6,7 @@ import './Navbar.css';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [search, setSearch] = useState('');
   const loc      = useLocation();
   const navigate = useNavigate();
   const { user, logout, isAdmin, isSeller } = useAuth();
@@ -16,6 +17,13 @@ export default function Navbar() {
     logout();
     close();
     navigate('/login');
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    const query = search.trim();
+    close();
+    navigate(query ? `/products?search=${encodeURIComponent(query)}` : '/products');
   };
 
   return (
@@ -32,10 +40,23 @@ export default function Navbar() {
 
           <div className="nav-links-inner">
             <Link to="/"         className={loc.pathname === '/' ? 'active' : ''}                         onClick={close}>Home</Link>
-            <Link to="/services" className={loc.pathname === '/services' ? 'active' : ''}                 onClick={close}>Services</Link>
-            <Link to="/products" className={loc.pathname.startsWith('/products') ? 'active' : ''}         onClick={close}>Products</Link>
-            <Link to="/about"    className={loc.pathname === '/about' ? 'active' : ''}                    onClick={close}>About</Link>
+            <Link to="/products" className={loc.pathname.startsWith('/products') ? 'active' : ''}         onClick={close}>Categories</Link>
+            <Link to="/services" className={loc.pathname === '/services' ? 'active' : ''}                 onClick={close}>Sellers</Link>
+            <Link to="/about"    className={loc.pathname === '/about' ? 'active' : ''}                    onClick={close}>About Us</Link>
             <Link to="/contact"  className={loc.pathname === '/contact' ? 'active' : ''}                  onClick={close}>Contact</Link>
+
+            <form className="nav-search" onSubmit={handleSearch}>
+              <input
+                type="search"
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="Search products, sectors, suppliers..."
+                aria-label="Search products"
+              />
+              <button type="submit" aria-label="Search">⌕</button>
+            </form>
+
+            <Link to="/contact" className="nav-contact-btn" onClick={close}>📞 Contact Us</Link>
 
             {isAdmin && (
               <Link to="/admin" className={`nav-admin ${loc.pathname === '/admin' ? 'admin-active' : ''}`} onClick={close}>
