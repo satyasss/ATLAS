@@ -203,7 +203,7 @@
 
 .nav-backdrop { display: none; }
 
-@media (max-width: 980px) {
+@media (max-width: 1120px) {
   .hamburger { display: flex; }
 
   .nav-links {
