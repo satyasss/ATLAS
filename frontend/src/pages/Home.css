@@ -116,6 +116,10 @@
   z-index: 2;
 }
 
+.hero-mobile-image {
+  display: none;
+}
+
 .hero-text {
   max-width: 570px;
   color: #ffffff;
@@ -500,21 +504,26 @@
   }
 
   .hero {
-    min-height: 690px;
-    align-items: flex-start;
-    padding: 32px 0 96px;
+    min-height: auto;
+    display: block;
+    padding: 0 0 74px;
+    background: linear-gradient(180deg, #005bd8 0%, #006fe8 100%);
   }
 
   .hero-bg-image {
-    background-position: 69% bottom;
-    background-size: auto 100%;
-    opacity: 1;
+    display: none;
   }
 
   .hero-overlay {
+    inset: 0 0 auto;
+    height: 58%;
     background:
-      linear-gradient(180deg, rgba(0, 31, 105, 0.94) 0%, rgba(0, 62, 170, 0.82) 43%, rgba(0, 95, 210, 0.28) 72%, rgba(0, 110, 232, 0.04) 100%),
-      linear-gradient(90deg, rgba(0, 35, 111, 0.65) 0%, rgba(0, 68, 181, 0.2) 58%, rgba(0, 132, 226, 0) 100%);
+      radial-gradient(circle at 18% 14%, rgba(125, 211, 252, 0.2), transparent 34%),
+      linear-gradient(180deg, rgba(0, 31, 105, 0.84), rgba(0, 80, 190, 0.18));
+  }
+
+  .hero-content {
+    padding: 32px 0 20px;
   }
 
   .hero-text {
@@ -543,6 +552,7 @@
 
   .hero-btns {
     flex-direction: column;
+    gap: 10px;
   }
 
   .hero-cta,
@@ -550,9 +560,24 @@
     width: 100%;
   }
 
+  .hero-mobile-image {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: min(100% - 28px, 560px);
+    height: clamp(190px, 54vw, 300px);
+    margin: 0 auto;
+    border-radius: 10px;
+    background-image: url("../../public/atlas-hero-bg.png");
+    background-repeat: no-repeat;
+    background-position: 58% center;
+    background-size: cover;
+    box-shadow: 0 20px 44px rgba(0, 22, 84, 0.22);
+  }
+
   .stats-panel {
     grid-template-columns: 1fr;
-    margin-top: -64px;
+    margin-top: -46px;
   }
 
   .stat-card,
@@ -630,12 +655,9 @@
 }
 
 @media (max-width: 380px) {
-  .hero {
-    min-height: 660px;
-  }
-
-  .hero-bg-image {
-    background-position: 71% bottom;
+  .hero-mobile-image {
+    height: 188px;
+    background-position: 60% center;
   }
 
   .hero-text h1 {

@@ -91,6 +91,7 @@ export default function Home() {
             </div>
           </div>
         </div>
+        <div className="hero-mobile-image" aria-hidden="true" />
       </section>
 
       <section className="stats-panel container" aria-label="Atlas services highlights">
