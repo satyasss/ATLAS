@@ -494,15 +494,15 @@
   }
 }
 
-@media (min-width: 701px) and (max-width: 980px) {
+@media (min-width: 701px) and (max-width: 1180px) {
   .hero {
     min-height: 640px;
     padding: 72px 0 118px;
   }
 
   .hero-bg-image {
-    background-position: 72% center;
-    background-size: cover;
+    background-position: center bottom;
+    background-size: 100% auto;
   }
 
   .hero-overlay {
