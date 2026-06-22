@@ -504,26 +504,28 @@
   }
 
   .hero {
-    min-height: auto;
-    display: block;
-    padding: 0 0 74px;
+    min-height: 720px;
+    display: flex;
+    align-items: flex-start;
+    padding: 34px 0 94px;
     background: linear-gradient(180deg, #005bd8 0%, #006fe8 100%);
   }
 
   .hero-bg-image {
-    display: none;
+    display: block;
+    background-position: 67% center;
+    background-size: auto 100%;
+    opacity: 1;
   }
 
   .hero-overlay {
-    inset: 0 0 auto;
-    height: 58%;
     background:
-      radial-gradient(circle at 18% 14%, rgba(125, 211, 252, 0.2), transparent 34%),
-      linear-gradient(180deg, rgba(0, 31, 105, 0.84), rgba(0, 80, 190, 0.18));
+      linear-gradient(180deg, rgba(0, 31, 105, 0.94) 0%, rgba(0, 62, 170, 0.82) 45%, rgba(0, 95, 210, 0.34) 72%, rgba(0, 110, 232, 0.08) 100%),
+      linear-gradient(90deg, rgba(0, 35, 111, 0.74) 0%, rgba(0, 68, 181, 0.28) 62%, rgba(0, 132, 226, 0) 100%);
   }
 
   .hero-content {
-    padding: 32px 0 20px;
+    padding: 0;
   }
 
   .hero-text {
@@ -561,18 +563,7 @@
   }
 
   .hero-mobile-image {
-    position: relative;
-    z-index: 2;
-    display: block;
-    width: min(100% - 28px, 560px);
-    height: clamp(190px, 54vw, 300px);
-    margin: 0 auto;
-    border-radius: 10px;
-    background-image: url("../../public/atlas-hero-bg.png");
-    background-repeat: no-repeat;
-    background-position: 58% center;
-    background-size: cover;
-    box-shadow: 0 20px 44px rgba(0, 22, 84, 0.22);
+    display: none;
   }
 
   .stats-panel {
@@ -655,9 +646,12 @@
 }
 
 @media (max-width: 380px) {
-  .hero-mobile-image {
-    height: 188px;
-    background-position: 60% center;
+  .hero {
+    min-height: 680px;
+  }
+
+  .hero-bg-image {
+    background-position: 69% center;
   }
 
   .hero-text h1 {
