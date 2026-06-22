@@ -116,10 +116,6 @@
   z-index: 2;
 }
 
-.hero-mobile-image {
-  display: none;
-}
-
 .hero-text {
   max-width: 570px;
   color: #ffffff;
@@ -504,24 +500,24 @@
   }
 
   .hero {
-    min-height: 720px;
+    min-height: 610px;
     display: flex;
     align-items: flex-start;
-    padding: 34px 0 94px;
+    padding: 34px 0 82px;
     background: linear-gradient(180deg, #005bd8 0%, #006fe8 100%);
   }
 
   .hero-bg-image {
     display: block;
-    background-position: 67% center;
-    background-size: auto 100%;
+    background-position: 78% center;
+    background-size: cover;
     opacity: 1;
   }
 
   .hero-overlay {
     background:
-      linear-gradient(180deg, rgba(0, 31, 105, 0.94) 0%, rgba(0, 62, 170, 0.82) 45%, rgba(0, 95, 210, 0.34) 72%, rgba(0, 110, 232, 0.08) 100%),
-      linear-gradient(90deg, rgba(0, 35, 111, 0.74) 0%, rgba(0, 68, 181, 0.28) 62%, rgba(0, 132, 226, 0) 100%);
+      linear-gradient(180deg, rgba(0, 31, 105, 0.93) 0%, rgba(0, 62, 170, 0.7) 42%, rgba(0, 95, 210, 0.18) 74%, rgba(0, 110, 232, 0.02) 100%),
+      linear-gradient(90deg, rgba(0, 35, 111, 0.78) 0%, rgba(0, 68, 181, 0.24) 58%, rgba(0, 132, 226, 0) 100%);
   }
 
   .hero-content {
@@ -533,42 +529,44 @@
   }
 
   .hero-text h1 {
-    max-width: 360px;
-    font-size: 33px;
+    max-width: 320px;
+    font-size: 31px;
     line-height: 1.12;
     letter-spacing: -0.03em;
   }
 
   .hero-subtitle {
-    max-width: 350px;
+    max-width: 310px;
     margin-bottom: 12px;
-    font-size: 17px;
+    font-size: 16px;
   }
 
   .hero-copy {
-    max-width: 360px;
+    max-width: 315px;
     margin-bottom: 20px;
-    font-size: 13.5px;
+    font-size: 13px;
     line-height: 1.55;
   }
 
   .hero-btns {
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: row;
+    gap: 9px;
   }
 
-  .hero-cta,
+  .hero-cta {
+    min-width: 0;
+    min-height: 42px;
+    padding: 10px 13px;
+    font-size: 12px;
+  }
+
   .help-button {
     width: 100%;
   }
 
-  .hero-mobile-image {
-    display: none;
-  }
-
   .stats-panel {
     grid-template-columns: 1fr;
-    margin-top: -46px;
+    margin-top: -42px;
   }
 
   .stat-card,
@@ -647,15 +645,21 @@
 
 @media (max-width: 380px) {
   .hero {
-    min-height: 680px;
+    min-height: 590px;
   }
 
   .hero-bg-image {
-    background-position: 69% center;
+    background-position: 81% center;
   }
 
   .hero-text h1 {
-    font-size: 29px;
+    max-width: 290px;
+    font-size: 28px;
+  }
+
+  .hero-subtitle,
+  .hero-copy {
+    max-width: 285px;
   }
 
   .sectors-grid {
