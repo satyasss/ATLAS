@@ -43,7 +43,7 @@ export default function Navbar() {
             <Link to="/products" className={loc.pathname.startsWith('/products') ? 'active' : ''}         onClick={close}>Categories</Link>
             <Link to="/services" className={loc.pathname === '/services' ? 'active' : ''}                 onClick={close}>Sellers</Link>
             <Link to="/about"    className={loc.pathname === '/about' ? 'active' : ''}                    onClick={close}>About Us</Link>
-            <Link to="/contact"  className={loc.pathname === '/contact' ? 'active' : ''}                  onClick={close}>Contact</Link>
+            <Link to="/contact"  className={`nav-contact-link ${loc.pathname === '/contact' ? 'active' : ''}`} onClick={close}>Contact</Link>
 
             <form className="nav-search" onSubmit={handleSearch}>
               <input

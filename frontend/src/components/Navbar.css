@@ -123,12 +123,13 @@
 }
 
 .nav-search button {
-  width: 44px;
+  min-width: 44px;
+  padding: 0 12px;
   height: 44px;
   border: 0;
   background: transparent;
   color: #0a3d8f;
-  font-size: 24px;
+  font-size: 12px;
   font-weight: 900;
   cursor: pointer;
   line-height: 1;
@@ -203,7 +204,64 @@
 
 .nav-backdrop { display: none; }
 
-@media (max-width: 1120px) {
+@media (min-width: 901px) and (max-width: 1180px) {
+  .nav-inner {
+    min-height: 72px;
+    gap: 14px;
+  }
+
+  .brand-logo--nav {
+    --brand-logo-width: 150px;
+  }
+
+  .nav-links {
+    flex: 1;
+    justify-content: flex-end;
+  }
+
+  .nav-links-inner {
+    justify-content: flex-end;
+    gap: 5px;
+    width: 100%;
+  }
+
+  .nav-links-inner a {
+    padding: 8px 6px;
+    font-size: 12px;
+  }
+
+  .nav-contact-link {
+    display: none;
+  }
+
+  .nav-search {
+    width: clamp(180px, 20vw, 250px);
+    height: 40px;
+    margin-left: 2px;
+  }
+
+  .nav-search input {
+    padding-left: 14px;
+    font-size: 11.5px;
+  }
+
+  .nav-search button {
+    min-width: 40px;
+    height: 40px;
+  }
+
+  .nav-contact-btn {
+    min-height: 40px;
+    padding: 0 12px !important;
+    gap: 6px;
+  }
+
+  .nav-login-btn {
+    padding: 7px 13px !important;
+  }
+}
+
+@media (max-width: 900px) {
   .hamburger { display: flex; }
 
   .nav-links {
