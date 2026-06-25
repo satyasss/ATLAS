@@ -53,11 +53,12 @@ npm start
 Set this environment variable in the Vercel project, then redeploy the frontend:
 
 ```text
-REACT_APP_API_URL=https://your-render-service.onrender.com/api
+REACT_APP_API_URL=https://your-render-service.onrender.com
 ```
 
 This project uses Create React App, so browser environment variables must start
-with `REACT_APP_`. Do not use `NEXT_PUBLIC_API_URL` for this frontend.
+with `REACT_APP_`. Do not use `NEXT_PUBLIC_API_URL` for this frontend. The
+frontend adds `/api/products` to the Render service URL automatically.
 
 ### Database
 Update `src/main/resources/application.properties`:
