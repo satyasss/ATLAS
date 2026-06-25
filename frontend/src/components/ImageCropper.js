@@ -2,9 +2,9 @@ import React, { useMemo, useState } from 'react';
 import './ImageCropper.css';
 
 const ASPECTS = {
-  '4:3': { label: 'Product card 4:3', width: 1200, height: 900 },
-  '1:1': { label: 'Square 1:1', width: 1000, height: 1000 },
-  '16:9': { label: 'Wide 16:9', width: 1280, height: 720 },
+  '4:3': { label: 'Product card 4:3', width: 800, height: 600 },
+  '1:1': { label: 'Square 1:1', width: 700, height: 700 },
+  '16:9': { label: 'Wide 16:9', width: 960, height: 540 },
 };
 
 function loadImage(source) {
@@ -21,7 +21,7 @@ export default function ImageCropper({ source, onCancel, onApply }) {
   const [offsetX, setOffsetX] = useState(0);
   const [offsetY, setOffsetY] = useState(0);
   const [aspect, setAspect] = useState('4:3');
-  const [quality, setQuality] = useState(0.88);
+  const [quality, setQuality] = useState(0.78);
   const [applying, setApplying] = useState(false);
   const ratio = useMemo(() => `${ASPECTS[aspect].width} / ${ASPECTS[aspect].height}`, [aspect]);
 
@@ -114,7 +114,7 @@ export default function ImageCropper({ source, onCancel, onApply }) {
 
             <label>
               Image quality
-              <input type="range" min="0.65" max="0.95" step="0.01" value={quality} onChange={e => setQuality(e.target.value)} />
+              <input type="range" min="0.6" max="0.88" step="0.01" value={quality} onChange={e => setQuality(e.target.value)} />
             </label>
 
             <div className="crop-tips">

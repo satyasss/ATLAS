@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getAllProducts, createProduct, updateProduct, deleteProduct } from '../services/api';
+import { getAllProducts, createProduct, updateProduct, deleteProduct, getApiErrorMessage } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import ProductCard from '../components/ProductCard';
 import ImageCropper from '../components/ImageCropper';
@@ -105,8 +105,9 @@ export default function Admin() {
       setEditing(null);
       if (fileInputRef.current) fileInputRef.current.value = '';
       load();
-    } catch {
-      showMsg('Error saving product. Check backend connection.', 'error');
+    } catch (error) {
+      console.error('Product save failed:', error);
+      showMsg(getApiErrorMessage(error, 'Error saving product.'), 'error');
     }
     setSaving(false);
   };
