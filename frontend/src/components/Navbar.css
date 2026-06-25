@@ -343,3 +343,22 @@
   background: rgba(255,255,255,0.14);
   box-shadow: inset 0 -2px 0 #ffffff;
 }
+
+.nav-cart {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 7px;
+}
+
+.nav-cart span {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #16a34a;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}

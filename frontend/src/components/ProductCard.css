@@ -201,3 +201,22 @@
 .seller-line strong {
   color: #0f8e46;
 }
+
+.btn-add-cart {
+  margin-top: 12px;
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 14px;
+  color: #fff;
+  background: linear-gradient(135deg, #0b4a9f, #0f8e46);
+  font: 700 13px 'Poppins', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(11, 74, 159, 0.18);
+}
+
+.btn-add-cart:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+  box-shadow: none;
+}

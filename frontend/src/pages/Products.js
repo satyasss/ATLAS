@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { getAllProducts, getProductsBySector } from '../services/api';
 import ProductCard from '../components/ProductCard';
+import { useCart } from '../context/CartContext';
 import './Products.css';
 
 const SECTORS = [
@@ -18,6 +19,7 @@ const SECTORS = [
 ];
 
 export default function Products() {
+  const { addItem } = useCart();
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts]         = useState([]);
   const [loading, setLoading]           = useState(true);
@@ -108,7 +110,7 @@ export default function Products() {
             </p>
             <div className="product-grid">
               {filtered.map(p => (
-                <ProductCard key={p.id} product={p} isAdmin={false} />
+                <ProductCard key={p.id} product={p} isAdmin={false} onAddToCart={addItem} />
               ))}
             </div>
           </>

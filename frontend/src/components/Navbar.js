@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 import BrandLogo from './BrandLogo';
 import './Navbar.css';
 
@@ -10,6 +11,7 @@ export default function Navbar() {
   const loc      = useLocation();
   const navigate = useNavigate();
   const { user, logout, isAdmin, isSeller } = useAuth();
+  const { itemCount } = useCart();
 
   const close = () => setMenuOpen(false);
 
@@ -57,6 +59,9 @@ export default function Navbar() {
             </form>
 
             <Link to="/contact" className="nav-contact-btn" onClick={close}>📞 Contact Us</Link>
+            <Link to="/cart" className={`nav-cart ${loc.pathname === '/cart' ? 'active' : ''}`} onClick={close}>
+              Cart <span>{itemCount}</span>
+            </Link>
 
             {isAdmin && (
               <Link to="/admin" className={`nav-admin ${loc.pathname === '/admin' ? 'admin-active' : ''}`} onClick={close}>

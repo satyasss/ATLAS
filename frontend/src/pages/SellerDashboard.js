@@ -25,25 +25,12 @@ export default function SellerDashboard() {
   const [cropSource, setCropSource] = useState('');
   const fileInputRef = useRef(null);
 
-  const getMyProductIds = () => {
-    try { return JSON.parse(localStorage.getItem(`seller_products_${user.email}`) || '[]'); } catch { return []; }
-  };
-  const addMyProductId = (id) => {
-    const ids = getMyProductIds();
-    if (!ids.includes(id)) localStorage.setItem(`seller_products_${user.email}`, JSON.stringify([...ids, id]));
-  };
-  const removeMyProductId = (id) => {
-    const ids = getMyProductIds().filter(i => i !== id);
-    localStorage.setItem(`seller_products_${user.email}`, JSON.stringify(ids));
-  };
-
   const load = () => {
     setLoading(true);
     getAllProducts()
       .then(r => {
         const all = r.data || [];
-        const myIds = getMyProductIds();
-        setMyProducts(all.filter(p => p.sellerEmail === user.email || myIds.includes(p.id)));
+        setMyProducts(all.filter(p => p.sellerEmail?.toLowerCase() === user.email?.toLowerCase()));
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -100,9 +87,7 @@ export default function SellerDashboard() {
         await updateProduct(editing, data);
         showMsg('Product updated. Visible to customers immediately.');
       } else {
-        const res = await createProduct(data);
-        const newId = (res.data || {}).id;
-        if (newId) addMyProductId(newId);
+        await createProduct(data);
         showMsg('Product added. Visible to customers immediately.');
       }
       setForm(EMPTY);
@@ -133,7 +118,6 @@ export default function SellerDashboard() {
     if (!window.confirm('Delete this product?')) return;
     try {
       await deleteProduct(id);
-      removeMyProductId(id);
       showMsg('Product deleted.');
       load();
     } catch {

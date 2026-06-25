@@ -95,6 +95,8 @@
 .login-success { background: #f0fdf4; border: 1px solid #86efac; color: #166534; }
 
 .login-form { display: flex; flex-direction: column; gap: 16px; }
+.login-helpers { display: flex; justify-content: space-between; gap: 12px; margin-top: -4px; }
+.login-helpers a { color: #0b4a9f; font-size: 12px; font-weight: 800; }
 .seller-form { gap: 15px; }
 .login-grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .login-field { display: flex; flex-direction: column; gap: 7px; }

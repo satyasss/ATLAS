@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import BrandLogo from '../components/BrandLogo';
 import './Login.css';
@@ -17,10 +17,6 @@ const emptySeller = {
     businessProof: null,
   },
 };
-
-function makeOtp() {
-  return String(Math.floor(100000 + Math.random() * 900000));
-}
 
 function fileToData(file) {
   return new Promise((resolve, reject) => {
@@ -42,13 +38,14 @@ export default function Login() {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [sellerForm, setSellerForm] = useState(emptySeller);
-  const [otpCode, setOtpCode] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login, registerSeller, user } = useAuth();
+  const { login, registerSeller, sendSellerRegistrationOtp, user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const cleanSellerEmail = useMemo(() => sellerForm.email.trim().toLowerCase(), [sellerForm.email]);
   const cleanMobile = useMemo(() => sellerForm.mobile.replace(/\D/g, ''), [sellerForm.mobile]);
@@ -62,7 +59,7 @@ export default function Login() {
     setSellerForm(prev => ({ ...prev, [key]: value }));
     if (key === 'email') {
       setOtpVerified(false);
-      setOtpCode('');
+      setOtpSent(false);
     }
   };
 
@@ -89,7 +86,7 @@ export default function Login() {
     }
   };
 
-  const sendOtp = () => {
+  const sendOtp = async () => {
     setError('');
     setSuccess('');
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanSellerEmail)) {
@@ -100,31 +97,38 @@ export default function Login() {
       setError('Enter a valid 10 digit mobile number before sending OTP.');
       return;
     }
-    const code = makeOtp();
-    setOtpCode(code);
-    setOtpVerified(false);
-    setSellerForm(prev => ({ ...prev, otp: '' }));
-    setSuccess(`Email OTP generated for demo: ${code}. In live backend this should be sent to ${cleanSellerEmail}.`);
+    setLoading(true);
+    try {
+      const result = await sendSellerRegistrationOtp(cleanSellerEmail);
+      setOtpSent(true);
+      setOtpVerified(false);
+      setSellerForm(prev => ({ ...prev, otp: '' }));
+      setSuccess(result.message || `OTP sent to ${cleanSellerEmail}.`);
+    } catch (err) {
+      setError(err?.response?.data?.message || 'Could not send seller OTP.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const verifyOtp = () => {
     setError('');
     setSuccess('');
-    if (!otpCode) {
+    if (!otpSent) {
       setError('Please click Send OTP first.');
       return;
     }
-    if (sellerForm.otp.trim() !== otpCode) {
-      setError('Invalid OTP. Please check and enter the 6 digit code.');
+    if (!/^\d{6}$/.test(sellerForm.otp.trim())) {
+      setError('Enter the 6 digit OTP sent to your email.');
       return;
     }
     setOtpVerified(true);
-    setSuccess('Email OTP verified successfully.');
+    setSuccess('OTP is ready. It will be securely verified when you submit.');
   };
 
   const resetRegister = () => {
     setSellerForm(emptySeller);
-    setOtpCode('');
+    setOtpSent(false);
     setOtpVerified(false);
   };
 
@@ -134,7 +138,7 @@ export default function Login() {
     setSuccess('');
     setLoading(true);
     await new Promise(r => setTimeout(r, 300));
-    const result = login(loginEmail, loginPassword);
+    const result = await login(loginEmail, loginPassword);
     setLoading(false);
 
     if (result.ok) {
@@ -146,7 +150,7 @@ export default function Login() {
     } else if (result.reason === 'rejected') {
       setError(result.rejectReason ? `Your seller application was rejected: ${result.rejectReason}` : 'Your seller application was not approved.');
     } else {
-      setError('Invalid email or password. Please try again.');
+      setError(result.message || 'Invalid email or password. Please try again.');
     }
   };
 
@@ -159,33 +163,28 @@ export default function Login() {
     if (!sellerForm.ownerName.trim()) { setError('Please enter owner name.'); return; }
     if (!/^\d{10}$/.test(cleanMobile)) { setError('Please enter a valid 10 digit mobile number.'); return; }
     if (!otpVerified) { setError('Please verify your email OTP before submitting.'); return; }
-    if (sellerForm.password.length < 6) { setError('Password must be at least 6 characters.'); return; }
+    if (sellerForm.password.length < 8) { setError('Password must be at least 8 characters.'); return; }
     if (!sellerForm.documents.aadhaar) { setError('Please upload Aadhaar document for fraud verification.'); return; }
     if (!sellerForm.agree) { setError('Please accept the seller verification declaration.'); return; }
 
     setLoading(true);
-    await new Promise(r => setTimeout(r, 400));
-    const result = registerSeller({
-      businessName: sellerForm.businessName,
-      ownerName: sellerForm.ownerName,
-      mobile: cleanMobile,
-      email: cleanSellerEmail,
-      password: sellerForm.password,
-      emailVerified: otpVerified,
-      documents: sellerForm.documents,
-    });
-    setLoading(false);
-
-    if (result.ok) {
+    try {
+      await registerSeller({
+        businessName: sellerForm.businessName,
+        ownerName: sellerForm.ownerName,
+        mobile: cleanMobile,
+        email: cleanSellerEmail,
+        password: sellerForm.password,
+        otp: sellerForm.otp,
+        documents: sellerForm.documents,
+      });
       setSuccess('Application submitted. Admin can now view your Aadhaar/document and approve or reject your seller account.');
       resetRegister();
       setTab('login');
-    } else if (result.reason === 'exists') {
-      setError('An account with this email already exists.');
-    } else if (result.reason === 'storage') {
-      setError('Browser storage is full. Please upload smaller documents below 2MB and try again.');
-    } else {
-      setError('Registration failed. Please check all fields and try again.');
+    } catch (err) {
+      setError(err?.response?.data?.message || 'Registration failed. Please check all fields and try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -217,7 +216,9 @@ export default function Login() {
             <p className="login-subtitle">Sign in to Atlas Services dashboard</p>
 
             {error && <div className="login-error"><span>⚠️</span> {error}</div>}
-            {success && <div className="login-success"><span>✅</span> {success}</div>}
+            {(success || location.state?.registered) && (
+              <div className="login-success"><span>✅</span> {success || 'Customer account created successfully. Sign in to continue.'}</div>
+            )}
 
             <form onSubmit={handleLogin} className="login-form">
               <div className="login-field">
@@ -234,15 +235,19 @@ export default function Login() {
                   <input type="password" required value={loginPassword} onChange={e => setLoginPassword(e.target.value)} placeholder="Enter your password" autoComplete="current-password" />
                 </div>
               </div>
+              <div className="login-helpers">
+                <Link to="/forgot-password">Forgot password?</Link>
+                <Link to="/register">Create customer account</Link>
+              </div>
               <button type="submit" className="login-btn" disabled={loading}>
                 {loading ? <span className="login-spinner" /> : 'Sign In →'}
               </button>
             </form>
 
             <div className="login-hints">
-              <p className="hint-title">Demo Credentials</p>
-              <div className="hint-row"><div className="hint-badge admin">Admin</div><span>admin@atlas.com / admin123</span></div>
-              <div className="hint-row"><div className="hint-badge user">User</div><span>user@atlas.com / user123</span></div>
+              <p className="hint-title">Account Access</p>
+              <div className="hint-row"><div className="hint-badge admin">Admin</div><span>Credentials are securely configured on the backend</span></div>
+              <div className="hint-row"><div className="hint-badge user">Customer</div><span>Register with email OTP to shop and checkout</span></div>
               <div className="hint-row"><div className="hint-badge seller">Seller</div><span>Register → upload Aadhaar → admin approval</span></div>
             </div>
           </>
@@ -273,7 +278,7 @@ export default function Login() {
                 </div>
                 <div className="login-field">
                   <label>Password</label>
-                  <div className="input-wrap"><span className="input-icon">🔒</span><input type="password" required minLength={6} value={sellerForm.password} onChange={e => updateSeller('password', e.target.value)} placeholder="Min 6 characters" /></div>
+                  <div className="input-wrap"><span className="input-icon">🔒</span><input type="password" required minLength={8} value={sellerForm.password} onChange={e => updateSeller('password', e.target.value)} placeholder="Min 8 characters" /></div>
                 </div>
               </div>
 

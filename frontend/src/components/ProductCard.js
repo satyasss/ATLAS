@@ -13,7 +13,7 @@ const SECTOR_COLORS = {
   nanobio:     { bg: '#e8eaf6', color: '#283593', dot: '#5c6bc0' },
 };
 
-export default function ProductCard({ product, onEdit, onDelete, isAdmin }) {
+export default function ProductCard({ product, onEdit, onDelete, onAddToCart, isAdmin }) {
   const sc = SECTOR_COLORS[product.sector] || { bg: '#f3f4f6', color: '#374151', dot: '#9ca3af' };
 
   return (
@@ -67,6 +67,11 @@ export default function ProductCard({ product, onEdit, onDelete, isAdmin }) {
               <span>🗑️</span> Delete
             </button>
           </div>
+        )}
+        {!isAdmin && (
+          <button className="btn-add-cart" disabled={product.stock === 0} onClick={() => onAddToCart?.(product)}>
+            {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+          </button>
         )}
       </div>
     </div>

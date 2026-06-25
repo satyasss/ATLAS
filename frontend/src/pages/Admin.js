@@ -13,15 +13,15 @@ const SECTOR_ICONS = {
   mechanical:'🔧', civil:'🏗️', chemical:'🧪', food:'🍜', nanobio:'🔬',
 };
 
-function documentEntries(documents = {}) {
+function documentEntries(seller = {}) {
   return [
-    ['Aadhaar', documents.aadhaar],
-    ['Business Proof / GST / PAN', documents.businessProof],
-  ].filter(([, doc]) => doc?.dataUrl);
+    ['Aadhaar', { name: seller.aadhaarName, dataUrl: seller.aadhaarDataUrl }],
+    ['Business Proof / GST / PAN', { name: seller.businessProofName, dataUrl: seller.businessProofDataUrl }],
+  ].filter(([, doc]) => doc.dataUrl);
 }
 
 export default function Admin() {
-  const { getAllSellers, approveSeller, rejectSeller, sellerListVersion } = useAuth();
+  const { user, getAllSellers, approveSeller, rejectSeller, sellerListVersion } = useAuth();
 
   const [products, setProducts] = useState([]);
   const [form, setForm] = useState(EMPTY);
@@ -46,7 +46,9 @@ export default function Admin() {
   useEffect(() => { load(); }, []);
 
   useEffect(() => {
-    setSellers(getAllSellers());
+    getAllSellers()
+      .then(setSellers)
+      .catch(error => showMsg(getApiErrorMessage(error, 'Could not load sellers.'), 'error'));
   }, [sellerListVersion]); // eslint-disable-line
 
   const showMsg = (text, type = 'success') => {
@@ -91,8 +93,8 @@ export default function Admin() {
         price: parseFloat(form.price),
         stock: parseInt(form.stock,10) || 0,
         createdByRole: 'admin',
-        sellerName: 'Atlas Admin',
-        sellerEmail: 'admin@atlas.com',
+        sellerName: user?.name || 'Atlas Admin',
+        sellerEmail: user?.email || '',
       };
       if (editing) {
         await updateProduct(editing, data);
@@ -144,15 +146,23 @@ export default function Admin() {
     }
   };
 
-  const handleApprove = (email) => {
-    approveSeller(email);
-    showMsg(`Seller ${email} approved. They can now login and upload products.`);
+  const handleApprove = async (seller) => {
+    try {
+      await approveSeller(seller.id);
+      showMsg(`Seller ${seller.email} approved. They can now login and upload products.`);
+    } catch (error) {
+      showMsg(getApiErrorMessage(error, 'Could not approve seller.'), 'error');
+    }
   };
 
-  const handleReject = (email) => {
+  const handleReject = async (seller) => {
     const reason = window.prompt('Enter reject reason for this seller:', 'Document verification failed') || 'Rejected by admin';
-    rejectSeller(email, reason);
-    showMsg(`Seller ${email} rejected.`, 'error');
+    try {
+      await rejectSeller(seller.id, reason);
+      showMsg(`Seller ${seller.email} rejected.`, 'error');
+    } catch (error) {
+      showMsg(getApiErrorMessage(error, 'Could not reject seller.'), 'error');
+    }
   };
 
   const displayed = (filter === 'all' ? products : products.filter(p => p.sector === filter))
@@ -346,25 +356,25 @@ export default function Admin() {
                             </div>
 
                             <div className="seller-doc-grid">
-                              {documentEntries(s.documents).map(([label, doc]) => (
+                              {documentEntries(s).map(([label, doc]) => (
                                 <a key={label} className="doc-chip" href={doc.dataUrl} target="_blank" rel="noreferrer">
                                   <span>📄</span>
                                   <div><strong>{label}</strong><small>{doc.name}</small></div>
                                 </a>
                               ))}
-                              {documentEntries(s.documents).length === 0 && <span className="doc-missing">No documents uploaded</span>}
+                              {documentEntries(s).length === 0 && <span className="doc-missing">No documents uploaded</span>}
                             </div>
                           </div>
 
                           <div className="seller-actions">
                             {status === 'pending' && (
                               <>
-                                <button className="btn-approve" onClick={() => handleApprove(s.email)}>✓ Approve</button>
-                                <button className="btn-reject" onClick={() => handleReject(s.email)}>✕ Reject</button>
+                                <button className="btn-approve" onClick={() => handleApprove(s)}>✓ Approve</button>
+                                <button className="btn-reject" onClick={() => handleReject(s)}>✕ Reject</button>
                               </>
                             )}
-                            {status === 'approved' && <button className="btn-reject" onClick={() => handleReject(s.email)}>Revoke / Reject</button>}
-                            {status === 'rejected' && <button className="btn-approve" onClick={() => handleApprove(s.email)}>Re-approve</button>}
+                            {status === 'approved' && <button className="btn-reject" onClick={() => handleReject(s)}>Revoke / Reject</button>}
+                            {status === 'rejected' && <button className="btn-approve" onClick={() => handleApprove(s)}>Re-approve</button>}
                           </div>
                         </div>
                       ))}
