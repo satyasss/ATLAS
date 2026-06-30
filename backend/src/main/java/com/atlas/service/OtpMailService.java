@@ -7,53 +7,55 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.security.SecureRandom;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Service
 public class OtpMailService {
 
     private static final Logger log = LoggerFactory.getLogger(OtpMailService.class);
+    private static final String BREVO_ENDPOINT = "https://api.brevo.com/v3/smtp/email";
 
     public static final String REGISTRATION        = "REGISTRATION";
     public static final String SELLER_REGISTRATION = "SELLER_REGISTRATION";
     public static final String PASSWORD_RESET       = "PASSWORD_RESET";
 
     private final EmailOtpRepository otpRepository;
-    private final JavaMailSender     mailSender;
     private final PasswordEncoder    passwordEncoder;
     private final SecureRandom       random = new SecureRandom();
+    private final HttpClient         httpClient = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(10))
+            .build();
 
     @Value("${app.mail.from:}")
     private String fromAddress;
 
-    @Value("${spring.mail.username:}")
-    private String mailUsername;
+    @Value("${app.mail.from-name:Atlas Services}")
+    private String fromName;
+
+    @Value("${app.brevo.api-key:}")
+    private String brevoApiKey;
 
     @Value("${app.otp.expiry-minutes:10}")
     private long expiryMinutes;
 
     public OtpMailService(EmailOtpRepository otpRepository,
-                          JavaMailSender mailSender,
                           PasswordEncoder passwordEncoder) {
         this.otpRepository   = otpRepository;
-        this.mailSender      = mailSender;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
     public void sendOtp(String email, String purpose) {
-        // Resolve effective from-address (fallback to MAIL_USERNAME)
-        String effectiveFrom = (fromAddress != null && !fromAddress.isBlank())
-                ? fromAddress.trim()
-                : (mailUsername != null ? mailUsername.trim() : "");
-
         String code = String.format("%06d", random.nextInt(1_000_000));
         otpRepository.deleteByEmailIgnoreCaseAndPurpose(email, purpose);
 
@@ -64,33 +66,66 @@ public class OtpMailService {
         otp.setExpiresAt(LocalDateTime.now().plusMinutes(expiryMinutes));
         otpRepository.save(otp);
 
-        if (effectiveFrom.isBlank()) {
-            log.warn("OTP email not configured: MAIL_USERNAME is missing. Falling back to console logging.");
+        if (brevoApiKey == null || brevoApiKey.isBlank() || fromAddress == null || fromAddress.isBlank()) {
+            log.warn("OTP email not configured: BREVO_API_KEY or MAIL_FROM is missing. Falling back to console logging.");
             log.warn("\n==========================================\n" +
                      " DEVELOPMENT OTP for " + email + ": " + code + "\n" +
                      "==========================================\n");
             return;
         }
 
-        log.info("Sending OTP email to {} for purpose {}, from {}", email, purpose, effectiveFrom);
-
         try {
-            var message = mailSender.createMimeMessage();
-            var helper  = new MimeMessageHelper(message, "UTF-8");
-            helper.setFrom(effectiveFrom);
-            helper.setTo(email);
-            helper.setSubject(purpose.equals(PASSWORD_RESET)
-                    ? "Reset your Atlas password"
-                    : "Verify your Atlas account");
-            helper.setText(buildEmail(code, purpose), true);
-            mailSender.send(message);
-            log.info("OTP email sent successfully to {}", email);
+            sendViaBrevo(email, code, purpose);
+            log.info("OTP email sent successfully to {} via Brevo", email);
         } catch (Exception ex) {
             log.error("OTP email failed for {}: {}", email, ex.getMessage());
             log.warn("\n==========================================\n" +
                      " DEVELOPMENT OTP for " + email + ": " + code + "\n" +
                      "==========================================\n");
         }
+    }
+
+    private void sendViaBrevo(String toEmail, String code, String purpose) throws Exception {
+        String subject = purpose.equals(PASSWORD_RESET) ? "Reset your Atlas password" : "Verify your Atlas account";
+        String htmlContent = buildEmail(code, purpose);
+
+        String payload = """
+                {
+                  "sender": { "name": "%s", "email": "%s" },
+                  "to": [ { "email": "%s" } ],
+                  "subject": "%s",
+                  "htmlContent": "%s"
+                }
+                """.formatted(
+                jsonEscape(fromName),
+                jsonEscape(fromAddress),
+                jsonEscape(toEmail),
+                jsonEscape(subject),
+                jsonEscape(htmlContent)
+        );
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(BREVO_ENDPOINT))
+                .header("accept", "application/json")
+                .header("api-key", brevoApiKey)
+                .header("content-type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(payload))
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() < 200 || response.statusCode() >= 300) {
+            throw new RuntimeException("Brevo API responded with " + response.statusCode() + ": " + response.body());
+        }
+    }
+
+    private String jsonEscape(String value) {
+        if (value == null) return "";
+        return value
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
+                .replace("\r", "");
     }
 
     @Transactional
@@ -126,6 +161,6 @@ public class OtpMailService {
                     </div>
                   </div>
                 </div>
-                """.formatted(action, code, expiryMinutes);
+                """.replace("\n", "").formatted(action, code, expiryMinutes);
     }
 }
