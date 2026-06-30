@@ -46,24 +46,30 @@ export default function Products() {
 
   // Load ALL products or approved sellers depending on route
   useEffect(() => {
-    if (activeSector === 'agri' && !activeSeller) {
-      setLoading(true);
-      getApprovedSellers()
-        .then(res => {
-          setApprovedSellers(res.data || []);
-        })
-        .catch(() => setApprovedSellers([]))
-        .finally(() => setLoading(false));
-    } else {
-      setLoading(true);
-      const req = (activeSector === 'all' || activeSeller)
-        ? getAllProducts()
-        : getProductsBySector(activeSector);
-      req
-        .then(res => setAllProducts(res.data || []))
-        .catch(() => setAllProducts([]))
-        .finally(() => setLoading(false));
-    }
+    setLoading(true);
+    // We always load products to compute category product counts, and conditionally load approved sellers
+    const req = (activeSector === 'all' || activeSeller)
+      ? getAllProducts()
+      : getProductsBySector(activeSector);
+    
+    req
+      .then(res => {
+        setAllProducts(res.data || []);
+        if (activeSector !== 'all' && !activeSeller) {
+          getApprovedSellers()
+            .then(sRes => {
+              setApprovedSellers(sRes.data || []);
+            })
+            .catch(() => setApprovedSellers([]))
+            .finally(() => setLoading(false));
+        } else {
+          setLoading(false);
+        }
+      })
+      .catch(() => {
+        setAllProducts([]);
+        setLoading(false);
+      });
   }, [activeSector, activeSeller]);
 
   // Sync URL search param to state on mount
@@ -233,15 +239,15 @@ export default function Products() {
             <div className="spinner" />
             <p>Loading...</p>
           </div>
-        ) : activeSector === 'agri' && !activeSeller ? (
+        ) : activeSector !== 'all' && !activeSeller ? (
           <div className="company-cards-section">
-            <h2 className="company-cards-heading">Verified Agriculture Companies</h2>
+            <h2 className="company-cards-heading">Verified {SECTORS.find(s => s.key === activeSector)?.label || 'Sector'} Companies</h2>
             <p className="company-cards-sub">Select a registered supplier to browse their products</p>
             
             {approvedSellers.length === 0 ? (
               <div className="empty-state">
                 <div className="empty-icon">🏪</div>
-                <p>No verified agricultural companies registered yet.</p>
+                <p>No verified companies registered yet.</p>
               </div>
             ) : (
               <div className="company-grid">
@@ -257,6 +263,12 @@ export default function Products() {
                   const charCodeSum = (company.businessName || '').split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
                   const colorPair = colors[charCodeSum % colors.length];
                   const hasLogo = company.logoDataUrl && company.logoDataUrl.startsWith('data:');
+                  
+                  // Compute product count for this seller in this sector
+                  const productCount = allProducts.filter(p => 
+                    p.sellerName === company.businessName && 
+                    (activeSector === 'all' || p.sector === activeSector)
+                  ).length;
                   
                   return (
                     <div 
@@ -277,6 +289,7 @@ export default function Products() {
                         <h3>{company.businessName}</h3>
                         <p className="company-owner">👤 Owner: {company.ownerName || 'Verified Partner'}</p>
                         <span className="badge-verified">✓ Verified Supplier</span>
+                        <div className="company-product-count">{productCount} product{productCount !== 1 ? 's' : ''} available</div>
                       </div>
                       <button className="btn-view-products">View Products →</button>
                     </div>
