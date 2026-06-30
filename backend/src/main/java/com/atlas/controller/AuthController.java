@@ -107,6 +107,8 @@ public class AuthController {
         seller.setAadhaarName(request.aadhaarName());
         seller.setBusinessProofDataUrl(request.businessProofDataUrl());
         seller.setBusinessProofName(request.businessProofName());
+        seller.setLogoName(request.logoName());
+        seller.setLogoDataUrl(request.logoDataUrl());
         sellerRepository.save(seller);
         return Map.of("message", "Seller application submitted for admin approval.");
     }
@@ -207,7 +209,8 @@ public class AuthController {
     public record RegisterRequest(String name, String mobile, String email, String password, String otp) {}
     public record SellerRegisterRequest(String businessName, String ownerName, String mobile, String email,
                                         String password, String otp, String aadhaarName, String aadhaarDataUrl,
-                                        String businessProofName, String businessProofDataUrl) {}
+                                        String businessProofName, String businessProofDataUrl,
+                                        String logoName, String logoDataUrl) {}
     public record LoginRequest(String email, String password) {}
     public record ResetPasswordRequest(String email, String otp, String newPassword) {}
     public record AuthResponse(Long id, String name, String email, String mobile, String role, String token) {}

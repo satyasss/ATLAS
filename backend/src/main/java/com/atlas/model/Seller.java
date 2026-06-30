@@ -40,6 +40,10 @@ public class Seller {
     private LocalDateTime createdAt = LocalDateTime.now();
     @Column(nullable = false)
     private LocalDateTime updatedAt = LocalDateTime.now();
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
+    private String logoDataUrl;
+    private String logoName;
 
     public Long getId() { return id; }
     public String getBusinessName() { return businessName; }
@@ -64,6 +68,10 @@ public class Seller {
     public void setBusinessProofDataUrl(String businessProofDataUrl) { this.businessProofDataUrl = businessProofDataUrl; }
     public String getBusinessProofName() { return businessProofName; }
     public void setBusinessProofName(String businessProofName) { this.businessProofName = businessProofName; }
+    public String getLogoDataUrl() { return logoDataUrl; }
+    public void setLogoDataUrl(String logoDataUrl) { this.logoDataUrl = logoDataUrl; }
+    public String getLogoName() { return logoName; }
+    public void setLogoName(String logoName) { this.logoName = logoName; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }

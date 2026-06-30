@@ -75,3 +75,4 @@ export const createOrder         = (data)       => API.post('/orders', data);
 export const getOrders           = (email)      => API.get('/orders', { params: { email } });
 export const getAllSellers       = ()           => API.get('/sellers');
 export const updateSellerStatus  = (id, status, reason = '') => API.put(`/sellers/${id}/status`, { status, reason });
+export const getApprovedSellers  = ()           => API.get('/sellers/approved');

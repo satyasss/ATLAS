@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { getAllProducts, getProductsBySector } from '../services/api';
+import { getAllProducts, getProductsBySector, getApprovedSellers } from '../services/api';
 import { useCart } from '../context/CartContext';
 import './Products.css';
 
@@ -42,16 +42,28 @@ export default function Products() {
   const activeSeller  = searchParams.get('seller') || '';
   const urlSearch     = searchParams.get('search') || '';
 
-  // Load ALL products once for seller filtering; sector endpoint for performance
+  const [approvedSellers, setApprovedSellers] = useState([]);
+
+  // Load ALL products or approved sellers depending on route
   useEffect(() => {
-    setLoading(true);
-    const req = (activeSector === 'all' || activeSeller)
-      ? getAllProducts()
-      : getProductsBySector(activeSector);
-    req
-      .then(res => setAllProducts(res.data || []))
-      .catch(() => setAllProducts([]))
-      .finally(() => setLoading(false));
+    if (activeSector === 'agri' && !activeSeller) {
+      setLoading(true);
+      getApprovedSellers()
+        .then(res => {
+          setApprovedSellers(res.data || []);
+        })
+        .catch(() => setApprovedSellers([]))
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(true);
+      const req = (activeSector === 'all' || activeSeller)
+        ? getAllProducts()
+        : getProductsBySector(activeSector);
+      req
+        .then(res => setAllProducts(res.data || []))
+        .catch(() => setAllProducts([]))
+        .finally(() => setLoading(false));
+    }
   }, [activeSector, activeSeller]);
 
   // Sync URL search param to state on mount
@@ -219,7 +231,59 @@ export default function Products() {
         {loading ? (
           <div className="loading-wrap">
             <div className="spinner" />
-            <p>Loading products...</p>
+            <p>Loading...</p>
+          </div>
+        ) : activeSector === 'agri' && !activeSeller ? (
+          <div className="company-cards-section">
+            <h2 className="company-cards-heading">Verified Agriculture Companies</h2>
+            <p className="company-cards-sub">Select a registered supplier to browse their products</p>
+            
+            {approvedSellers.length === 0 ? (
+              <div className="empty-state">
+                <div className="empty-icon">🏪</div>
+                <p>No verified agricultural companies registered yet.</p>
+              </div>
+            ) : (
+              <div className="company-grid">
+                {approvedSellers.map(company => {
+                  // Fallback colors for name initials avatar
+                  const colors = [
+                    ['#10b981', '#059669'], // green
+                    ['#3b82f6', '#2563eb'], // blue
+                    ['#8b5cf6', '#7c3aed'], // purple
+                    ['#f59e0b', '#d97706'], // orange
+                    ['#ec4899', '#db2777'], // pink
+                  ];
+                  const charCodeSum = (company.businessName || '').split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+                  const colorPair = colors[charCodeSum % colors.length];
+                  const hasLogo = company.logoDataUrl && company.logoDataUrl.startsWith('data:');
+                  
+                  return (
+                    <div 
+                      key={company.id} 
+                      className="company-card"
+                      onClick={() => setSeller(company.businessName)}
+                    >
+                      <div className="company-logo-area">
+                        {hasLogo ? (
+                          <img src={company.logoDataUrl} alt={company.businessName} className="company-logo-img" />
+                        ) : (
+                          <div className="company-logo-fallback" style={{ background: `linear-gradient(135deg, ${colorPair[0]}, ${colorPair[1]})` }}>
+                            {(company.businessName || 'C').charAt(0).toUpperCase()}
+                          </div>
+                        )}
+                      </div>
+                      <div className="company-card-info">
+                        <h3>{company.businessName}</h3>
+                        <p className="company-owner">👤 Owner: {company.ownerName || 'Verified Partner'}</p>
+                        <span className="badge-verified">✓ Verified Supplier</span>
+                      </div>
+                      <button className="btn-view-products">View Products →</button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         ) : filtered.length === 0 ? (
           <div className="empty-state">

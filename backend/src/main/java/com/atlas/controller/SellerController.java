@@ -37,10 +37,19 @@ public class SellerController {
         return toResponse(sellerRepository.save(seller));
     }
 
+    @GetMapping("/approved")
+    public List<ApprovedSellerResponse> approvedSellers() {
+        return sellerRepository.findAllByOrderByCreatedAtDesc().stream()
+                .filter(s -> "approved".equalsIgnoreCase(s.getStatus()))
+                .map(s -> new ApprovedSellerResponse(s.getId(), s.getBusinessName(), s.getLogoName(), s.getLogoDataUrl(), s.getEmail(), s.getOwnerName()))
+                .toList();
+    }
+
     private SellerResponse toResponse(Seller seller) {
         return new SellerResponse(seller.getId(), seller.getBusinessName(), seller.getOwnerName(), seller.getEmail(),
                 seller.getMobile(), seller.getStatus(), seller.getRejectReason(), seller.getAadhaarName(),
                 seller.getAadhaarDataUrl(), seller.getBusinessProofName(), seller.getBusinessProofDataUrl(),
+                seller.getLogoName(), seller.getLogoDataUrl(),
                 seller.getCreatedAt(), seller.getUpdatedAt());
     }
 
@@ -48,5 +57,7 @@ public class SellerController {
     public record SellerResponse(Long id, String businessName, String ownerName, String email, String mobile,
                                  String status, String rejectReason, String aadhaarName, String aadhaarDataUrl,
                                  String businessProofName, String businessProofDataUrl,
+                                 String logoName, String logoDataUrl,
                                  LocalDateTime createdAt, LocalDateTime updatedAt) {}
+    public record ApprovedSellerResponse(Long id, String businessName, String logoName, String logoDataUrl, String email, String ownerName) {}
 }

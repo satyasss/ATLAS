@@ -60,6 +60,8 @@ export function AuthProvider({ children }) {
       aadhaarDataUrl: payload.documents?.aadhaar?.dataUrl || '',
       businessProofName: payload.documents?.businessProof?.name || '',
       businessProofDataUrl: payload.documents?.businessProof?.dataUrl || '',
+      logoName: payload.documents?.companyLogo?.name || '',
+      logoDataUrl: payload.documents?.companyLogo?.dataUrl || '',
     });
     return response.data;
   };

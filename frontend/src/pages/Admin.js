@@ -17,6 +17,7 @@ function documentEntries(seller = {}) {
   return [
     ['Aadhaar', { name: seller.aadhaarName, dataUrl: seller.aadhaarDataUrl }],
     ['Business Proof / GST / PAN', { name: seller.businessProofName, dataUrl: seller.businessProofDataUrl }],
+    ['Company Logo', { name: seller.logoName, dataUrl: seller.logoDataUrl }],
   ].filter(([, doc]) => doc.dataUrl);
 }
 

@@ -15,6 +15,7 @@ const emptySeller = {
   documents: {
     aadhaar: null,
     businessProof: null,
+    companyLogo: null,
   },
 };
 
@@ -165,6 +166,7 @@ export default function Login() {
     if (!otpVerified) { setError('Please verify your email OTP before submitting.'); return; }
     if (sellerForm.password.length < 8) { setError('Password must be at least 8 characters.'); return; }
     if (!sellerForm.documents.aadhaar) { setError('Please upload Aadhaar document for fraud verification.'); return; }
+    if (!sellerForm.documents.companyLogo) { setError('Please upload your company logo.'); return; }
     if (!sellerForm.agree) { setError('Please accept the seller verification declaration.'); return; }
 
     setLoading(true);
@@ -305,6 +307,11 @@ export default function Login() {
                   <label htmlFor="businessProof">Business Proof / GST / PAN</label>
                   <input id="businessProof" type="file" accept="image/*,application/pdf" onChange={e => updateDocument('businessProof', e.target.files?.[0])} />
                   <p>{sellerForm.documents.businessProof ? `Selected: ${sellerForm.documents.businessProof.name}` : 'Optional but recommended'}</p>
+                </div>
+                <div className="doc-upload">
+                  <label htmlFor="companyLogo">Company Logo <span>*</span></label>
+                  <input id="companyLogo" type="file" accept="image/*" onChange={e => updateDocument('companyLogo', e.target.files?.[0])} />
+                  <p>{sellerForm.documents.companyLogo ? `Selected: ${sellerForm.documents.companyLogo.name}` : 'Upload Logo JPG/PNG below 2MB'}</p>
                 </div>
               </div>
 

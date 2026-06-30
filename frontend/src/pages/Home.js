@@ -45,9 +45,9 @@ export default function Home() {
       .then(([a, b, c]) => {
         if (!isMounted) return;
         setFeaturedProducts([
-          ...(a?.data || []).slice(0, 1),
-          ...(b?.data || []).slice(0, 1),
-          ...(c?.data || []).slice(0, 1),
+          ...(a?.data || []).slice(0, 2),
+          ...(b?.data || []).slice(0, 2),
+          ...(c?.data || []).slice(0, 2),
         ]);
       })
       .catch(() => {
@@ -156,7 +156,7 @@ export default function Home() {
             <p>Top picks from our catalogue</p>
           </div>
 
-          <div className="product-grid-3">
+          <div className="product-grid-6">
             {featuredProducts.map((product) => (
               <div key={product.id} onClick={() => navigate(`/products/${product.id}`)} style={{ cursor: 'pointer' }}>
                 <ProductCard product={product} isAdmin={false} />
