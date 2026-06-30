@@ -115,3 +115,152 @@
   .sector-tab { font-size: 12px; padding: 7px 12px; }
   .products-header h1 { font-size: 22px; }
 }
+
+/* Company / seller filter chips */
+.company-filter-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.company-filter-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #64748b;
+  padding-top: 6px;
+  white-space: nowrap;
+}
+
+.company-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.company-chip {
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 2px solid #e2e8f0;
+  background: #fff;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Poppins', sans-serif;
+}
+
+.company-chip:hover { border-color: #0a3d8f; color: #0a3d8f; background: #eff6ff; }
+.company-chip.active { border-color: #0a3d8f; background: #0a3d8f; color: #fff; }
+
+/* Filter row with sort */
+.products-filter-row {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.products-sort-select {
+  padding: 10px 18px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+  background: #fff;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  transition: border-color 0.15s;
+  flex-shrink: 0;
+}
+
+.products-sort-select:focus { border-color: #0a3d8f; }
+
+/* Active filters bar */
+.active-filters-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  padding: 10px 16px;
+  background: #eff6ff;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e40af;
+}
+
+.filter-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #dbeafe;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.filter-tag button {
+  background: none;
+  border: none;
+  color: #1e40af;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0;
+  line-height: 1;
+}
+
+.clear-all-filters {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #1e40af;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Clickable card hover */
+.clickable-card {
+  position: relative;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.clickable-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(10,61,143,0.15);
+}
+
+.card-view-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  background: rgba(10,61,143,0.85);
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.18s;
+  pointer-events: none;
+}
+
+.clickable-card:hover .card-view-overlay { opacity: 1; }
+
+.seller-name-link {
+  color: #0a3d8f;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.seller-name-link:hover { color: #1565c0; }

@@ -3,6 +3,8 @@ package com.atlas.service;
 import com.atlas.model.EmailOtp;
 import com.atlas.repository.EmailOtpRepository;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,32 +19,45 @@ import java.time.LocalDateTime;
 @Service
 public class OtpMailService {
 
-    public static final String REGISTRATION = "REGISTRATION";
+    private static final Logger log = LoggerFactory.getLogger(OtpMailService.class);
+
+    public static final String REGISTRATION        = "REGISTRATION";
     public static final String SELLER_REGISTRATION = "SELLER_REGISTRATION";
-    public static final String PASSWORD_RESET = "PASSWORD_RESET";
+    public static final String PASSWORD_RESET       = "PASSWORD_RESET";
 
     private final EmailOtpRepository otpRepository;
-    private final JavaMailSender mailSender;
-    private final PasswordEncoder passwordEncoder;
-    private final SecureRandom random = new SecureRandom();
+    private final JavaMailSender     mailSender;
+    private final PasswordEncoder    passwordEncoder;
+    private final SecureRandom       random = new SecureRandom();
 
     @Value("${app.mail.from:}")
     private String fromAddress;
 
+    @Value("${spring.mail.username:}")
+    private String mailUsername;
+
     @Value("${app.otp.expiry-minutes:10}")
     private long expiryMinutes;
 
-    public OtpMailService(EmailOtpRepository otpRepository, JavaMailSender mailSender, PasswordEncoder passwordEncoder) {
-        this.otpRepository = otpRepository;
-        this.mailSender = mailSender;
+    public OtpMailService(EmailOtpRepository otpRepository,
+                          JavaMailSender mailSender,
+                          PasswordEncoder passwordEncoder) {
+        this.otpRepository   = otpRepository;
+        this.mailSender      = mailSender;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
     public void sendOtp(String email, String purpose) {
-        if (fromAddress == null || fromAddress.isBlank()) {
+        // Resolve effective from-address (fallback to MAIL_USERNAME)
+        String effectiveFrom = (fromAddress != null && !fromAddress.isBlank())
+                ? fromAddress.trim()
+                : (mailUsername != null ? mailUsername.trim() : "");
+
+        if (effectiveFrom.isBlank()) {
+            log.error("OTP email not configured: MAIL_USERNAME / MAIL_FROM environment variables are missing on Render.");
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,
-                    "Email service is not configured. Add MAIL_USERNAME, MAIL_APP_PASSWORD and MAIL_FROM on Render.");
+                    "Email service is not configured. Set MAIL_USERNAME, MAIL_APP_PASSWORD and MAIL_FROM on Render.");
         }
 
         String code = String.format("%06d", random.nextInt(1_000_000));
@@ -55,19 +70,24 @@ public class OtpMailService {
         otp.setExpiresAt(LocalDateTime.now().plusMinutes(expiryMinutes));
         otpRepository.save(otp);
 
+        log.info("Sending OTP email to {} for purpose {}, from {}", email, purpose, effectiveFrom);
+
         try {
             var message = mailSender.createMimeMessage();
-            var helper = new MimeMessageHelper(message, "UTF-8");
-            helper.setFrom(fromAddress);
+            var helper  = new MimeMessageHelper(message, "UTF-8");
+            helper.setFrom(effectiveFrom);
             helper.setTo(email);
             helper.setSubject(purpose.equals(PASSWORD_RESET)
                     ? "Reset your Atlas password"
                     : "Verify your Atlas account");
             helper.setText(buildEmail(code, purpose), true);
             mailSender.send(message);
-        } catch (Exception exception) {
+            log.info("OTP email sent successfully to {}", email);
+        } catch (Exception ex) {
+            log.error("OTP email failed for {}: {}", email, ex.getMessage(), ex);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,
-                    "OTP email could not be sent. Check the Render mail credentials.", exception);
+                    "OTP email could not be sent: " + ex.getMessage() +
+                    ". Check MAIL_APP_PASSWORD on Render — ensure no spaces in the value.", ex);
         }
     }
 

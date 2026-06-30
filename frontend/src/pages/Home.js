@@ -158,7 +158,9 @@ export default function Home() {
 
           <div className="product-grid-3">
             {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} isAdmin={false} />
+              <div key={product.id} onClick={() => navigate(`/products/${product.id}`)} style={{ cursor: 'pointer' }}>
+                <ProductCard product={product} isAdmin={false} />
+              </div>
             ))}
           </div>
 

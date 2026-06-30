@@ -1,5 +1,7 @@
 .navbar {
-  background: linear-gradient(135deg, #0a2d6e 0%, #0a3d8f 50%, #1a5abf 100%);
+  background: linear-gradient(135deg, #003cad 0%, #005ad7 52%, #006ee8 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(16px);
   padding: 0;
   position: sticky;
   top: 0;
@@ -11,17 +13,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 78px;
+  min-height: 84px;
+  padding: 0 32px;
   gap: 22px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-/* Logo */
+/* Logo - pushed to left edge */
 .nav-logo {
   display: flex;
   align-items: center;
   color: #fff;
   text-decoration: none;
   flex-shrink: 0;
+  margin-right: auto;
 }
 
 /* Desktop links */
@@ -53,6 +59,7 @@
 .nav-links-inner a.active {
   background: rgba(255,255,255,0.14);
   color: #fff;
+  box-shadow: inset 0 -2px 0 #ffffff;
 }
 
 /* Admin link */
@@ -84,7 +91,7 @@
 /* Login button */
 .nav-login-btn {
   background: #fff !important;
-  color: #0a3d8f !important;
+  color: #061b44 !important;
   font-weight: 700 !important;
   padding: 7px 18px !important;
   border-radius: 8px !important;
@@ -204,10 +211,30 @@
 
 .nav-backdrop { display: none; }
 
+.nav-cart {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 7px;
+}
+
+.nav-cart span {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #16a34a;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+
 @media (min-width: 901px) and (max-width: 1180px) {
   .nav-inner {
-    min-height: 72px;
+    min-height: 78px;
     gap: 14px;
+    padding: 0 20px;
   }
 
   .brand-logo--nav {
@@ -262,6 +289,10 @@
 }
 
 @media (max-width: 900px) {
+  .nav-inner {
+    padding: 0 16px;
+  }
+
   .hamburger { display: flex; }
 
   .nav-links {
@@ -324,41 +355,4 @@
     font-size: 15px !important;
     border-radius: 10px !important;
   }
-}
-
-/* Premium nav skin */
-.navbar {
-  background:
-    linear-gradient(135deg, #003cad 0%, #005ad7 52%, #006ee8 100%);
-  border-bottom: 1px solid rgba(255,255,255,0.12);
-  backdrop-filter: blur(16px);
-}
-
-.nav-login-btn {
-  color: #061b44 !important;
-}
-
-.nav-links-inner a.active,
-.nav-links-inner a:hover {
-  background: rgba(255,255,255,0.14);
-  box-shadow: inset 0 -2px 0 #ffffff;
-}
-
-.nav-cart {
-  display: inline-flex !important;
-  align-items: center;
-  gap: 7px;
-}
-
-.nav-cart span {
-  min-width: 20px;
-  height: 20px;
-  padding: 0 5px;
-  border-radius: 999px;
-  background: #16a34a;
-  color: #fff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
 }
