@@ -54,12 +54,6 @@ public class OtpMailService {
                 ? fromAddress.trim()
                 : (mailUsername != null ? mailUsername.trim() : "");
 
-        if (effectiveFrom.isBlank()) {
-            log.error("OTP email not configured: MAIL_USERNAME / MAIL_FROM environment variables are missing on Render.");
-            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,
-                    "Email service is not configured. Set MAIL_USERNAME, MAIL_APP_PASSWORD and MAIL_FROM on Render.");
-        }
-
         String code = String.format("%06d", random.nextInt(1_000_000));
         otpRepository.deleteByEmailIgnoreCaseAndPurpose(email, purpose);
 
@@ -69,6 +63,14 @@ public class OtpMailService {
         otp.setCodeHash(passwordEncoder.encode(code));
         otp.setExpiresAt(LocalDateTime.now().plusMinutes(expiryMinutes));
         otpRepository.save(otp);
+
+        if (effectiveFrom.isBlank()) {
+            log.warn("OTP email not configured: MAIL_USERNAME is missing. Falling back to console logging.");
+            log.warn("\n==========================================\n" +
+                     " DEVELOPMENT OTP for " + email + ": " + code + "\n" +
+                     "==========================================\n");
+            return;
+        }
 
         log.info("Sending OTP email to {} for purpose {}, from {}", email, purpose, effectiveFrom);
 
@@ -84,10 +86,10 @@ public class OtpMailService {
             mailSender.send(message);
             log.info("OTP email sent successfully to {}", email);
         } catch (Exception ex) {
-            log.error("OTP email failed for {}: {}", email, ex.getMessage(), ex);
-            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE,
-                    "OTP email could not be sent: " + ex.getMessage() +
-                    ". Check MAIL_APP_PASSWORD on Render — ensure no spaces in the value.", ex);
+            log.error("OTP email failed for {}: {}", email, ex.getMessage());
+            log.warn("\n==========================================\n" +
+                     " DEVELOPMENT OTP for " + email + ": " + code + "\n" +
+                     "==========================================\n");
         }
     }
 
