@@ -64,4 +64,10 @@ public class CustomerOrder {
     public String getItemsJson() { return itemsJson; }
     public void setItemsJson(String itemsJson) { this.itemsJson = itemsJson; }
     public LocalDateTime getCreatedAt() { return createdAt; }
+
+    @Column(length = 100)
+    private String transactionId;
+
+    public String getTransactionId() { return transactionId; }
+    public void setTransactionId(String transactionId) { this.transactionId = transactionId; }
 }

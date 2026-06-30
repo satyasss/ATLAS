@@ -267,14 +267,25 @@
 
 .seller-group { }
 
-.seller-group-title {
-  font-size: 14px; font-weight: 700; margin-bottom: 12px;
-  display: flex; align-items: center; gap: 8px;
-  padding-bottom: 8px; border-bottom: 2px solid #e5e7eb;
-}
-.seller-group-title.pending  { color: #d97706; border-color: #fcd34d; }
-.seller-group-title.approved { color: #15803d; border-color: #86efac; }
-.seller-group-title.rejected { color: #dc2626; border-color: #fca5a5; }
+.seller-group-title { margin: 24px 0 12px; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 10px; color: #475569; }
+.seller-group-title.pending { color: #f59e0b; }
+.seller-group-title.approved { color: #10b981; }
+.seller-group-title.rejected { color: #ef4444; }
+
+/* Admin Orders */
+.orders-list { display: flex; flex-direction: column; gap: 16px; padding: 24px; }
+.order-row { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; box-shadow: var(--shadow-sm); }
+.order-header-row { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px; }
+.order-header-row h3 { font-size: 16px; color: #0f172a; margin-bottom: 4px; }
+.order-date { font-size: 13px; color: #64748b; }
+.order-amount { font-size: 18px; font-weight: 700; color: #0f172a; }
+.order-details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+.order-details-grid h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 10px; }
+.order-details-grid p, .order-details-grid li { font-size: 13px; color: #334155; margin-bottom: 6px; }
+.order-items-list ul { list-style: none; padding: 0; margin: 0; }
+.order-items-list li { padding: 4px 0; border-bottom: 1px dashed #e2e8f0; }
+.order-items-list li:last-child { border-bottom: none; }
+.txn-id-highlight { background: #f0f9ff; color: #0369a1 !important; padding: 6px 10px; border-radius: 6px; display: inline-block; border: 1px solid #bae6fd; }
 
 .seller-count {
   background: #f3f4f6; color: #6b7280;

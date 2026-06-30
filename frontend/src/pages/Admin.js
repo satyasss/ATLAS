@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getAllProducts, createProduct, updateProduct, deleteProduct, getApiErrorMessage } from '../services/api';
+import { getAllProducts, createProduct, updateProduct, deleteProduct, getApiErrorMessage, getAllOrders } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import ProductCard from '../components/ProductCard';
 import ImageCropper from '../components/ImageCropper';
@@ -34,6 +34,7 @@ export default function Admin() {
   const [search, setSearch] = useState('');
   const [activeTab, setActiveTab] = useState('products');
   const [sellers, setSellers] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [cropSource, setCropSource] = useState('');
   const fileInputRef = useRef(null);
 
@@ -44,7 +45,13 @@ export default function Admin() {
       .catch(() => setLoading(false));
   };
 
-  useEffect(() => { load(); }, []);
+  const loadOrders = () => {
+    getAllOrders()
+      .then(r => setOrders(r.data || []))
+      .catch(error => showMsg('Could not load orders.', 'error'));
+  };
+
+  useEffect(() => { load(); loadOrders(); }, []);
 
   useEffect(() => {
     getAllSellers()
@@ -206,6 +213,9 @@ export default function Admin() {
             <button className={activeTab === 'products' ? 'active' : ''} onClick={() => setActiveTab('products')}>📦 Products</button>
             <button className={activeTab === 'sellers' ? 'active' : ''} onClick={() => setActiveTab('sellers')}>
               🛡️ Seller KYC {pendingCount > 0 && <span className="pending-dot">{pendingCount}</span>}
+            </button>
+            <button className={activeTab === 'orders' ? 'active' : ''} onClick={() => setActiveTab('orders')}>
+              📦 Orders
             </button>
           </div>
         </div>
@@ -379,6 +389,65 @@ export default function Admin() {
                           </div>
                         </div>
                       ))}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeTab === 'orders' && (
+          <div className="admin-form-card premium-panel">
+            <div className="form-card-header">
+              <div>
+                <h2>📦 Customer Orders</h2>
+                <p>View all orders placed across the platform, including QR payments.</p>
+              </div>
+            </div>
+
+            {orders.length === 0 ? (
+              <div className="admin-empty"><p>No orders have been placed yet.</p></div>
+            ) : (
+              <div className="orders-list">
+                {orders.map(order => {
+                  let items = [];
+                  try { items = JSON.parse(order.itemsJson || '[]'); } catch(e) {}
+                  return (
+                    <div key={order.orderId || order.id} className="order-row">
+                      <div className="order-header-row">
+                        <div>
+                          <h3>Order #{order.orderId || order.id}</h3>
+                          <span className="order-date">{new Date(order.createdAt).toLocaleString('en-IN')}</span>
+                        </div>
+                        <div className="order-amount">₹{order.total?.toLocaleString('en-IN')}</div>
+                      </div>
+                      <div className="order-details-grid">
+                        <div className="order-customer">
+                          <h4>Customer Details</h4>
+                          <p><strong>{order.fullName}</strong></p>
+                          <p>{order.customerEmail}</p>
+                          <p>{order.phone}</p>
+                          <p>{order.addressLine1} {order.addressLine2 ? `, ${order.addressLine2}` : ''}</p>
+                          <p>{order.city}, {order.state} - {order.postalCode}</p>
+                        </div>
+                        <div className="order-payment-info">
+                          <h4>Payment Information</h4>
+                          <p>Method: <strong>{order.paymentMethod === 'QR_PAYMENT' ? 'Online QR Payment' : order.paymentMethod === 'COD' ? 'Cash on Delivery' : 'UPI on Delivery'}</strong></p>
+                          {order.transactionId && (
+                            <p className="txn-id-highlight">Transaction ID: <strong>{order.transactionId}</strong></p>
+                          )}
+                          <p>Status: <span className={`status-badge ${order.status?.toLowerCase()}`}>{order.status}</span></p>
+                        </div>
+                        <div className="order-items-list">
+                          <h4>Order Items</h4>
+                          <ul>
+                            {items.map((item, idx) => (
+                              <li key={idx}>{item.name} × {item.quantity} (₹{item.lineTotal?.toLocaleString('en-IN')})</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
                     </div>
                   );
                 })}

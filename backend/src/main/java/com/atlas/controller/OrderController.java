@@ -83,7 +83,15 @@ public class OrderController {
         order.setCity(request.city().trim());
         order.setState(request.state().trim());
         order.setPostalCode(request.postalCode().trim());
-        order.setPaymentMethod(normalizePaymentMethod(request.paymentMethod()));
+        
+        String method = normalizePaymentMethod(request.paymentMethod());
+        if (method.equals("QR_PAYMENT")) {
+            if (isBlank(request.transactionId())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Transaction ID is required for QR payments.");
+            }
+            order.setTransactionId(request.transactionId().trim());
+        }
+        order.setPaymentMethod(method);
         order.setTotal(Math.round(total * 100.0) / 100.0);
         try {
             order.setItemsJson(objectMapper.writeValueAsString(savedItems));
@@ -99,6 +107,15 @@ public class OrderController {
         boolean admin = authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
         String targetEmail = admin && email != null && !email.isBlank() ? email.trim() : authentication.getName();
         return orderRepository.findByCustomerEmailIgnoreCaseOrderByCreatedAtDesc(targetEmail);
+    }
+
+    @GetMapping("/all")
+    public List<CustomerOrder> getAllOrders(Authentication authentication) {
+        boolean admin = authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        if (!admin) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
+        }
+        return orderRepository.findAllByOrderByCreatedAtDesc();
     }
 
     private void validateAddress(OrderRequest request) {
@@ -117,8 +134,8 @@ public class OrderController {
 
     private String normalizePaymentMethod(String method) {
         String normalized = method == null ? "" : method.trim().toUpperCase();
-        if (!normalized.equals("COD") && !normalized.equals("UPI_ON_DELIVERY")) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Choose Cash on Delivery or UPI on Delivery.");
+        if (!normalized.equals("COD") && !normalized.equals("UPI_ON_DELIVERY") && !normalized.equals("QR_PAYMENT")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Choose Cash on Delivery, UPI on Delivery, or QR Payment.");
         }
         return normalized;
     }
@@ -130,6 +147,6 @@ public class OrderController {
     public record OrderItemRequest(Long productId, Integer quantity) {}
     public record OrderRequest(String customerEmail, String fullName, String phone, String addressLine1,
                                String addressLine2, String city, String state, String postalCode,
-                               String paymentMethod, List<OrderItemRequest> items) {}
+                               String paymentMethod, String transactionId, List<OrderItemRequest> items) {}
     public record OrderResponse(Long orderId, String status, Double total, String createdAt) {}
 }

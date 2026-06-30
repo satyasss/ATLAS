@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface CustomerOrderRepository extends JpaRepository<CustomerOrder, Long> {
     List<CustomerOrder> findByCustomerEmailIgnoreCaseOrderByCreatedAtDesc(String email);
+    List<CustomerOrder> findAllByOrderByCreatedAtDesc();
 }

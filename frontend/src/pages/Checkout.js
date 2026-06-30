@@ -11,7 +11,7 @@ export default function Checkout() {
   const { items, subtotal, clearCart } = useCart();
   const [form, setForm] = useState({
     fullName: user?.name || '', phone: user?.mobile || '', addressLine1: '', addressLine2: '',
-    city: '', state: '', postalCode: '', paymentMethod: 'COD',
+    city: '', state: '', postalCode: '', paymentMethod: 'COD', transactionId: ''
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -72,8 +72,21 @@ export default function Checkout() {
               <div className="payment-options">
                 <label className="payment-option"><input type="radio" name="payment" checked={form.paymentMethod === 'COD'} onChange={() => update('paymentMethod', 'COD')} /><span><strong>Cash on Delivery</strong><small>Pay safely when your order arrives.</small></span></label>
                 <label className="payment-option"><input type="radio" name="payment" checked={form.paymentMethod === 'UPI_ON_DELIVERY'} onChange={() => update('paymentMethod', 'UPI_ON_DELIVERY')} /><span><strong>UPI on Delivery</strong><small>Scan the delivery partner's verified QR code at delivery.</small></span></label>
+                <label className="payment-option"><input type="radio" name="payment" checked={form.paymentMethod === 'QR_PAYMENT'} onChange={() => update('paymentMethod', 'QR_PAYMENT')} /><span><strong>Online Payment (QR)</strong><small>Scan QR code and enter Transaction ID to verify.</small></span></label>
               </div>
-              <p className="payment-note">Atlas does not collect or store card numbers, CVVs, UPI PINs, or banking passwords. Online prepaid payments should be added later through Razorpay, Stripe, or another PCI-compliant gateway.</p>
+              
+              {form.paymentMethod === 'QR_PAYMENT' && (
+                <div className="qr-payment-section">
+                  <p>Scan this QR code with any UPI app to complete your payment of <strong>₹{subtotal.toLocaleString('en-IN')}</strong>.</p>
+                  <img src="/payment-qr.png" alt="Payment QR Code" className="payment-qr-image" />
+                  <div className="auth-field" style={{ marginTop: '16px' }}>
+                    <label>Transaction ID / UTR Number</label>
+                    <input required={form.paymentMethod === 'QR_PAYMENT'} value={form.transactionId} onChange={e => update('transactionId', e.target.value)} placeholder="e.g. 312345678901" />
+                  </div>
+                </div>
+              )}
+              
+              <p className="payment-note">Atlas does not collect or store card numbers, CVVs, UPI PINs, or banking passwords. All online payments are handled securely via verified QR codes.</p>
             </div>
           </div>
           <aside className="order-summary">
