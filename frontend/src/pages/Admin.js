@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getAllProducts, createProduct, updateProduct, deleteProduct, getApiErrorMessage, getAllOrders } from '../services/api';
+import { getAllProducts, createProduct, updateProduct, deleteProduct, getApiErrorMessage, getAllOrders, createSeller } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import ProductCard from '../components/ProductCard';
 import ImageCropper from '../components/ImageCropper';
 import './Admin.css';
 
-const EMPTY = { name: '', description: '', price: '', imageUrl: '', sector: 'agri', stock: '' };
+const EMPTY = { name: '', description: '', price: '', imageUrl: '', sector: 'agri', stock: '', sellerEmail: '' };
 
 const SECTORS = ['agri','aqua','electrical','electronics','mechanical','civil','chemical','food','nanobio'];
 const SECTOR_ICONS = {
@@ -37,6 +37,12 @@ export default function Admin() {
   const [orders, setOrders] = useState([]);
   const [cropSource, setCropSource] = useState('');
   const fileInputRef = useRef(null);
+
+  // Direct company creation states
+  const EMPTY_COMPANY = { businessName: '', ownerName: '', email: '', mobile: '', password: '' };
+  const [companyForm, setCompanyForm] = useState(EMPTY_COMPANY);
+  const [showCreateCompany, setShowCreateCompany] = useState(false);
+  const [creatingCompany, setCreatingCompany] = useState(false);
 
   const load = () => {
     setLoading(true);
@@ -91,18 +97,45 @@ export default function Admin() {
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
+  const handleCreateCompany = async (e) => {
+    e.preventDefault();
+    if (!companyForm.businessName || !companyForm.email || !companyForm.mobile) {
+      showMsg('Please fill required fields.', 'error');
+      return;
+    }
+    setCreatingCompany(true);
+    try {
+      await createSeller({
+        businessName: companyForm.businessName,
+        ownerName: companyForm.ownerName || 'Admin Created',
+        email: companyForm.email,
+        mobile: companyForm.mobile,
+        password: companyForm.password || 'seller123',
+      });
+      showMsg('Company created successfully and automatically approved.');
+      setCompanyForm(EMPTY_COMPANY);
+      setShowCreateCompany(false);
+      // Refresh sellers
+      getAllSellers().then(setSellers);
+    } catch (error) {
+      showMsg(getApiErrorMessage(error, 'Error creating company.'), 'error');
+    }
+    setCreatingCompany(false);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.name || !form.price || !form.sector) { showMsg('Please fill required fields.', 'error'); return; }
     setSaving(true);
     try {
+      const selectedSeller = sellers.find(s => s.email === form.sellerEmail);
       const data = {
         ...form,
         price: parseFloat(form.price),
         stock: parseInt(form.stock,10) || 0,
-        createdByRole: 'admin',
-        sellerName: user?.name || 'Atlas Admin',
-        sellerEmail: user?.email || '',
+        createdByRole: selectedSeller ? 'seller' : 'admin',
+        sellerName: selectedSeller ? (selectedSeller.businessName || selectedSeller.ownerName) : (user?.name || 'Atlas Admin'),
+        sellerEmail: form.sellerEmail || user?.email || '',
       };
       if (editing) {
         await updateProduct(editing, data);
@@ -131,6 +164,7 @@ export default function Admin() {
       imageUrl: p.imageUrl || '',
       sector: p.sector || 'agri',
       stock: p.stock || '',
+      sellerEmail: p.sellerEmail || '',
     });
     if (fileInputRef.current) fileInputRef.current.value = '';
     setActiveTab('products');
@@ -266,6 +300,18 @@ export default function Admin() {
                 </div>
 
                 <div className="form-group">
+                  <label>Assign to Seller / Company</label>
+                  <select value={form.sellerEmail || ''} onChange={e => setForm({...form, sellerEmail: e.target.value})}>
+                    <option value="">Self (Admin - Atlas Admin)</option>
+                    {sellers.filter(s => s.status === 'approved').map(s => (
+                      <option key={s.email} value={s.email}>
+                        🏢 {s.businessName || s.ownerName} ({s.email})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="form-group">
                   <label>Product Image Crop Upload</label>
                   <div className="file-upload-box">
                     <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageChange} className="image-file-input" id="productImage" />
@@ -332,12 +378,51 @@ export default function Admin() {
 
         {activeTab === 'sellers' && (
           <div className="admin-form-card premium-panel">
-            <div className="form-card-header kyc-header">
+            <div className="form-card-header kyc-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px' }}>
               <div>
                 <h2>🛡️ Seller KYC Applications</h2>
                 <p>Open Aadhaar/documents, verify the seller and approve or reject access.</p>
               </div>
+              <button className="btn-save" style={{ margin: 0, padding: '10px 20px', fontSize: '13px' }} onClick={() => setShowCreateCompany(!showCreateCompany)}>
+                {showCreateCompany ? '✕ Close Form' : '➕ Create Company / Seller'}
+              </button>
             </div>
+
+            {showCreateCompany && (
+              <form onSubmit={handleCreateCompany} className="admin-form" style={{ marginBottom: '35px', paddingBottom: '25px', borderBottom: '2px solid rgba(15,23,42,0.08)' }}>
+                <h3 style={{ fontSize: '16px', fontWeight: '700', marginBottom: '5px', color: '#0f172a' }}>Create New Seller / Company</h3>
+                <div className="form-row-2">
+                  <div className="form-group">
+                    <label>Business / Company Name <span className="req">*</span></label>
+                    <input required value={companyForm.businessName} onChange={e => setCompanyForm({...companyForm, businessName: e.target.value})} placeholder="e.g. AgriCorp Pvt Ltd" />
+                  </div>
+                  <div className="form-group">
+                    <label>Owner Name</label>
+                    <input value={companyForm.ownerName} onChange={e => setCompanyForm({...companyForm, ownerName: e.target.value})} placeholder="e.g. John Doe" />
+                  </div>
+                </div>
+                <div className="form-row-2">
+                  <div className="form-group">
+                    <label>Email Address <span className="req">*</span></label>
+                    <input type="email" required value={companyForm.email} onChange={e => setCompanyForm({...companyForm, email: e.target.value})} placeholder="e.g. contact@agricorp.com" />
+                  </div>
+                  <div className="form-group">
+                    <label>Mobile Number <span className="req">*</span></label>
+                    <input required value={companyForm.mobile} onChange={e => setCompanyForm({...companyForm, mobile: e.target.value})} placeholder="e.g. 9876543210" />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label>Password (Default: seller123)</label>
+                  <input type="password" value={companyForm.password} onChange={e => setCompanyForm({...companyForm, password: e.target.value})} placeholder="Leave blank to use default password" />
+                </div>
+                <div className="form-actions" style={{ marginTop: '10px' }}>
+                  <button type="submit" className="btn-save" disabled={creatingCompany}>
+                    {creatingCompany ? 'Creating...' : '💾 Create Company'}
+                  </button>
+                  <button type="button" className="btn-cancel" onClick={() => { setShowCreateCompany(false); setCompanyForm(EMPTY_COMPANY); }}>Cancel</button>
+                </div>
+              </form>
+            )}
 
             {sellers.length === 0 ? (
               <div className="admin-empty"><p>No seller applications yet.</p></div>

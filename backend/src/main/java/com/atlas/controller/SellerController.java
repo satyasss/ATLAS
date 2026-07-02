@@ -9,18 +9,62 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 @RestController
 @RequestMapping("/api/sellers")
 public class SellerController {
     private final SellerRepository sellerRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public SellerController(SellerRepository sellerRepository) {
+    public SellerController(SellerRepository sellerRepository, PasswordEncoder passwordEncoder) {
         this.sellerRepository = sellerRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
     public List<SellerResponse> all() {
         return sellerRepository.findAllByOrderByCreatedAtDesc().stream().map(this::toResponse).toList();
+    }
+
+    @PostMapping
+    public SellerResponse createSeller(@RequestBody SellerCreateRequest request) {
+        String email = request.email() == null ? "" : request.email().trim().toLowerCase();
+        String mobile = request.mobile() == null ? "" : request.mobile().replaceAll("\\D", "");
+
+        if (email.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is required.");
+        }
+        if (sellerRepository.existsByEmailIgnoreCase(email)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "A company with this email already exists.");
+        }
+        if (mobile.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Mobile number is required.");
+        }
+        if (sellerRepository.existsByMobile(mobile)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "A company with this mobile number already exists.");
+        }
+        if (request.businessName() == null || request.businessName().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Business name is required.");
+        }
+
+        Seller seller = new Seller();
+        seller.setBusinessName(request.businessName().trim());
+        seller.setOwnerName(request.ownerName() != null && !request.ownerName().isBlank() ? request.ownerName().trim() : "Admin Created");
+        seller.setEmail(email);
+        seller.setMobile(mobile);
+        String rawPassword = request.password() == null || request.password().isBlank() ? "seller123" : request.password();
+        seller.setPasswordHash(passwordEncoder.encode(rawPassword));
+
+        seller.setStatus("approved");
+        seller.setAadhaarName("admin_created.pdf");
+        seller.setAadhaarDataUrl("data:text/plain;base64,YWRtaW4=");
+        seller.setBusinessProofName(request.businessProofName());
+        seller.setBusinessProofDataUrl(request.businessProofDataUrl());
+        seller.setLogoName(request.logoName());
+        seller.setLogoDataUrl(request.logoDataUrl());
+
+        return toResponse(sellerRepository.save(seller));
     }
 
     @PutMapping("/{id}/status")
@@ -54,6 +98,8 @@ public class SellerController {
     }
 
     public record StatusRequest(String status, String reason) {}
+    public record SellerCreateRequest(String businessName, String ownerName, String email, String mobile, String password,
+                                      String businessProofName, String businessProofDataUrl, String logoName, String logoDataUrl) {}
     public record SellerResponse(Long id, String businessName, String ownerName, String email, String mobile,
                                  String status, String rejectReason, String aadhaarName, String aadhaarDataUrl,
                                  String businessProofName, String businessProofDataUrl,

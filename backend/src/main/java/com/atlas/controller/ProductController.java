@@ -19,6 +19,9 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private com.atlas.repository.SellerRepository sellerRepository;
+
     @GetMapping
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
@@ -39,9 +42,20 @@ public class ProductController {
     @PostMapping
     public Product createProduct(@RequestBody Product product, Authentication authentication) {
         boolean admin = hasRole(authentication, "ROLE_ADMIN");
-        product.setCreatedByRole(admin ? "admin" : "seller");
-        product.setSellerEmail(authentication.getName());
-        product.setSellerName(displayName(authentication));
+        if (admin && product.getSellerEmail() != null && !product.getSellerEmail().isBlank()) {
+            product.setCreatedByRole("seller");
+            sellerRepository.findByEmailIgnoreCase(product.getSellerEmail()).ifPresentOrElse(seller -> {
+                product.setSellerName(seller.getBusinessName());
+            }, () -> {
+                if (product.getSellerName() == null || product.getSellerName().isBlank()) {
+                    product.setSellerName("Admin Assigned");
+                }
+            });
+        } else {
+            product.setCreatedByRole(admin ? "admin" : "seller");
+            product.setSellerEmail(authentication.getName());
+            product.setSellerName(displayName(authentication));
+        }
         return productService.saveProduct(product);
     }
 
@@ -50,9 +64,28 @@ public class ProductController {
         Product existing = productService.getProductById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found."));
         assertCanManage(existing, authentication);
-        product.setCreatedByRole(existing.getCreatedByRole());
-        product.setSellerEmail(existing.getSellerEmail());
-        product.setSellerName(existing.getSellerName());
+        
+        boolean admin = hasRole(authentication, "ROLE_ADMIN");
+        if (admin) {
+            if (product.getSellerEmail() != null && !product.getSellerEmail().isBlank()) {
+                product.setCreatedByRole("seller");
+                sellerRepository.findByEmailIgnoreCase(product.getSellerEmail()).ifPresentOrElse(seller -> {
+                    product.setSellerName(seller.getBusinessName());
+                }, () -> {
+                    if (product.getSellerName() == null || product.getSellerName().isBlank()) {
+                        product.setSellerName("Admin Assigned");
+                    }
+                });
+            } else {
+                product.setCreatedByRole("admin");
+                product.setSellerEmail(authentication.getName());
+                product.setSellerName(displayName(authentication));
+            }
+        } else {
+            product.setCreatedByRole(existing.getCreatedByRole());
+            product.setSellerEmail(existing.getSellerEmail());
+            product.setSellerName(existing.getSellerName());
+        }
         return ResponseEntity.ok(productService.updateProduct(id, product));
     }
 
