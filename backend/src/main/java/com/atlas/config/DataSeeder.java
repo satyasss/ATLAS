@@ -1,8 +1,6 @@
 package com.atlas.config;
 
-import com.atlas.model.Product;
 import com.atlas.model.Seller;
-import com.atlas.repository.ProductRepository;
 import com.atlas.repository.SellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -11,9 +9,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DataSeeder implements CommandLineRunner {
-
-    @Autowired
-    private ProductRepository productRepository;
 
     @Autowired
     private SellerRepository sellerRepository;
@@ -51,8 +46,5 @@ public class DataSeeder implements CommandLineRunner {
             sellerRepository.save(s2);
             System.out.println("✅ Sample sellers seeded.");
         }
-
-        // No dummy products seeded. User requested to remove all dummy product data.
-        productRepository.deleteAll();
     }
 }

@@ -15,9 +15,9 @@
 - `/admin` route redirects to `/login` if not logged in, to `/` if not admin
 - Users browsing `/products` have **no add/edit/delete** option — view only
 
-### ✅ Initial Products Seeded (36 products, 9 sectors)
-- Backend `DataSeeder.java` seeds 4 products per sector on first run
-- Agriculture, Aquaculture, Electrical, Electronics, Mechanical, Civil, Chemical, Food, Nano/Bio
+### ✅ Products Managed From the Database
+- Backend `DataSeeder.java` does not create or delete product records.
+- Products appear only after an admin or approved seller adds them through the app.
 
 ### ✅ Premium Design
 - Gradient navbar, hero with truck illustration, sector cards, why-us section
