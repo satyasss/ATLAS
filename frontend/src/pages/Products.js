@@ -41,6 +41,7 @@ export default function Products() {
   const activeSector  = searchParams.get('sector') || 'all';
   const activeSeller  = searchParams.get('seller') || '';
   const urlSearch     = searchParams.get('search') || '';
+  const activeSectorTheme = SECTOR_COLORS[activeSector] || { bg: '#f3f4f6', color: '#374151', dot: '#9ca3af' };
 
   const [approvedSellers, setApprovedSellers] = useState([]);
 
@@ -274,6 +275,7 @@ export default function Products() {
                     <div 
                       key={company.id} 
                       className="company-card"
+                      style={{ '--company-accent': activeSectorTheme.color, '--company-tint': activeSectorTheme.bg }}
                       onClick={() => setSeller(company.businessName)}
                     >
                       <div className="company-logo-area">
