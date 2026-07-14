@@ -1,49 +1,49 @@
 .brand-logo {
-  --brand-logo-width: 172px;
+  --brand-logo-height: 48px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--brand-logo-width);
+  height: var(--brand-logo-height);
   line-height: 1;
   text-decoration: none;
 }
 
 .brand-logo img {
   display: block;
-  width: 100%;
-  height: auto;
+  height: 100%;
+  width: auto;
   object-fit: contain;
 }
 
 .brand-logo--nav {
-  --brand-logo-width: 174px;
+  --brand-logo-height: 54px;
 }
 
 .brand-logo--footer {
-  --brand-logo-width: 190px;
+  --brand-logo-height: 64px;
 }
 
 .brand-logo--login {
-  --brand-logo-width: 230px;
+  --brand-logo-height: 80px;
 }
 
 .brand-logo--hero {
-  --brand-logo-width: 286px;
+  --brand-logo-height: 120px;
   filter: drop-shadow(0 18px 30px rgba(0, 20, 80, 0.25));
 }
 
 @media (max-width: 640px) {
   .brand-logo--hero {
-    --brand-logo-width: 224px;
+    --brand-logo-height: 90px;
   }
 }
 
 @media (max-width: 480px) {
   .brand-logo--nav {
-    --brand-logo-width: 145px;
+    --brand-logo-height: 44px;
   }
 
   .brand-logo--login {
-    --brand-logo-width: 188px;
+    --brand-logo-height: 64px;
   }
 }
