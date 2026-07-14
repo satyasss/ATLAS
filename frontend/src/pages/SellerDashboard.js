@@ -193,10 +193,10 @@ export default function SellerDashboard() {
             <div className="form-group">
               <label>Product Image Crop Upload</label>
               <div className="file-upload-box">
-                <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageChange} className="image-file-input" id="sellerProductImage" />
-                <label htmlFor="sellerProductImage" className="image-file-label">
-                  <span className="upload-icon">✂️</span>
-                  <div><strong>Choose image and crop before upload</strong><p>Adjust image size and position exactly before saving.</p></div>
+                <label className="image-file-label">
+                  <div className="upload-icon">📸</div>
+                  <div><strong>Choose image and crop before upload</strong><p>Draw a rectangle to crop exactly what you want to keep.</p></div>
+                  <input ref={fileInputRef} type="file" accept="image/*" className="image-file-input" onChange={handleImageChange} />
                 </label>
               </div>
               {form.imageUrl && (

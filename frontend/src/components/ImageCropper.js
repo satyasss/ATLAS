@@ -1,55 +1,66 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState, useRef } from 'react';
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 import './ImageCropper.css';
 
-const ASPECTS = {
-  '4:3': { label: 'Product card 4:3', width: 800, height: 600 },
-  '1:1': { label: 'Square 1:1', width: 700, height: 700 },
-  '16:9': { label: 'Wide 16:9', width: 960, height: 540 },
-};
-
-function loadImage(source) {
-  return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.onload = () => resolve(image);
-    image.onerror = reject;
-    image.src = source;
-  });
-}
-
 export default function ImageCropper({ source, onCancel, onApply }) {
-  const [zoom, setZoom] = useState(1.08);
-  const [offsetX, setOffsetX] = useState(0);
-  const [offsetY, setOffsetY] = useState(0);
-  const [aspect, setAspect] = useState('4:3');
-  const [quality, setQuality] = useState(0.78);
+  const [crop, setCrop] = useState({ unit: '%', width: 80, height: 80, x: 10, y: 10 });
+  const [completedCrop, setCompletedCrop] = useState(null);
+  const imgRef = useRef(null);
   const [applying, setApplying] = useState(false);
-  const ratio = useMemo(() => `${ASPECTS[aspect].width} / ${ASPECTS[aspect].height}`, [aspect]);
+
+  const onImageLoad = (e) => {
+    imgRef.current = e.currentTarget;
+    // Set an initial completed crop
+    setCompletedCrop({
+      unit: '%',
+      width: 80,
+      height: 80,
+      x: 10,
+      y: 10
+    });
+  };
 
   const applyCrop = async () => {
-    if (!source) return;
+    if (!completedCrop || !completedCrop.width || !completedCrop.height || !imgRef.current) {
+      onApply(source);
+      return;
+    }
     setApplying(true);
     try {
-      const image = await loadImage(source);
-      const { width, height } = ASPECTS[aspect];
+      const image = imgRef.current;
       const canvas = document.createElement('canvas');
-      canvas.width = width;
-      canvas.height = height;
+      const scaleX = image.naturalWidth / image.width;
+      const scaleY = image.naturalHeight / image.height;
+      
+      const pixelRatio = window.devicePixelRatio || 1;
       const ctx = canvas.getContext('2d');
-      ctx.imageSmoothingEnabled = true;
+
+      const cropX = completedCrop.x * scaleX;
+      const cropY = completedCrop.y * scaleY;
+      const cropWidth = completedCrop.width * scaleX;
+      const cropHeight = completedCrop.height * scaleY;
+
+      canvas.width = cropWidth * pixelRatio;
+      canvas.height = cropHeight * pixelRatio;
+
+      ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
       ctx.imageSmoothingQuality = 'high';
 
-      const scale = Math.max(width / image.width, height / image.height) * Number(zoom);
-      const scaledW = image.width * scale;
-      const scaledH = image.height * scale;
-      const maxShiftX = Math.max(0, (scaledW - width) / 2);
-      const maxShiftY = Math.max(0, (scaledH - height) / 2);
-      const dx = (width - scaledW) / 2 + (Number(offsetX) / 100) * maxShiftX;
-      const dy = (height - scaledH) / 2 + (Number(offsetY) / 100) * maxShiftY;
+      ctx.drawImage(
+        image,
+        cropX,
+        cropY,
+        cropWidth,
+        cropHeight,
+        0,
+        0,
+        cropWidth,
+        cropHeight
+      );
 
-      ctx.fillStyle = '#f8fafc';
-      ctx.fillRect(0, 0, width, height);
-      ctx.drawImage(image, dx, dy, scaledW, scaledH);
-      onApply(canvas.toDataURL('image/jpeg', Number(quality)));
+      const base64Image = canvas.toDataURL('image/jpeg', 0.85);
+      onApply(base64Image);
     } catch (error) {
       console.error('Crop failed', error);
       onApply(source);
@@ -67,64 +78,28 @@ export default function ImageCropper({ source, onCancel, onApply }) {
         <div className="crop-head">
           <div>
             <h2>Crop product image</h2>
-            <p>Zoom and move the image exactly how you want it to appear on product cards.</p>
+            <p>Draw a rectangle over the image to select exactly what you want to keep.</p>
           </div>
           <button type="button" className="crop-close" onClick={onCancel}>×</button>
         </div>
 
-        <div className="crop-layout">
-          <div className="crop-preview-shell">
-            <div className="crop-preview" style={{ aspectRatio: ratio }}>
-              <img
-                src={source}
-                alt="Crop preview"
-                style={{ transform: `translate(${offsetX / 3}%, ${offsetY / 3}%) scale(${zoom})` }}
-              />
-              <span className="crop-grid g1" />
-              <span className="crop-grid g2" />
-              <span className="crop-grid g3" />
-              <span className="crop-grid g4" />
-            </div>
-          </div>
-
-          <div className="crop-controls">
-            <label>
-              Aspect ratio
-              <select value={aspect} onChange={e => setAspect(e.target.value)}>
-                {Object.entries(ASPECTS).map(([key, data]) => (
-                  <option key={key} value={key}>{data.label}</option>
-                ))}
-              </select>
-            </label>
-
-            <label>
-              Zoom <strong>{Number(zoom).toFixed(2)}x</strong>
-              <input type="range" min="1" max="2.4" step="0.01" value={zoom} onChange={e => setZoom(e.target.value)} />
-            </label>
-
-            <label>
-              Move left / right
-              <input type="range" min="-100" max="100" step="1" value={offsetX} onChange={e => setOffsetX(e.target.value)} />
-            </label>
-
-            <label>
-              Move up / down
-              <input type="range" min="-100" max="100" step="1" value={offsetY} onChange={e => setOffsetY(e.target.value)} />
-            </label>
-
-            <label>
-              Image quality
-              <input type="range" min="0.6" max="0.88" step="0.01" value={quality} onChange={e => setQuality(e.target.value)} />
-            </label>
-
-            <div className="crop-tips">
-              <span>Tip</span>
-              <p>Use 4:3 for normal cards. Use Square for products that need centered focus.</p>
-            </div>
-          </div>
+        <div className="crop-layout" style={{ display: 'flex', justifyContent: 'center', background: '#f1f5f9', padding: '20px', borderRadius: '12px', minHeight: '300px' }}>
+          <ReactCrop
+            crop={crop}
+            onChange={(c) => setCrop(c)}
+            onComplete={(c) => setCompletedCrop(c)}
+            className="react-crop-container"
+          >
+            <img 
+              src={source} 
+              onLoad={onImageLoad} 
+              alt="Crop me" 
+              style={{ maxHeight: '50vh', maxWidth: '100%', objectFit: 'contain' }} 
+            />
+          </ReactCrop>
         </div>
 
-        <div className="crop-actions">
+        <div className="crop-actions" style={{ marginTop: '20px' }}>
           <button type="button" className="crop-secondary" onClick={onCancel}>Cancel</button>
           <button type="button" className="crop-primary" onClick={applyCrop} disabled={applying}>
             {applying ? 'Cropping...' : 'Apply Crop'}
