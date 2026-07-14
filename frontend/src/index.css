@@ -25,7 +25,7 @@
   --radius-lg:  18px;
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 
 body {
   font-family: 'Poppins', system-ui, sans-serif;
@@ -33,39 +33,44 @@ body {
   color: var(--text-dark);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
+
 
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
 button { font-family: 'Poppins', sans-serif; }
 
+main, #root { overflow-x: hidden; }
+
 /* ── Buttons ─────────────────────────────── */
 .btn-green {
-  background: linear-gradient(135deg, var(--green), #22c55e);
+  background: #0a3d8f;
   color: #fff;
   border: none;
   padding: 11px 26px;
-  border-radius: 8px;
+  border-radius: 0;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
-  box-shadow: 0 4px 14px rgba(45,164,78,0.35);
+  transition: background 0.2s, transform 0.15s;
 }
-.btn-green:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(45,164,78,0.45); }
+.btn-green:hover { background: #063070; transform: translateY(-1px); }
 
 .btn-outline {
   background: transparent;
   color: #fff;
   border: 2px solid rgba(255,255,255,0.85);
   padding: 10px 24px;
-  border-radius: 8px;
+  border-radius: 0;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
 }
 .btn-outline:hover { background: rgba(255,255,255,0.18); }
+
 
 /* ── Layout ──────────────────────────────── */
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }

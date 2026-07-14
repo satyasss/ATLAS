@@ -120,11 +120,12 @@
 
 .btn-cancel-edit {
   background: #f3f4f6; border: none; padding: 7px 16px;
-  border-radius: 8px; font-size: 12px; font-weight: 600;
+  border-radius: 0; font-size: 12px; font-weight: 600;
   cursor: pointer; font-family: 'Poppins', sans-serif;
   color: #374151; transition: background 0.18s;
 }
 .btn-cancel-edit:hover { background: #e5e7eb; }
+
 
 /* Form layout */
 .admin-form { display: flex; flex-direction: column; gap: 16px; }
@@ -191,16 +192,16 @@
 .form-actions { display: flex; gap: 12px; margin-top: 4px; }
 
 .btn-save {
-  background: linear-gradient(135deg, #0a3d8f, #1a5abf);
-  color: #fff; border: none; padding: 12px 28px; border-radius: 9px;
+  background: #0a3d8f;
+  color: #fff; border: none; padding: 12px 28px; border-radius: 0;
   font-size: 14px; font-weight: 700; cursor: pointer;
   font-family: 'Poppins', sans-serif;
-  transition: opacity 0.2s, transform 0.1s;
+  transition: background 0.2s;
   display: flex; align-items: center; gap: 8px;
-  box-shadow: 0 4px 14px rgba(10,61,143,0.35);
 }
-.btn-save:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+.btn-save:hover:not(:disabled) { background: #063070; }
 .btn-save:disabled { opacity: 0.55; cursor: not-allowed; }
+
 
 .btn-spinner {
   width: 16px; height: 16px;
@@ -212,11 +213,12 @@
 
 .btn-cancel {
   background: #f3f4f6; color: #64748b; border: none;
-  padding: 12px 22px; border-radius: 9px; font-size: 14px;
+  padding: 12px 22px; border-radius: 0; font-size: 14px;
   font-weight: 600; cursor: pointer; font-family: 'Poppins', sans-serif;
   transition: background 0.18s;
 }
 .btn-cancel:hover { background: #e5e7eb; }
+
 
 /* ── Products list section ─────────────────── */
 .admin-list-section {
@@ -318,18 +320,19 @@
 .seller-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
 .btn-approve {
-  background: #dcfce7; color: #15803d; border: 1px solid #86efac;
-  padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  background: #0a3d8f; color: #fff; border: 1px solid #0a3d8f;
+  padding: 7px 16px; border-radius: 0; font-size: 13px; font-weight: 600;
   cursor: pointer; font-family: 'Poppins', sans-serif; transition: background 0.18s;
 }
-.btn-approve:hover { background: #bbf7d0; }
+.btn-approve:hover { background: #063070; }
 
 .btn-reject {
   background: #fef2f2; color: #dc2626; border: 1px solid #fca5a5;
-  padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  padding: 7px 16px; border-radius: 0; font-size: 13px; font-weight: 600;
   cursor: pointer; font-family: 'Poppins', sans-serif; transition: background 0.18s;
 }
 .btn-reject:hover { background: #fee2e2; }
+
 
 /* ── File upload ───────────────────────────── */
 .file-upload-box {
@@ -435,9 +438,11 @@
 }
 
 .btn-save {
-  background: linear-gradient(135deg, #061b44, #0b4a9f 58%, #0f8e46);
-  box-shadow: 0 14px 28px rgba(6, 27, 68, 0.20);
+  background: #0a3d8f;
+  box-shadow: none;
 }
+.btn-save:hover:not(:disabled) { background: #063070; }
+
 
 .form-group input:focus,
 .form-group select:focus,

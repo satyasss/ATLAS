@@ -5,15 +5,14 @@ import ProductCard from "../components/ProductCard";
 import "./Home.css";
 
 const SECTORS_GRID = [
-  { key: "agri", label: "Agriculture", icon: "🌾", desc: "Seeds, tools & farm essentials", accent: "#16a34a", tint: "#dcfce7" },
-  { key: "aqua", label: "Aquaculture", icon: "🐟", desc: "Fish farming & water systems", accent: "#0ea5e9", tint: "#dff3ff" },
-  { key: "electrical", label: "Electrical", icon: "⚡", desc: "Cables, power & safety items", accent: "#d97706", tint: "#fef3c7" },
-  { key: "electronics", label: "Electronics", icon: "📱", desc: "Devices, parts & components", accent: "#7c3aed", tint: "#ede9fe" },
-  { key: "mechanical", label: "Mechanical", icon: "⚙️", desc: "Machines, tools & spares", accent: "#ef4444", tint: "#fee2e2" },
-  { key: "civil", label: "Civil", icon: "🏢", desc: "Construction materials", accent: "#2563eb", tint: "#dbeafe" },
-  { key: "chemical", label: "Chemical", icon: "🧪", desc: "Industrial & specialty chemicals", accent: "#db2777", tint: "#fce7f3" },
-  { key: "food", label: "Food", icon: "🥣", desc: "Food processing & packaging", accent: "#f59e0b", tint: "#fef3c7" },
-  { key: "nanobio", label: "Nano/Bio", icon: "🔬", desc: "Nano materials & biotechnology", accent: "#8b5cf6", tint: "#ede9fe" },
+  { key: "agri",        label: "Agritech",     icon: "🌾", desc: "Seeds, tools & farm essentials",    accent: "#16a34a", tint: "#dcfce7" },
+  { key: "aqua",        label: "Aquatech",     icon: "💧", desc: "Fish farming & water systems",       accent: "#0284c7", tint: "#e0f2fe" },
+  { key: "electrical",  label: "Electrical",   icon: "⚡", desc: "Cables, power & safety items",       accent: "#d97706", tint: "#fef3c7" },
+  { key: "electronics", label: "Electronics",  icon: "💻", desc: "Devices, parts & components",        accent: "#16a34a", tint: "#dcfce7" },
+  { key: "mechanical",  label: "Machanical",   icon: "⚙️", desc: "Machines, tools & spares",           accent: "#1d4ed8", tint: "#dbeafe" },
+  { key: "civil",       label: "Civil",        icon: "🏗️", desc: "Construction materials",             accent: "#0891b2", tint: "#cffafe" },
+  { key: "chemical",    label: "Chemical",     icon: "🧪", desc: "Industrial & specialty chemicals",   accent: "#0d9488", tint: "#ccfbf1" },
+  { key: "food",        label: "Food Products",icon: "🥗", desc: "Food processing & packaging",        accent: "#ea580c", tint: "#ffedd5" },
 ];
 
 const STATS = [

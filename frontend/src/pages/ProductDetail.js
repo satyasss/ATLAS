@@ -5,16 +5,17 @@ import { useCart } from '../context/CartContext';
 import './ProductDetail.css';
 
 const SECTOR_COLORS = {
-  agri:        { bg: '#e8f5e9', color: '#2e7d32', dot: '#4caf50', label: 'Agriculture' },
-  aqua:        { bg: '#e3f2fd', color: '#1565c0', dot: '#42a5f5', label: 'Aquaculture' },
+  agri:        { bg: '#e8f5e9', color: '#2e7d32', dot: '#4caf50', label: 'Agritech' },
+  aqua:        { bg: '#e3f2fd', color: '#1565c0', dot: '#42a5f5', label: 'Aquatech' },
   electrical:  { bg: '#fff8e1', color: '#f57f17', dot: '#ffca28', label: 'Electrical' },
-  electronics: { bg: '#f3e5f5', color: '#6a1b9a', dot: '#ab47bc', label: 'Electronics' },
-  mechanical:  { bg: '#fbe9e7', color: '#bf360c', dot: '#ff7043', label: 'Mechanical' },
-  civil:       { bg: '#eceff1', color: '#37474f', dot: '#78909c', label: 'Civil' },
-  chemical:    { bg: '#fce4ec', color: '#880e4f', dot: '#e91e63', label: 'Chemical' },
-  food:        { bg: '#fff3e0', color: '#e65100', dot: '#ff9800', label: 'Food' },
+  electronics: { bg: '#e8f5e9', color: '#2e7d32', dot: '#4caf50', label: 'Electronics' },
+  mechanical:  { bg: '#dbeafe', color: '#1d4ed8', dot: '#3b82f6', label: 'Machanical' },
+  civil:       { bg: '#cffafe', color: '#0891b2', dot: '#06b6d4', label: 'Civil' },
+  chemical:    { bg: '#ccfbf1', color: '#0d9488', dot: '#14b8a6', label: 'Chemical' },
+  food:        { bg: '#ffedd5', color: '#ea580c', dot: '#f97316', label: 'Food Products' },
   nanobio:     { bg: '#e8eaf6', color: '#283593', dot: '#5c6bc0', label: 'Nano/Bio' },
 };
+
 
 export default function ProductDetail() {
   const { id } = useParams();

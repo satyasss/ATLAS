@@ -9,9 +9,14 @@ const EMPTY = { name: '', description: '', price: '', imageUrl: '', sector: 'agr
 
 const SECTORS = ['agri','aqua','electrical','electronics','mechanical','civil','chemical','food','nanobio'];
 const SECTOR_ICONS = {
-  agri:'🌾', aqua:'🐟', electrical:'⚡', electronics:'📱',
-  mechanical:'🔧', civil:'🏗️', chemical:'🧪', food:'🍜', nanobio:'🔬',
+  agri:'🌾', aqua:'💧', electrical:'⚡', electronics:'💻',
+  mechanical:'⚙️', civil:'🏗️', chemical:'🧪', food:'🥗', nanobio:'🔬',
 };
+const SECTOR_LABELS = {
+  agri:'Agritech', aqua:'Aquatech', electrical:'Electrical', electronics:'Electronics',
+  mechanical:'Machanical', civil:'Civil', chemical:'Chemical', food:'Food Products', nanobio:'Nano/Bio',
+};
+
 
 function documentEntries(seller = {}) {
   return [
@@ -275,7 +280,7 @@ export default function Admin() {
                   <div className="form-group">
                     <label>Sector <span className="req">*</span></label>
                     <select value={form.sector} onChange={e => setForm({...form, sector: e.target.value})}>
-                      {SECTORS.map(s => <option key={s} value={s}>{SECTOR_ICONS[s]} {s.charAt(0).toUpperCase()+s.slice(1)}</option>)}
+                      {SECTORS.map(s => <option key={s} value={s}>{SECTOR_ICONS[s]} {SECTOR_LABELS[s] || (s.charAt(0).toUpperCase()+s.slice(1))}</option>)}
                     </select>
                   </div>
                 </div>
@@ -354,7 +359,7 @@ export default function Admin() {
                   const count = products.filter(p=>p.sector===s).length;
                   return count > 0 ? (
                     <button key={s} className={filter===s?'active':''} onClick={()=>setFilter(s)}>
-                      {SECTOR_ICONS[s]} {s.charAt(0).toUpperCase()+s.slice(1)} <span className="filter-count">{count}</span>
+                      {SECTOR_ICONS[s]} {SECTOR_LABELS[s] || (s.charAt(0).toUpperCase()+s.slice(1))} <span className="filter-count">{count}</span>
                     </button>
                   ) : null;
                 })}

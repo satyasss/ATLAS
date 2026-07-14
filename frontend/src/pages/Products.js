@@ -6,14 +6,14 @@ import './Products.css';
 
 const SECTORS = [
   { key: 'all',        label: 'All Products',  icon: '📦' },
-  { key: 'agri',       label: 'Agriculture',   icon: '🌾' },
-  { key: 'aqua',       label: 'Aquaculture',   icon: '🐟' },
+  { key: 'agri',       label: 'Agritech',      icon: '🌾' },
+  { key: 'aqua',       label: 'Aquatech',      icon: '💧' },
   { key: 'electrical', label: 'Electrical',    icon: '⚡' },
-  { key: 'electronics',label: 'Electronics',   icon: '📱' },
-  { key: 'mechanical', label: 'Mechanical',    icon: '🔧' },
+  { key: 'electronics',label: 'Electronics',   icon: '💻' },
+  { key: 'mechanical', label: 'Machanical',    icon: '⚙️' },
   { key: 'civil',      label: 'Civil',         icon: '🏗️' },
   { key: 'chemical',   label: 'Chemical',      icon: '🧪' },
-  { key: 'food',       label: 'Food',          icon: '🍜' },
+  { key: 'food',       label: 'Food Products', icon: '🥗' },
   { key: 'nanobio',    label: 'Nano/Bio',      icon: '🔬' },
 ];
 
@@ -278,22 +278,15 @@ export default function Products() {
                       style={{ '--company-accent': activeSectorTheme.color, '--company-tint': activeSectorTheme.bg }}
                       onClick={() => setSeller(company.businessName)}
                     >
-                      <div className="company-logo-area">
+                      <div className="company-logo-area-only">
                         {hasLogo ? (
-                          <img src={company.logoDataUrl} alt={company.businessName} className="company-logo-img" />
+                          <img src={company.logoDataUrl} alt={company.businessName} className="company-logo-img-only" />
                         ) : (
-                          <div className="company-logo-fallback" style={{ background: `linear-gradient(135deg, ${colorPair[0]}, ${colorPair[1]})` }}>
+                          <div className="company-logo-fallback-only" style={{ background: `linear-gradient(135deg, ${colorPair[0]}, ${colorPair[1]})` }}>
                             {(company.businessName || 'C').charAt(0).toUpperCase()}
                           </div>
                         )}
                       </div>
-                      <div className="company-card-info">
-                        <h3>{company.businessName}</h3>
-                        <p className="company-owner">👤 Owner: {company.ownerName || 'Verified Partner'}</p>
-                        <span className="badge-verified">✓ Verified Supplier</span>
-                        <div className="company-product-count">{productCount} product{productCount !== 1 ? 's' : ''} available</div>
-                      </div>
-                      <button className="btn-view-products">View Products →</button>
                     </div>
                   );
                 })}
@@ -336,6 +329,15 @@ export default function Products() {
 function ClickableProductCard({ product, onAddToCart, onNavigate, onSellerClick }) {
   const sc = SECTOR_COLORS[product.sector] || { bg: '#f3f4f6', color: '#374151', dot: '#9ca3af' };
 
+  const sectorLabel = () => {
+    const map = {
+      agri: 'Agritech', aqua: 'Aquatech', electrical: 'Electrical',
+      electronics: 'Electronics', mechanical: 'Machanical', civil: 'Civil',
+      chemical: 'Chemical', food: 'Food Products', nanobio: 'Nano/Bio',
+    };
+    return map[product.sector] || (product.sector?.charAt(0).toUpperCase() + product.sector?.slice(1));
+  };
+
   return (
     <div className="product-card clickable-card" onClick={onNavigate} style={{ cursor: 'pointer' }}>
       <div className="product-img-wrap">
@@ -347,7 +349,7 @@ function ClickableProductCard({ product, onAddToCart, onNavigate, onSellerClick 
         />
         <div className="sector-badge" style={{ background: sc.bg, color: sc.color }}>
           <span className="sector-dot" style={{ background: sc.dot }} />
-          {product.sector?.charAt(0).toUpperCase() + product.sector?.slice(1)}
+          {sectorLabel()}
         </div>
         {product.createdByRole && (
           <div className={`seller-badge ${product.createdByRole === 'seller' ? 'seller' : 'admin'}`}>
@@ -360,9 +362,6 @@ function ClickableProductCard({ product, onAddToCart, onNavigate, onSellerClick 
 
       <div className="product-info">
         <h3 className="product-name">{product.name}</h3>
-        {product.description && (
-          <p className="product-desc">{product.description}</p>
-        )}
         {product.sellerName && (
           <div className="seller-line">
             Sold by{' '}
@@ -377,20 +376,14 @@ function ClickableProductCard({ product, onAddToCart, onNavigate, onSellerClick 
 
         <div className="product-meta">
           <span className="price">₹{product.price?.toLocaleString('en-IN')}</span>
-          <span className={`stock-tag ${product.stock === 0 ? 'out' : product.stock < 10 ? 'low' : 'ok'}`}>
-            {product.stock === 0 ? 'Out of stock'
-             : product.stock < 10 ? `⚠️ ${product.stock} left`
-             : `✓ ${product.stock} in stock`}
-          </span>
+          <button
+            className="btn-add-cart"
+            disabled={product.stock === 0}
+            onClick={e => { e.stopPropagation(); onAddToCart(); }}
+          >
+            {product.stock === 0 ? 'Out of Stock' : '+ Cart'}
+          </button>
         </div>
-
-        <button
-          className="btn-add-cart"
-          disabled={product.stock === 0}
-          onClick={e => { e.stopPropagation(); onAddToCart(); }}
-        >
-          {product.stock === 0 ? 'Out of Stock' : '🛒 Add to Cart'}
-        </button>
       </div>
     </div>
   );
