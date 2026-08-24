@@ -13,6 +13,7 @@
   height: 100%;
   width: auto;
   object-fit: contain;
+  border-radius: 7px;
 }
 
 .brand-logo--nav {
