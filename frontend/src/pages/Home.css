@@ -979,3 +979,38 @@
   .sector-info h3 { font-size: 15px; }
   .sector-info p { font-size: 12px; }
 }
+
+/* Exact category CTA treatment from the supplied reference. */
+.home .sector-card .sector-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-self: end;
+  width: 100%;
+  min-height: 40px;
+  margin-top: 13px;
+  padding: 8px 14px 8px 16px;
+  border: 0;
+  border-radius: 9px;
+  background: linear-gradient(180deg, #0864ed 0%, #0453db 100%);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 5px 12px rgba(4,83,219,.22);
+}
+
+.home .sector-card .sector-footer span:last-child {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
+  font-weight: 400;
+  line-height: .7;
+  transform: translateY(-1px);
+}
+
+.home .sector-card:hover .sector-footer {
+  background: linear-gradient(180deg, #075de2 0%, #0349c8 100%);
+  box-shadow: 0 7px 16px rgba(4,83,219,.3);
+}
