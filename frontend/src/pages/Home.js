@@ -5,14 +5,14 @@ import ProductCard from "../components/ProductCard";
 import "./Home.css";
 
 const SECTORS_GRID = [
-  { key: "agri", label: "Agritech", desc: "Seeds, tools & farm essentials", accent: "#38a548", tint: "#eaf8ed" },
-  { key: "aqua", label: "Aquatech", desc: "Fish farming & water systems", accent: "#268fd8", tint: "#eaf6ff" },
-  { key: "electrical", label: "Electrical", desc: "Cables, power & safety items", accent: "#f5ae15", tint: "#fff8df" },
-  { key: "electronics", label: "Electronics", desc: "Devices, parts & components", accent: "#45a43c", tint: "#edf9eb" },
-  { key: "mechanical", label: "Mechanical", desc: "Machines, tools & spares", accent: "#126cc4", tint: "#eaf3ff" },
-  { key: "civil", label: "Civil", desc: "Construction materials", accent: "#078ca0", tint: "#e7f8fa" },
-  { key: "chemical", label: "Chemical", desc: "Industrial & specialty chemicals", accent: "#07929a", tint: "#e7fafa" },
-  { key: "food", label: "Food Products", desc: "Food processing & packaging", accent: "#ef7314", tint: "#fff1e7" },
+  { key: "agri", label: "Agritech", image: "agritech.png", desc: "Seeds, tools & farm essentials", accent: "#38a548", tint: "#eaf8ed" },
+  { key: "aqua", label: "Aquatech", image: "aquatech.png", desc: "Fish farming & water systems", accent: "#268fd8", tint: "#eaf6ff" },
+  { key: "electrical", label: "Electrical", image: "electrical.png", desc: "Cables, power & safety items", accent: "#f5ae15", tint: "#fff8df" },
+  { key: "electronics", label: "Electronics", image: "electronics.png", desc: "Devices, parts & components", accent: "#45a43c", tint: "#edf9eb" },
+  { key: "mechanical", label: "Mechanical", image: "mechanical.png", desc: "Machines, tools & spares", accent: "#126cc4", tint: "#eaf3ff" },
+  { key: "civil", label: "Civil", image: "civil.png", desc: "Construction materials", accent: "#078ca0", tint: "#e7f8fa" },
+  { key: "chemical", label: "Chemical", image: "chemical.png", desc: "Industrial & specialty chemicals", accent: "#07929a", tint: "#e7fafa" },
+  { key: "food", label: "Food Products", image: "food_products.png", desc: "Food processing & packaging", accent: "#ef7314", tint: "#fff1e7" },
 ];
 
 function CategoryIcon({ type }) {
@@ -144,9 +144,10 @@ export default function Home() {
               style={{ "--sector-accent": sector.accent, "--sector-tint": sector.tint }}
               onClick={() => navigate(`/products?sector=${sector.key}`)}
             >
-              <div className="sector-card-icon"><CategoryIcon type={sector.key} /></div>
+              <div className="sector-card-icon">
+                <img src={`/category-icons/${sector.image}`} alt={sector.label} />
+              </div>
               <div className="sector-info">
-                <h3>{sector.label}</h3>
                 <p>{sector.desc}</p>
               </div>
               <div className="sector-footer">
