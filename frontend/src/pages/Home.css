@@ -1186,9 +1186,7 @@
   }
 }
 
-/* Mobile gap between the Chemical/Food card row and Verified Suppliers. */
-@media (max-width: 900px) {
-  .home .benefits-strip {
-    margin-top: 32px !important;
-  }
+/* Gap between the category-card rows and Verified Suppliers. */
+.home .benefits-strip {
+  margin-top: 32px !important;
 }
