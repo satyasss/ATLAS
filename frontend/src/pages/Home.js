@@ -19,19 +19,19 @@ function CategoryIcon({ type }) {
   const common = { viewBox: "0 0 96 96", role: "img", "aria-hidden": true };
   if (type === "agri") return <svg {...common}>
     <defs><linearGradient id="agriGreen" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#6cc52d"/><stop offset="1" stopColor="#21933c"/></linearGradient></defs>
-    <path d="M47 58C30 55 18 43 16 22c18 1 31 11 34 30-1 2-2 4-3 6ZM50 52C53 32 65 21 83 19c0 20-11 33-33 38Z" fill="url(#agriGreen)"/>
-    <path d="M47 83C31 82 20 74 13 61c15-2 27 2 36 13 8-10 19-15 34-14-7 14-18 22-34 23Z" fill="url(#agriGreen)"/>
-    <path d="M49 79V49M47 52C38 42 31 35 23 29M51 51c8-10 15-17 24-23M47 75c-9-6-17-9-27-10m31 9c9-6 17-9 26-10" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round"/>
+    <path d="M47 54C27 51 14 37 14 13c20 2 33 16 35 38ZM50 53c2-23 15-37 34-39 1 23-12 37-34 42Z" fill="url(#agriGreen)"/>
+    <path d="M48 82C30 83 16 75 8 61c17-4 31 1 42 14 9-11 22-16 39-13-9 15-22 22-39 21Z" fill="url(#agriGreen)"/>
+    <path d="M49 80V48M46 50C37 39 29 31 20 24m32 26c8-11 16-19 26-26M46 76c-10-7-19-10-30-11m37 11c9-7 18-10 29-11" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round"/>
   </svg>;
   if (type === "aqua") return <svg {...common}><path d="M32 10C25 22 18 31 18 40a14 14 0 0 0 28 0c0-9-7-18-14-30Zm28 11C50 37 45 45 45 55a17 17 0 0 0 34 0c0-10-8-21-19-34Z" fill="currentColor"/><path d="M11 73c11-7 20 7 31 0s20 7 31 0 16 0 16 0M11 86c11-7 20 7 31 0s20 7 31 0 16 0 16 0" fill="none" stroke="currentColor" strokeWidth="5"/></svg>;
   if (type === "electrical") return <svg {...common}><circle cx="48" cy="48" r="35" fill="none" stroke="currentColor" strokeWidth="5"/><path d="m54 8-29 47h21l-6 34 31-50H50Z" fill="currentColor"/></svg>;
   if (type === "electronics") return <svg {...common}><rect x="25" y="25" width="46" height="46" rx="3" fill="none" stroke="currentColor" strokeWidth="6"/><rect x="36" y="36" width="24" height="24" fill="currentColor"/><path d="M34 12v13m14-13v13m14-13v13M34 71v13m14-13v13m14-13v13M12 34h13M12 48h13M12 62h13m46-28h13M71 48h13M71 62h13" stroke="currentColor" strokeWidth="5" strokeLinecap="round"/></svg>;
   if (type === "mechanical") return <svg {...common}>
     <defs><linearGradient id="mechanicalBlue" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#2687cf"/><stop offset="1" stopColor="#07559e"/></linearGradient></defs>
-    <path d="M42 8h13l3 10c4 1 8 3 11 6l10-4 7 11-8 7c1 4 1 8 0 12l9 6-5 12-11-2c-3 3-6 6-10 7l-1 11H47l-3-10c-4-1-8-3-11-6l-10 4-7-11 8-7c-1-4-1-8 0-12l-9-6 5-12 11 2c3-3 6-6 10-7Z" fill="url(#mechanicalBlue)"/>
-    <circle cx="51" cy="47" r="23" fill="#fff"/>
-    <path d="M62 29a16 16 0 0 0-17 21L28 67a7 7 0 0 0 10 10l17-17a16 16 0 0 0 19-20l-10 10-9-3-3-9Z" fill="url(#mechanicalBlue)"/>
-    <circle cx="34" cy="71" r="3.5" fill="#fff"/>
+    <g fill="url(#mechanicalBlue)"><circle cx="48" cy="45" r="32"/><rect x="41" y="4" width="14" height="18" rx="3"/><rect x="41" y="68" width="14" height="18" rx="3"/><rect x="7" y="38" width="18" height="14" rx="3"/><rect x="71" y="38" width="18" height="14" rx="3"/><rect x="41" y="4" width="14" height="18" rx="3" transform="rotate(45 48 45)"/><rect x="41" y="68" width="14" height="18" rx="3" transform="rotate(45 48 45)"/><rect x="7" y="38" width="18" height="14" rx="3" transform="rotate(45 48 45)"/><rect x="71" y="38" width="18" height="14" rx="3" transform="rotate(45 48 45)"/></g>
+    <circle cx="48" cy="45" r="22" fill="#fff"/>
+    <path d="M37 23v20c0 7 3 12 7 15v25h8V58c5-3 8-8 8-15V23l-8 9h-7Z" fill="url(#mechanicalBlue)"/>
+    <circle cx="48" cy="77" r="2.5" fill="#fff"/>
   </svg>;
   if (type === "civil") return <svg {...common}><path d="M11 78h74M20 78V41l18-14v51m0 0V18h19v60m0 0V35l20-13v56M15 78c8-19 58-19 68 0M27 47h5m-5 12h5m13-29h5m-5 13h5m-5 13h5m14-15h5m-5 13h5" fill="none" stroke="currentColor" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round"/></svg>;
   if (type === "chemical") return <svg {...common}><path d="M37 12h22M42 12v25L22 73a8 8 0 0 0 7 12h38a8 8 0 0 0 7-12L54 37V12M31 67h34" fill="none" stroke="currentColor" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round"/><circle cx="44" cy="59" r="3" fill="currentColor"/><circle cx="56" cy="73" r="4" fill="currentColor"/></svg>;
