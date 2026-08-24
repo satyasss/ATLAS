@@ -14,7 +14,7 @@
   align-items: center;
   justify-content: space-between;
   min-height: 76px;
-  padding: 0 32px 0 18px;
+  padding: 0 32px 0 6px;
   gap: 22px;
   max-width: 100%;
   margin: 0;
@@ -293,7 +293,7 @@
 
 @media (max-width: 900px) {
   .nav-inner {
-    padding: 0 16px 0 0;
+    padding: 0 16px 0 2px;
   }
 
   .hamburger { display: flex; }
@@ -368,8 +368,8 @@
 /* Reference-matched desktop navigation */
 @media (min-width: 901px) {
   .navbar { background: #0c3899; box-shadow: none; }
-  .nav-inner { min-height: 88px; padding: 0 24px; gap: 16px; }
-  .brand-logo--nav { --brand-logo-height: 64px; }
+  .nav-inner { min-height: 88px; padding: 0 24px 0 6px; gap: 16px; }
+  .brand-logo--nav { --brand-logo-height: 72px; }
   .brand-logo--nav img { border-radius: 0; }
   .nav-logo { margin-right: 14px; }
   .nav-links { flex: 1; }
