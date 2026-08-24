@@ -148,6 +148,7 @@ export default function Home() {
                 <img src={`/category-icons/${sector.image}`} alt={sector.label} />
               </div>
               <div className="sector-info">
+                <h3>{sector.label}</h3>
                 <p>{sector.desc}</p>
               </div>
               <div className="sector-footer">
