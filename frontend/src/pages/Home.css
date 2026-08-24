@@ -1114,6 +1114,10 @@
     padding-left: 23px !important;
     padding-right: 16px !important;
   }
+
+  .benefits-strip {
+    margin-top: 24px;
+  }
 }
 
 /* Exact category CTA treatment from the supplied reference. */
