@@ -369,7 +369,7 @@
 @media (min-width: 901px) {
   .navbar { background: #0c3899; box-shadow: none; }
   .nav-inner { min-height: 88px; padding: 0 24px; gap: 16px; }
-  .brand-logo--nav { --brand-logo-height: 52px; }
+  .brand-logo--nav { --brand-logo-height: 64px; }
   .brand-logo--nav img { border-radius: 0; }
   .nav-logo { margin-right: 14px; }
   .nav-links { flex: 1; }
