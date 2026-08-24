@@ -17,7 +17,13 @@
 }
 
 .brand-logo--nav {
-  --brand-logo-height: 72px;
+  --brand-logo-height: 75px;
+  width: 150px;
+}
+
+.brand-logo--nav img {
+  width: 150px;
+  height: auto;
 }
 
 .brand-logo--footer {
@@ -42,6 +48,12 @@
 @media (max-width: 480px) {
   .brand-logo--nav {
     --brand-logo-height: 58px;
+    width: auto;
+  }
+
+  .brand-logo--nav img {
+    width: auto;
+    height: 100%;
   }
 
   .brand-logo--login {
