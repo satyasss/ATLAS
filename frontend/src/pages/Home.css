@@ -926,7 +926,7 @@
 }
 
 .sector-card--mechanical .sector-card-icon img {
-  transform: scale(1.28);
+  transform: scale(1.23);
 }
 
 
@@ -1105,7 +1105,7 @@
   .sector-info h3 { margin: 0 0 8px; }
   .sector-footer { margin-top: 0; }
 
-  .sectors-section { padding-bottom: 42px; }
+  .sectors-section { padding-bottom: 20px; }
   .benefits-strip { width: 100%; margin-top: 0; }
 }
 
