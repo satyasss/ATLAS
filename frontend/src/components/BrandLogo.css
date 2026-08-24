@@ -30,6 +30,13 @@
   --brand-logo-height: 92px;
 }
 
+.brand-logo--footer img {
+  width: auto;
+  height: 100%;
+  border-radius: 0;
+  object-fit: contain;
+}
+
 .brand-logo--login {
   --brand-logo-height: 80px;
 }
