@@ -24,6 +24,10 @@
   margin-bottom: 16px;
 }
 
+.footer-logo .brand-logo--footer {
+  transform: translateX(-18px);
+}
+
 .footer-social {
   display: flex;
   gap: 10px;

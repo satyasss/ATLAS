@@ -925,6 +925,10 @@
   mix-blend-mode: multiply;
 }
 
+.sector-card--mechanical .sector-card-icon img {
+  transform: scale(1.28);
+}
+
 
 /* Keep the reference category design on tablets and phones too. */
 @media (max-width: 900px) {
@@ -1101,7 +1105,7 @@
   .sector-info h3 { margin: 0 0 8px; }
   .sector-footer { margin-top: 0; }
 
-  .sectors-section { padding-bottom: 28px; }
+  .sectors-section { padding-bottom: 42px; }
   .benefits-strip { width: 100%; margin-top: 0; }
 }
 

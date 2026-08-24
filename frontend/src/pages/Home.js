@@ -140,7 +140,7 @@ export default function Home() {
             <button
               type="button"
               key={sector.key}
-              className="sector-card"
+              className={`sector-card sector-card--${sector.key}`}
               style={{ "--sector-accent": sector.accent, "--sector-tint": sector.tint }}
               onClick={() => navigate(`/products?sector=${sector.key}`)}
             >
