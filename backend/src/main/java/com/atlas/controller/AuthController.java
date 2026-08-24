@@ -88,8 +88,8 @@ public class AuthController {
         if (request.businessName() == null || request.businessName().trim().length() < 2) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Enter the business name.");
         }
-        if (request.aadhaarDataUrl() == null || request.aadhaarDataUrl().isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Aadhaar document is required.");
+        if (request.logoDataUrl() == null || request.logoDataUrl().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Company logo is required.");
         }
         ensureEmailAvailable(email);
         if (userRepository.existsByMobile(mobile) || sellerRepository.existsByMobile(mobile)) {

@@ -67,9 +67,13 @@ export default function Login() {
   const updateDocument = async (key, file) => {
     setError('');
     if (!file) return;
-    const allowed = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
+    const allowed = key === 'companyLogo'
+      ? ['image/jpeg', 'image/png', 'image/webp']
+      : ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
     if (!allowed.includes(file.type)) {
-      setError('Please upload Aadhaar / document as JPG, PNG, WEBP or PDF.');
+      setError(key === 'companyLogo'
+        ? 'Please upload the company logo as JPG, PNG or WEBP.'
+        : 'Please upload the document as JPG, PNG, WEBP or PDF.');
       return;
     }
     if (file.size > 2 * 1024 * 1024) {
@@ -165,7 +169,6 @@ export default function Login() {
     if (!/^\d{10}$/.test(cleanMobile)) { setError('Please enter a valid 10 digit mobile number.'); return; }
     if (!otpVerified) { setError('Please verify your email OTP before submitting.'); return; }
     if (sellerForm.password.length < 8) { setError('Password must be at least 8 characters.'); return; }
-    if (!sellerForm.documents.aadhaar) { setError('Please upload Aadhaar document for fraud verification.'); return; }
     if (!sellerForm.documents.companyLogo) { setError('Please upload your company logo.'); return; }
     if (!sellerForm.agree) { setError('Please accept the seller verification declaration.'); return; }
 
@@ -180,7 +183,7 @@ export default function Login() {
         otp: sellerForm.otp,
         documents: sellerForm.documents,
       });
-      setSuccess('Application submitted. Admin can now view your Aadhaar/document and approve or reject your seller account.');
+      setSuccess('Application submitted. Admin can now review your seller details and approve or reject your account.');
       resetRegister();
       setTab('login');
     } catch (err) {
@@ -250,13 +253,13 @@ export default function Login() {
               <p className="hint-title">Account Access</p>
               <div className="hint-row"><div className="hint-badge admin">Admin</div><span>Credentials are securely configured on the backend</span></div>
               <div className="hint-row"><div className="hint-badge user">Customer</div><span>Register with email OTP to shop and checkout</span></div>
-              <div className="hint-row"><div className="hint-badge seller">Seller</div><span>Register → upload Aadhaar → admin approval</span></div>
+              <div className="hint-row"><div className="hint-badge seller">Seller</div><span>Register → upload company logo → admin approval</span></div>
             </div>
           </>
         ) : (
           <>
             <h1 className="login-title">Verified Seller Registration</h1>
-            <p className="login-subtitle">Email OTP + mobile number + Aadhaar document verification</p>
+            <p className="login-subtitle">Email OTP + mobile number + mandatory company logo</p>
 
             {error && <div className="login-error"><span>⚠️</span> {error}</div>}
             {success && <div className="login-success"><span>✅</span> {success}</div>}
@@ -299,12 +302,12 @@ export default function Login() {
 
               <div className="seller-docs">
                 <div className="doc-upload">
-                  <label htmlFor="aadhaarDoc">Aadhaar Document <span>*</span></label>
+                  <label htmlFor="aadhaarDoc">Aadhaar Document <small>(Optional)</small></label>
                   <input id="aadhaarDoc" type="file" accept="image/*,application/pdf" onChange={e => updateDocument('aadhaar', e.target.files?.[0])} />
-                  <p>{sellerForm.documents.aadhaar ? `Selected: ${sellerForm.documents.aadhaar.name}` : 'Upload Aadhaar JPG/PNG/PDF below 2MB'}</p>
+                  <p>{sellerForm.documents.aadhaar ? `Selected: ${sellerForm.documents.aadhaar.name}` : 'Optional — JPG/PNG/PDF below 2MB'}</p>
                 </div>
                 <div className="doc-upload">
-                  <label htmlFor="businessProof">Business Proof / GST / PAN</label>
+                  <label htmlFor="businessProof">GSTIN / Business Proof / PAN <small>(Optional)</small></label>
                   <input id="businessProof" type="file" accept="image/*,application/pdf" onChange={e => updateDocument('businessProof', e.target.files?.[0])} />
                   <p>{sellerForm.documents.businessProof ? `Selected: ${sellerForm.documents.businessProof.name}` : 'Optional but recommended'}</p>
                 </div>
@@ -326,7 +329,7 @@ export default function Login() {
             </form>
 
             <p className="register-note">
-              After submission, seller login is locked until the admin opens Seller Applications, checks Aadhaar/documents and approves the account.
+              After submission, seller login is locked until the admin reviews the application and approves the account.
             </p>
           </>
         )}
