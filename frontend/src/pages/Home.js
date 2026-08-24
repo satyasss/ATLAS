@@ -17,11 +17,20 @@ const SECTORS_GRID = [
 
 function CategoryIcon({ type }) {
   const common = { viewBox: "0 0 96 96", role: "img", "aria-hidden": true };
-  if (type === "agri") return <svg {...common}><path d="M48 82V41M48 57C31 56 19 47 16 29c17 0 30 8 32 28Zm0-16c3-18 14-28 32-30-1 18-13 29-32 30ZM46 75c-13 0-23-6-29-17 14-2 24 3 29 17Zm4-5c12 0 21-5 27-15-13-2-22 3-27 15Z" fill="currentColor"/></svg>;
+  if (type === "agri") return <svg {...common}>
+    <path d="M47 58C30 55 18 43 16 22c18 1 31 11 34 30-1 2-2 4-3 6ZM50 52C53 32 65 21 83 19c0 20-11 33-33 38Z" fill="currentColor"/>
+    <path d="M47 83C31 82 20 74 13 61c15-2 27 2 36 13 8-10 19-15 34-14-7 14-18 22-34 23Z" fill="currentColor"/>
+    <path d="M49 79V49M47 52C38 42 31 35 23 29M51 51c8-10 15-17 24-23M47 75c-9-6-17-9-27-10m31 9c9-6 17-9 26-10" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round"/>
+  </svg>;
   if (type === "aqua") return <svg {...common}><path d="M32 10C25 22 18 31 18 40a14 14 0 0 0 28 0c0-9-7-18-14-30Zm28 11C50 37 45 45 45 55a17 17 0 0 0 34 0c0-10-8-21-19-34Z" fill="currentColor"/><path d="M11 73c11-7 20 7 31 0s20 7 31 0 16 0 16 0M11 86c11-7 20 7 31 0s20 7 31 0 16 0 16 0" fill="none" stroke="currentColor" strokeWidth="5"/></svg>;
   if (type === "electrical") return <svg {...common}><circle cx="48" cy="48" r="35" fill="none" stroke="currentColor" strokeWidth="5"/><path d="m54 8-29 47h21l-6 34 31-50H50Z" fill="currentColor"/></svg>;
   if (type === "electronics") return <svg {...common}><rect x="25" y="25" width="46" height="46" rx="3" fill="none" stroke="currentColor" strokeWidth="6"/><rect x="36" y="36" width="24" height="24" fill="currentColor"/><path d="M34 12v13m14-13v13m14-13v13M34 71v13m14-13v13m14-13v13M12 34h13M12 48h13M12 62h13m46-28h13M71 48h13M71 62h13" stroke="currentColor" strokeWidth="5" strokeLinecap="round"/></svg>;
-  if (type === "mechanical") return <svg {...common}><path d="M44 11h9l3 10 8 4 10-4 7 8-5 9 2 9 9 6-3 10-11 1-6 7v11H56l-4-10-9-2-8 6-8-7 4-10-3-8-10-5 3-11 11-1 6-7Z" fill="currentColor"/><circle cx="52" cy="51" r="19" fill="#fff"/><path d="M60 35a13 13 0 0 0-13 17L32 67l8 8 15-16a13 13 0 0 0 5-24Z" fill="currentColor"/></svg>;
+  if (type === "mechanical") return <svg {...common}>
+    <path d="M42 8h13l3 10c4 1 8 3 11 6l10-4 7 11-8 7c1 4 1 8 0 12l9 6-5 12-11-2c-3 3-6 6-10 7l-1 11H47l-3-10c-4-1-8-3-11-6l-10 4-7-11 8-7c-1-4-1-8 0-12l-9-6 5-12 11 2c3-3 6-6 10-7Z" fill="currentColor"/>
+    <circle cx="51" cy="47" r="23" fill="#fff"/>
+    <path d="M62 29a16 16 0 0 0-17 21L28 67a7 7 0 0 0 10 10l17-17a16 16 0 0 0 19-20l-10 10-9-3-3-9Z" fill="currentColor"/>
+    <circle cx="34" cy="71" r="3.5" fill="#fff"/>
+  </svg>;
   if (type === "civil") return <svg {...common}><path d="M11 78h74M20 78V41l18-14v51m0 0V18h19v60m0 0V35l20-13v56M15 78c8-19 58-19 68 0M27 47h5m-5 12h5m13-29h5m-5 13h5m-5 13h5m14-15h5m-5 13h5" fill="none" stroke="currentColor" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round"/></svg>;
   if (type === "chemical") return <svg {...common}><path d="M37 12h22M42 12v25L22 73a8 8 0 0 0 7 12h38a8 8 0 0 0 7-12L54 37V12M31 67h34" fill="none" stroke="currentColor" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round"/><circle cx="44" cy="59" r="3" fill="currentColor"/><circle cx="56" cy="73" r="4" fill="currentColor"/></svg>;
   return <svg {...common}><path d="M19 57h49c0 17-10 28-25 28S19 74 19 57Zm10 0V28h17v29M32 18h11v10M62 57V25m0 12 9-9m-9 22 11-9m-11 0-8-8m8 1 8-10" fill="none" stroke="currentColor" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round"/><path d="M27 40h21v17H27Z" fill="currentColor" opacity=".18"/></svg>;

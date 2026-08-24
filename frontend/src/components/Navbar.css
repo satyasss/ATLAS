@@ -368,20 +368,28 @@
 /* Reference-matched desktop navigation */
 @media (min-width: 901px) {
   .navbar { background: #0c3899; box-shadow: none; }
-  .nav-inner { min-height: 88px; padding: 0 24px 0 6px; gap: 16px; }
-  .brand-logo--nav { --brand-logo-height: 75px; width: 150px; }
-  .brand-logo--nav img { width: 150px; height: auto; }
+  .nav-inner {
+    width: 100vw !important;
+    max-width: none !important;
+    min-height: 104px;
+    margin: 0 !important;
+    padding: 0 28px 0 14px;
+    gap: 20px;
+  }
+  .brand-logo--nav { --brand-logo-height: 90px; width: 180px; }
+  .brand-logo--nav img { width: 180px; height: auto; }
   .brand-logo--nav img { border-radius: 0; }
-  .nav-logo { margin-right: 14px; }
+  .nav-logo { margin: 0 18px 0 0; flex: 0 0 180px; }
   .nav-links { flex: 1; }
-  .nav-links-inner { width: 100%; gap: 4px; }
-  .nav-links-inner a { padding: 13px 12px; border: 1px solid transparent; border-radius: 10px; font-size: 12px; }
+  .nav-links-inner { width: 100%; gap: 8px; }
+  .nav-links-inner a { padding: 15px 15px; border: 1px solid transparent; border-radius: 10px; font-size: 14px; }
   .nav-links-inner a:hover, .nav-links-inner a.active { border-color: rgba(255,255,255,.35); background: rgba(255,255,255,.05); }
   .nav-contact-link { display: none; }
-  .nav-search { margin-left: auto; width: min(300px, 25vw); height: 48px; border-radius: 11px; }
-  .nav-search button { height: 48px; }
-  .nav-contact-btn { min-height: 48px; border-color: rgba(255,255,255,.35) !important; border-radius: 10px !important; }
-  .nav-cart, .nav-login-btn { min-height: 48px; border: 1px solid rgba(255,255,255,.35) !important; border-radius: 10px !important; }
+  .nav-search { margin-left: auto; width: min(375px, 27vw); height: 54px; border-radius: 11px; }
+  .nav-search input { font-size: 13px; }
+  .nav-search button { height: 54px; }
+  .nav-contact-btn { min-height: 54px; border-color: rgba(255,255,255,.35) !important; border-radius: 10px !important; }
+  .nav-cart, .nav-login-btn { min-height: 54px; border: 1px solid rgba(255,255,255,.35) !important; border-radius: 10px !important; }
   .nav-login-btn { display: inline-flex; align-items: center; background: transparent !important; color: #fff !important; }
   .nav-login-btn::before { content: '♟'; margin-right: 7px; font-size: 14px; }
 }
