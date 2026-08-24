@@ -1070,7 +1070,7 @@
 
 @media (min-width: 901px) {
   .home .hero-content {
-    padding-left: 24px !important;
+    padding-left: 31px !important;
   }
 
   .sectors-grid {
@@ -1107,7 +1107,7 @@
 
 @media (max-width: 900px) {
   .home .hero-content {
-    padding-left: 16px !important;
+    padding-left: 23px !important;
     padding-right: 16px !important;
   }
 }
