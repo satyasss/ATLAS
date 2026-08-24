@@ -9,7 +9,7 @@ const SECTORS_GRID = [
   { key: "aqua",        label: "Aquatech",     icon: "💧", desc: "Fish farming & water systems",       accent: "#0284c7", tint: "#e0f2fe" },
   { key: "electrical",  label: "Electrical",   icon: "⚡", desc: "Cables, power & safety items",       accent: "#d97706", tint: "#fef3c7" },
   { key: "electronics", label: "Electronics",  icon: "💻", desc: "Devices, parts & components",        accent: "#16a34a", tint: "#dcfce7" },
-  { key: "mechanical",  label: "Machanical",   icon: "⚙️", desc: "Machines, tools & spares",           accent: "#1d4ed8", tint: "#dbeafe" },
+  { key: "mechanical",  label: "Mechanical",   icon: "⚙️", desc: "Machines, tools & spares",           accent: "#1d4ed8", tint: "#dbeafe" },
   { key: "civil",       label: "Civil",        icon: "🏗️", desc: "Construction materials",             accent: "#0891b2", tint: "#cffafe" },
   { key: "chemical",    label: "Chemical",     icon: "🧪", desc: "Industrial & specialty chemicals",   accent: "#0d9488", tint: "#ccfbf1" },
   { key: "food",        label: "Food Products",icon: "🥗", desc: "Food processing & packaging",        accent: "#ea580c", tint: "#ffedd5" },
@@ -26,7 +26,7 @@ const BENEFITS = [
   { icon: "🛡️", title: "Verified Suppliers", desc: "Only genuine & trusted suppliers" },
   { icon: "🔒", title: "Secure Transactions", desc: "100% safe & secure payments" },
   { icon: "🚚", title: "Fast Delivery", desc: "Timely delivery across India" },
-  { icon: "🎧", title: "24/7 Support", desc: "Always here to help you" },
+  { icon: "🎧", title: "24/7 Support", desc: "We're here to help anytime" },
 ];
 
 export default function Home() {

@@ -364,3 +364,23 @@
     border-radius: 10px !important;
   }
 }
+
+/* Reference-matched desktop navigation */
+@media (min-width: 901px) {
+  .navbar { background: #073fb5; box-shadow: none; }
+  .nav-inner { min-height: 88px; padding: 0 24px; gap: 16px; }
+  .brand-logo--nav { --brand-logo-height: 52px; }
+  .brand-logo--nav img { border-radius: 0; }
+  .nav-logo { margin-right: 14px; }
+  .nav-links { flex: 1; }
+  .nav-links-inner { width: 100%; gap: 4px; }
+  .nav-links-inner a { padding: 13px 12px; border: 1px solid transparent; border-radius: 10px; font-size: 12px; }
+  .nav-links-inner a:hover, .nav-links-inner a.active { border-color: rgba(255,255,255,.35); background: rgba(255,255,255,.05); }
+  .nav-contact-link { display: none; }
+  .nav-search { margin-left: auto; width: min(300px, 25vw); height: 48px; border-radius: 11px; }
+  .nav-search button { height: 48px; }
+  .nav-contact-btn { min-height: 48px; border-color: rgba(255,255,255,.35) !important; border-radius: 10px !important; }
+  .nav-cart, .nav-login-btn { min-height: 48px; border: 1px solid rgba(255,255,255,.35) !important; border-radius: 10px !important; }
+  .nav-login-btn { display: inline-flex; align-items: center; background: transparent !important; color: #fff !important; }
+  .nav-login-btn::before { content: '♟'; margin-right: 7px; font-size: 14px; }
+}
