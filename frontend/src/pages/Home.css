@@ -1083,3 +1083,33 @@
   background: linear-gradient(180deg, #075de2 0%, #0349c8 100%);
   box-shadow: 0 7px 16px rgba(4,83,219,.3);
 }
+
+/* Final phone CTA sizing: span the whole card, never the icon column. */
+@media (max-width: 560px) {
+  .home .sector-card .sector-footer {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-self: stretch;
+    align-self: end;
+    width: 100%;
+    max-width: 100%;
+    min-height: 27px;
+    height: 27px;
+    margin: 0;
+    padding: 0 5px;
+    gap: 5px;
+    border-radius: 6px;
+    font-size: 7px;
+    box-shadow: 0 3px 8px rgba(4,83,219,.18);
+  }
+
+  .home .sector-card .sector-footer span:last-child { font-size: 10px; }
+}
+
+@media (max-width: 360px) {
+  .home .sector-card .sector-footer {
+    padding-inline: 4px;
+    gap: 3px;
+    font-size: 6.5px;
+  }
+}
