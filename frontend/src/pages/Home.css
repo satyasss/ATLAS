@@ -973,11 +973,29 @@
 
 @media (max-width: 560px) {
   .home .container { width: min(100% - 28px, 1180px); }
-  .sectors-grid { grid-template-columns: 1fr; }
-  .sector-card { min-height: 166px; grid-template-columns: 74px 1fr; }
-  .sector-card-icon { width: 70px; height: 74px; }
-  .sector-info h3 { font-size: 15px; }
-  .sector-info p { font-size: 12px; }
+  .sectors-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .sector-card {
+    min-width: 0;
+    min-height: 190px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 54px 1fr auto;
+    row-gap: 5px;
+    padding: 9px;
+    text-align: center;
+  }
+  .sector-card-icon { grid-column: 1; grid-row: 1; width: 48px; height: 52px; margin: 0 auto; }
+  .sector-info { grid-column: 1; grid-row: 2; min-width: 0; }
+  .sector-info h3 { margin: 2px 0 4px; font-size: 11px; overflow-wrap: anywhere; }
+  .sector-info p { font-size: 8.5px; line-height: 1.35; }
+  .home .sector-card .sector-footer {
+    grid-column: 1;
+    grid-row: 3;
+    min-height: 32px;
+    padding-inline: 5px;
+    gap: 5px;
+    font-size: 8.5px;
+  }
+  .home .sector-card .sector-footer span:last-child { font-size: 15px; }
 }
 
 /* Exact category CTA treatment from the supplied reference. */
