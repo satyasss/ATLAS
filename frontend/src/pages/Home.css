@@ -1062,6 +1062,56 @@
   .home .sector-card .sector-footer { padding-inline: 4px; gap: 3px; font-size: 6.5px; }
 }
 
+/* Shared alignment grid: stats, categories and benefits use identical edges. */
+.home .container {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (min-width: 901px) {
+  .home .hero-content {
+    padding-left: 24px !important;
+  }
+
+  .sectors-grid {
+    width: 100%;
+    grid-auto-rows: 1fr;
+    align-items: stretch;
+  }
+
+  .sector-card {
+    height: 100%;
+    min-height: 198px;
+    grid-template-columns: 72px minmax(0, 1fr);
+    grid-template-rows: minmax(108px, 1fr) 40px;
+    align-items: center;
+    padding: 18px;
+  }
+
+  .sector-card-icon,
+  .sector-info {
+    align-self: center;
+  }
+
+  .sector-card-icon {
+    width: 72px;
+    height: 82px;
+  }
+
+  .sector-info h3 { margin: 0 0 8px; }
+  .sector-footer { margin-top: 0; }
+
+  .sectors-section { padding-bottom: 28px; }
+  .benefits-strip { width: 100%; margin-top: 0; }
+}
+
+@media (max-width: 900px) {
+  .home .hero-content {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+
 /* Exact category CTA treatment from the supplied reference. */
 .home .sector-card .sector-footer {
   display: flex;
