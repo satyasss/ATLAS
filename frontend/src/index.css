@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -17,19 +17,20 @@
   --text-mid:   #374151;
   --text-gray:  #6b7280;
   --border:     #e2e8f0;
-  --shadow-sm:  0 1px 4px rgba(0,0,0,0.07);
-  --shadow:     0 4px 16px rgba(0,0,0,0.09);
-  --shadow-md:  0 8px 30px rgba(0,0,0,0.12);
-  --shadow-lg:  0 16px 50px rgba(0,0,0,0.16);
-  --radius:     12px;
-  --radius-lg:  18px;
+  --shadow-sm:  0 2px 10px rgba(6,27,68,0.06);
+  --shadow:     0 12px 35px rgba(6,27,68,0.09);
+  --shadow-md:  0 22px 50px rgba(6,27,68,0.12);
+  --shadow-lg:  0 32px 80px rgba(6,27,68,0.18);
+  --shadow-hover: 0 24px 60px rgba(6,27,68,0.14);
+  --radius:     16px;
+  --radius-lg:  24px;
 }
 
 html { scroll-behavior: smooth; overflow-x: hidden; }
 
 body {
-  font-family: 'Poppins', system-ui, sans-serif;
-  background: linear-gradient(180deg, #f6f9ff, #eef5ff);
+  font-family: 'Manrope', system-ui, sans-serif;
+  background: #f7faff;
   color: var(--text-dark);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -40,7 +41,7 @@ body {
 
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
-button { font-family: 'Poppins', sans-serif; }
+button, input, textarea, select { font-family: 'Manrope', system-ui, sans-serif; }
 
 main, #root { overflow-x: hidden; }
 
@@ -50,20 +51,21 @@ main, #root { overflow-x: hidden; }
   color: #fff;
   border: none;
   padding: 11px 26px;
-  border-radius: 0;
+  border-radius: 12px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 12px 28px rgba(10,61,143,0.22);
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
 }
-.btn-green:hover { background: #063070; transform: translateY(-1px); }
+.btn-green:hover { background: #063070; transform: translateY(-2px); box-shadow: 0 16px 32px rgba(10,61,143,0.3); }
 
 .btn-outline {
   background: transparent;
   color: #fff;
   border: 2px solid rgba(255,255,255,0.85);
   padding: 10px 24px;
-  border-radius: 0;
+  border-radius: 12px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -83,10 +85,21 @@ main, #root { overflow-x: hidden; }
 /* ── Page header bands ────────────────────── */
 .page-header {
   background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-main) 100%);
-  padding: 48px 20px;
+  padding: 68px 20px;
   color: #fff;
   position: relative;
   overflow: hidden;
+}
+.page-header::after,
+.products-header::before,
+.about-header::before,
+.services-header::before,
+.contact-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 78% 20%, rgba(76,181,255,.22), transparent 28%);
+  pointer-events: none;
 }
 .page-header::before {
   content: '';

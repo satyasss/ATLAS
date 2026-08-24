@@ -1,5 +1,5 @@
 .footer {
-  background: linear-gradient(160deg, #0a1e4a 0%, #0a2d6e 100%);
+  background: radial-gradient(circle at 15% 0%, #123d83 0%, #081b42 38%, #04112b 100%);
   color: #fff;
 }
 
@@ -7,7 +7,7 @@
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1.5fr;
   gap: 40px;
-  padding: 56px 20px 48px;
+  padding: 72px 20px 58px;
 }
 
 /* Brand */
@@ -33,7 +33,8 @@
   width: 36px;
   height: 36px;
   background: rgba(255,255,255,0.1);
-  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
