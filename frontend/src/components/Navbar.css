@@ -28,6 +28,7 @@
   text-decoration: none;
   flex-shrink: 0;
   margin-right: auto;
+  transform: translateX(-5px);
 }
 
 /* Desktop links */
