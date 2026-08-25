@@ -10,7 +10,7 @@ export default function Navbar() {
   const [search, setSearch] = useState('');
   const loc      = useLocation();
   const navigate = useNavigate();
-  const { user, logout, isAdmin, isSeller } = useAuth();
+  const { user, logout, isAdmin, isSeller, isUser } = useAuth();
   const { itemCount } = useCart();
 
   const close = () => setMenuOpen(false);
@@ -62,6 +62,12 @@ export default function Navbar() {
             <Link to="/cart" className={`nav-cart ${loc.pathname === '/cart' ? 'active' : ''}`} onClick={close}>
               Cart <span>{itemCount}</span>
             </Link>
+
+            {isUser && (
+              <Link to="/orders" className={loc.pathname === '/orders' ? 'active' : ''} onClick={close}>
+                My Orders
+              </Link>
+            )}
 
             {isAdmin && (
               <Link to="/admin" className={`nav-admin ${loc.pathname === '/admin' ? 'admin-active' : ''}`} onClick={close}>

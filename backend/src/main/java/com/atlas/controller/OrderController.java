@@ -5,6 +5,7 @@ import com.atlas.model.Product;
 import com.atlas.repository.AppUserRepository;
 import com.atlas.repository.CustomerOrderRepository;
 import com.atlas.repository.ProductRepository;
+import com.atlas.service.OrderMailService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
@@ -16,6 +17,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -26,13 +29,20 @@ public class OrderController {
     private final ProductRepository productRepository;
     private final AppUserRepository userRepository;
     private final ObjectMapper objectMapper;
+    private final OrderMailService orderMailService;
+    private static final Set<String> ORDER_STATUSES = Set.of(
+            "PLACED", "CONFIRMED", "PROCESSING", "SHIPPED",
+            "OUT_FOR_DELIVERY", "DELIVERED", "CANCELLED"
+    );
 
     public OrderController(CustomerOrderRepository orderRepository, ProductRepository productRepository,
-                           AppUserRepository userRepository, ObjectMapper objectMapper) {
+                           AppUserRepository userRepository, ObjectMapper objectMapper,
+                           OrderMailService orderMailService) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
         this.objectMapper = objectMapper;
+        this.orderMailService = orderMailService;
     }
 
     @PostMapping
@@ -99,6 +109,7 @@ public class OrderController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not prepare the order.", exception);
         }
         CustomerOrder saved = orderRepository.save(order);
+        orderMailService.sendOrderConfirmation(saved, savedItems);
         return new OrderResponse(saved.getId(), saved.getStatus(), saved.getTotal(), saved.getCreatedAt().toString());
     }
 
@@ -116,6 +127,35 @@ public class OrderController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
         }
         return orderRepository.findAllByOrderByCreatedAtDesc();
+    }
+
+    @PutMapping("/{id}/tracking")
+    public CustomerOrder updateTracking(@PathVariable Long id, @RequestBody TrackingUpdateRequest request,
+                                        Authentication authentication) {
+        boolean admin = authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        if (!admin) throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied.");
+
+        String status = request.status() == null ? "" : request.status().trim().toUpperCase();
+        if (!ORDER_STATUSES.contains(status)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Choose a valid order status.");
+        }
+        String details = request.trackingDetails() == null ? "" : request.trackingDetails().trim();
+        if (details.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Enter tracking details for the customer.");
+        }
+        if (details.length() > 500) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tracking details must be 500 characters or fewer.");
+        }
+
+        CustomerOrder order = orderRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found."));
+        order.setStatus(status);
+        order.setTrackingDetails(details);
+        order.setUpdatedAt(LocalDateTime.now());
+        CustomerOrder saved = orderRepository.save(order);
+        orderMailService.sendTrackingUpdate(saved);
+        return saved;
     }
 
     private void validateAddress(OrderRequest request) {
@@ -149,4 +189,5 @@ public class OrderController {
                                String addressLine2, String city, String state, String postalCode,
                                String paymentMethod, String transactionId, List<OrderItemRequest> items) {}
     public record OrderResponse(Long orderId, String status, Double total, String createdAt) {}
+    public record TrackingUpdateRequest(String status, String trackingDetails) {}
 }

@@ -2,6 +2,7 @@ D:\atls\ATLAS\backend\src\main\java\com\atlas\model\CustomerOrder.java
 D:\atls\ATLAS\backend\src\main\java\com\atlas\service\ProductService.java
 D:\atls\ATLAS\backend\src\main\java\com\atlas\controller\OrderController.java
 D:\atls\ATLAS\backend\src\main\java\com\atlas\model\EmailOtp.java
+D:\atls\ATLAS\backend\src\main\java\com\atlas\service\OrderMailService.java
 D:\atls\ATLAS\backend\src\main\java\com\atlas\controller\SellerController.java
 D:\atls\ATLAS\backend\src\main\java\com\atlas\repository\CustomerOrderRepository.java
 D:\atls\ATLAS\backend\src\main\java\com\atlas\repository\AppUserRepository.java

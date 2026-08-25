@@ -4,7 +4,7 @@
   background:
     radial-gradient(circle at 12% 15%, rgba(29, 208, 103, .18), transparent 28%),
     radial-gradient(circle at 88% 5%, rgba(42, 153, 255, .24), transparent 30%),
-    linear-gradient(135deg, #031329, #083c8d);
+    #061b44;
 }
 
 .auth-flow-card {
@@ -33,11 +33,11 @@
   border: 0; border-radius: 13px; padding: 12px 18px; font: 800 13px Poppins, sans-serif; cursor: pointer;
 }
 .auth-secondary { background: #eaf2ff; color: #0b4a9f; }
-.auth-primary { min-height: 50px; background: linear-gradient(135deg,#061b44,#0b4a9f 58%,#0f8e46); color: #fff; box-shadow: 0 14px 28px rgba(6,27,68,.2); }
+.auth-primary { min-height: 50px; background: #0b4a9f; color: #fff; box-shadow: 0 14px 28px rgba(6,27,68,.2); }
 .auth-primary:disabled, .auth-secondary:disabled { opacity: .55; cursor: not-allowed; }
 .otp-banner {
   display: flex; gap: 13px; align-items: flex-start; padding: 15px; border-radius: 16px;
-  background: linear-gradient(135deg,#eff6ff,#ecfdf5); border: 1px solid #bfdbfe; color: #17416f;
+  background: #eff6ff; border: 1px solid #bfdbfe; color: #17416f;
 }
 .otp-banner-icon { width: 42px; height: 42px; border-radius: 13px; display: grid; place-items: center; background: #fff; box-shadow: 0 7px 18px rgba(11,74,159,.12); font-size: 20px; }
 .otp-banner strong { display: block; color: #061b44; margin-bottom: 3px; }

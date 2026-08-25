@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getApiErrorMessage, resetPassword, sendPasswordOtp } from '../services/api';
 import './AuthFlow.css';
+import PasswordInput from '../components/PasswordInput';
 
 export default function ForgotPassword() {
   const [form, setForm] = useState({ email: '', otp: '', newPassword: '', confirmPassword: '' });
@@ -57,8 +58,8 @@ export default function ForgotPassword() {
           <div className="auth-field"><label>Registered email</label><div className="otp-compose"><input required type="email" value={form.email} onChange={e => update('email', e.target.value)} /><button type="button" className="auth-secondary" onClick={sendOtp} disabled={loading}>Send OTP</button></div></div>
           <div className="auth-field"><label>OTP</label><input required maxLength={6} inputMode="numeric" value={form.otp} onChange={e => update('otp', e.target.value.replace(/\D/g, '').slice(0, 6))} /></div>
           <div className="auth-grid">
-            <div className="auth-field"><label>New password</label><input required type="password" minLength={8} value={form.newPassword} onChange={e => update('newPassword', e.target.value)} /></div>
-            <div className="auth-field"><label>Confirm password</label><input required type="password" value={form.confirmPassword} onChange={e => update('confirmPassword', e.target.value)} /></div>
+            <div className="auth-field"><label>New password</label><PasswordInput required minLength={8} value={form.newPassword} onChange={e => update('newPassword', e.target.value)} /></div>
+            <div className="auth-field"><label>Confirm password</label><PasswordInput required value={form.confirmPassword} onChange={e => update('confirmPassword', e.target.value)} /></div>
           </div>
           <button className="auth-primary" disabled={loading}>{loading ? 'Updating...' : 'Reset Password'}</button>
         </form>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getApiErrorMessage, registerUser, sendRegistrationOtp } from '../services/api';
 import './AuthFlow.css';
+import PasswordInput from '../components/PasswordInput';
 
 const INITIAL = { name: '', mobile: '', email: '', password: '', confirmPassword: '', otp: '' };
 
@@ -93,8 +94,8 @@ export default function Register() {
           </div>
           <div className="auth-field"><label>Email OTP</label><input required inputMode="numeric" maxLength={6} value={form.otp} onChange={e => update('otp', e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="6 digit code" /></div>
           <div className="auth-grid">
-            <div className="auth-field"><label>Password</label><input required type="password" minLength={8} value={form.password} onChange={e => update('password', e.target.value)} placeholder="Minimum 8 characters" /></div>
-            <div className="auth-field"><label>Confirm password</label><input required type="password" value={form.confirmPassword} onChange={e => update('confirmPassword', e.target.value)} placeholder="Repeat password" /></div>
+            <div className="auth-field"><label>Password</label><PasswordInput required minLength={8} value={form.password} onChange={e => update('password', e.target.value)} placeholder="Minimum 8 characters" /></div>
+            <div className="auth-field"><label>Confirm password</label><PasswordInput required value={form.confirmPassword} onChange={e => update('confirmPassword', e.target.value)} placeholder="Repeat password" /></div>
           </div>
           <button className="auth-primary" disabled={loading}>{loading ? 'Please wait...' : 'Verify OTP & Create Account'}</button>
         </form>

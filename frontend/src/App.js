@@ -17,6 +17,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import ProductDetail from './pages/ProductDetail';
+import MyOrders from './pages/MyOrders';
 
 function AdminRoute({ children }) {
   const { user, isAdmin } = useAuth();
@@ -55,6 +56,7 @@ function AppInner() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<CustomerRoute><Checkout /></CustomerRoute>} />
+          <Route path="/orders" element={<CustomerRoute><MyOrders /></CustomerRoute>} />
           <Route path="/admin"    element={<AdminRoute><Admin /></AdminRoute>} />
           <Route path="/seller"   element={<SellerRoute><SellerDashboard /></SellerRoute>} />
         </Routes>

@@ -37,6 +37,10 @@ public class CustomerOrder {
     private String itemsJson;
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
+    @Column
+    private LocalDateTime updatedAt = LocalDateTime.now();
+    @Column(length = 500)
+    private String trackingDetails = "Order received and awaiting confirmation.";
 
     public Long getId() { return id; }
     public String getCustomerEmail() { return customerEmail; }
@@ -64,6 +68,10 @@ public class CustomerOrder {
     public String getItemsJson() { return itemsJson; }
     public void setItemsJson(String itemsJson) { this.itemsJson = itemsJson; }
     public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public String getTrackingDetails() { return trackingDetails; }
+    public void setTrackingDetails(String trackingDetails) { this.trackingDetails = trackingDetails; }
 
     @Column(length = 100)
     private String transactionId;

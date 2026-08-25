@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getAllProducts, createProduct, updateProduct, deleteProduct, getApiErrorMessage, getAllOrders, createSeller } from '../services/api';
+import { getAllProducts, createProduct, updateProduct, deleteProduct, getApiErrorMessage, getAllOrders, createSeller, updateOrderTracking } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import ProductCard from '../components/ProductCard';
 import ImageCropper from '../components/ImageCropper';
@@ -40,6 +40,8 @@ export default function Admin() {
   const [activeTab, setActiveTab] = useState('products');
   const [sellers, setSellers] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [trackingDrafts, setTrackingDrafts] = useState({});
+  const [updatingOrder, setUpdatingOrder] = useState(null);
   const [cropSource, setCropSource] = useState('');
   const fileInputRef = useRef(null);
 
@@ -58,8 +60,30 @@ export default function Admin() {
 
   const loadOrders = () => {
     getAllOrders()
-      .then(r => setOrders(r.data || []))
+      .then(r => {
+        const loaded = r.data || [];
+        setOrders(loaded);
+        setTrackingDrafts(Object.fromEntries(loaded.map(order => [order.id, {
+          status: order.status || 'PLACED',
+          trackingDetails: order.trackingDetails || 'Order received and awaiting confirmation.'
+        }])));
+      })
       .catch(error => showMsg('Could not load orders.', 'error'));
+  };
+
+  const handleTrackingUpdate = async (orderId) => {
+    const draft = trackingDrafts[orderId];
+    if (!draft?.trackingDetails?.trim()) return showMsg('Enter tracking details.', 'error');
+    setUpdatingOrder(orderId);
+    try {
+      const response = await updateOrderTracking(orderId, draft);
+      setOrders(current => current.map(order => order.id === orderId ? response.data : order));
+      showMsg(`Order #${orderId} updated and the customer was notified.`);
+    } catch (error) {
+      showMsg(getApiErrorMessage(error, 'Could not update order tracking.'), 'error');
+    } finally {
+      setUpdatingOrder(null);
+    }
   };
 
   useEffect(() => { load(); loadOrders(); }, []);
@@ -537,6 +561,35 @@ export default function Admin() {
                             ))}
                           </ul>
                         </div>
+                      </div>
+                      <div className="order-tracking-editor">
+                        <div>
+                          <label>Order status</label>
+                          <select
+                            value={trackingDrafts[order.id]?.status || order.status || 'PLACED'}
+                            onChange={e => setTrackingDrafts(current => ({ ...current, [order.id]: { ...current[order.id], status: e.target.value } }))}
+                          >
+                            <option value="PLACED">Placed</option>
+                            <option value="CONFIRMED">Confirmed</option>
+                            <option value="PROCESSING">Processing</option>
+                            <option value="SHIPPED">Shipped</option>
+                            <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
+                            <option value="DELIVERED">Delivered</option>
+                            <option value="CANCELLED">Cancelled</option>
+                          </select>
+                        </div>
+                        <div className="tracking-note-field">
+                          <label>Tracking details shown to customer</label>
+                          <textarea
+                            maxLength={500}
+                            value={trackingDrafts[order.id]?.trackingDetails || ''}
+                            onChange={e => setTrackingDrafts(current => ({ ...current, [order.id]: { ...current[order.id], trackingDetails: e.target.value } }))}
+                            placeholder="Example: Shipped via Blue Dart. Tracking ID: BD123456789"
+                          />
+                        </div>
+                        <button type="button" onClick={() => handleTrackingUpdate(order.id)} disabled={updatingOrder === order.id}>
+                          {updatingOrder === order.id ? 'Updating…' : 'Update & Email Customer'}
+                        </button>
                       </div>
                     </div>
                   );

@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import BrandLogo from '../components/BrandLogo';
+import PasswordInput from '../components/PasswordInput';
 import './Login.css';
 
 const emptySeller = {
@@ -237,7 +238,7 @@ export default function Login() {
                 <label>Password</label>
                 <div className="input-wrap">
                   <span className="input-icon">🔒</span>
-                  <input type="password" required value={loginPassword} onChange={e => setLoginPassword(e.target.value)} placeholder="Enter your password" autoComplete="current-password" />
+                  <PasswordInput required value={loginPassword} onChange={e => setLoginPassword(e.target.value)} placeholder="Enter your password" autoComplete="current-password" />
                 </div>
               </div>
               <div className="login-helpers">
@@ -249,12 +250,6 @@ export default function Login() {
               </button>
             </form>
 
-            <div className="login-hints">
-              <p className="hint-title">Account Access</p>
-              <div className="hint-row"><div className="hint-badge admin">Admin</div><span>Credentials are securely configured on the backend</span></div>
-              <div className="hint-row"><div className="hint-badge user">Customer</div><span>Register with email OTP to shop and checkout</span></div>
-              <div className="hint-row"><div className="hint-badge seller">Seller</div><span>Register → upload company logo → admin approval</span></div>
-            </div>
           </>
         ) : (
           <>
@@ -283,7 +278,7 @@ export default function Login() {
                 </div>
                 <div className="login-field">
                   <label>Password</label>
-                  <div className="input-wrap"><span className="input-icon">🔒</span><input type="password" required minLength={8} value={sellerForm.password} onChange={e => updateSeller('password', e.target.value)} placeholder="Min 8 characters" /></div>
+                  <div className="input-wrap"><span className="input-icon">🔒</span><PasswordInput required minLength={8} value={sellerForm.password} onChange={e => updateSeller('password', e.target.value)} placeholder="Min 8 characters" /></div>
                 </div>
               </div>
 

@@ -41,7 +41,7 @@ export default function Checkout() {
   };
 
   if (order) {
-    return <div className="commerce-page"><div className="container"><div className="order-success"><h1>Order placed!</h1><p>Your order number is <strong>#{order.orderId}</strong>. Total: ₹{order.total?.toLocaleString('en-IN')}</p></div><Link className="commerce-btn" to="/products">Continue Shopping</Link></div></div>;
+    return <div className="commerce-page"><div className="container"><div className="order-success"><h1>Order placed!</h1><p>Your order number is <strong>#{order.orderId}</strong>. Total: ₹{order.total?.toLocaleString('en-IN')}</p><p>Order details have been sent to your email.</p></div><Link className="commerce-btn" to="/orders">Track My Order</Link><Link className="commerce-btn secondary" to="/products">Continue Shopping</Link></div></div>;
   }
 
   return (
