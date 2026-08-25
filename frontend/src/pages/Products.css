@@ -291,8 +291,9 @@
 /* ── Company Logo-Only Grid (3rd image style) ────────────────── */
 .company-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(180px, 220px));
   gap: 14px;
+  justify-content: start;
 }
 
 .company-card {
@@ -301,8 +302,10 @@
   background: #f4f8ff;
   border: 1.5px solid #d4def0;
   border-radius: 18px;
-  padding: 12px;
-  min-height: 120px;
+  width: 100%;
+  max-width: 220px;
+  padding: 9px;
+  min-height: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -324,7 +327,7 @@
 /* Logo-only area */
 .company-logo-area-only {
   width: 100%;
-  height: 90px;
+  height: 78px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -448,7 +451,7 @@
     overflow-x: hidden;
   }
   .company-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 220px));
     gap: 10px;
   }
   .company-card {

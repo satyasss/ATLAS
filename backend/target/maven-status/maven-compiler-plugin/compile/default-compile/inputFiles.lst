@@ -19,6 +19,5 @@ D:\atls\ATLAS\backend\src\main\java\com\atlas\repository\EmailOtpRepository.java
 D:\atls\ATLAS\backend\src\main\java\com\atlas\model\AppUser.java
 D:\atls\ATLAS\backend\src\main\java\com\atlas\repository\SellerRepository.java
 D:\atls\ATLAS\backend\src\main\java\com\atlas\service\JwtService.java
-D:\atls\ATLAS\backend\src\main\java\com\atlas\config\DataSeeder.java
 D:\atls\ATLAS\backend\src\main\java\com\atlas\repository\ProductRepository.java
 D:\atls\ATLAS\backend\src\main\java\com\atlas\config\SecurityBeans.java

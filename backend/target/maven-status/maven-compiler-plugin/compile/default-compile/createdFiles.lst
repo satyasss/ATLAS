@@ -13,7 +13,6 @@ com\atlas\controller\AuthController$AuthResponse.class
 com\atlas\service\OtpMailService.class
 com\atlas\controller\ApiExceptionHandler.class
 com\atlas\controller\SellerController$StatusRequest.class
-com\atlas\config\DataSeeder.class
 com\atlas\controller\OrderController$OrderResponse.class
 com\atlas\config\SecurityBeans.class
 com\atlas\controller\SellerController$SellerResponse.class

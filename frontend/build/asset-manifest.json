@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.23fc2899.css",
+    "main.css": "/static/css/main.e055f099.css",
     "main.js": "/static/js/main.a2ab96ca.js",
     "static/media/atlas-hero-bg.png": "/static/media/atlas-hero-bg.8d1b932bbee6aebf6e45.png",
     "index.html": "/index.html",
-    "main.23fc2899.css.map": "/static/css/main.23fc2899.css.map",
+    "main.e055f099.css.map": "/static/css/main.e055f099.css.map",
     "main.a2ab96ca.js.map": "/static/js/main.a2ab96ca.js.map"
   },
   "entrypoints": [
-    "static/css/main.23fc2899.css",
+    "static/css/main.e055f099.css",
     "static/js/main.a2ab96ca.js"
   ]
 }
