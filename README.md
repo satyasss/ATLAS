@@ -48,21 +48,16 @@ npm start
 # Runs on http://localhost:3000
 ```
 
-### Vercel + Render
+### AWS deployment
 
-Set this environment variable in the Vercel project, then redeploy the frontend:
-
-```text
-REACT_APP_API_URL=https://your-render-service.onrender.com
-```
-
-This project uses Create React App, so browser environment variables must start
-with `REACT_APP_`. Do not use `NEXT_PUBLIC_API_URL` for this frontend. The
-frontend adds `/api/products` to the Render service URL automatically.
+The production frontend uses the same domain as the backend and calls `/api`.
+Nginx serves the React build and proxies `/api` to Spring Boot on port 8080.
+No frontend API environment variable is required for this setup. See
+`deploy/nginx/atlas.conf` and `deploy/systemd/atlas-backend.service`.
 
 ### Customer registration and email OTP
 
-Add these secret environment variables to the Render backend service:
+Create `/opt/atlas/backend/.env` on the AWS server with these values:
 
 ```text
 MAIL_HOST=smtp.gmail.com
@@ -98,8 +93,7 @@ All login roles are authenticated by the backend:
 - Sellers can update or delete only products belonging to their own account.
 
 For local development, create `backend/.env` using `backend/.env.example`.
-The `.env` file is ignored by Git. On Render, enter the same values in the
-service Environment settings instead of uploading the file.
+The `.env` file is ignored by Git and must be created directly on the server.
 
 ### Database
 Update `src/main/resources/application.properties`:
@@ -111,9 +105,12 @@ spring.datasource.password=yourpassword
 
 ---
 
-## 🐳 Docker (EC2 Deployment)
-Same as before — use your existing `docker-compose.yml`.
-The frontend build folder goes to nginx; backend JAR to the Spring Boot container.
+## AWS EC2 layout
+
+- Copy `frontend/build` to `/var/www/atlas`.
+- Copy the backend JAR and `.env` to `/opt/atlas/backend`.
+- Install the supplied Nginx and systemd configurations from `deploy/`.
+- Keep MySQL private and allow public traffic only on ports 80 and 443.
 
 ---
 
@@ -123,4 +120,4 @@ The frontend build folder goes to nginx; backend JAR to the Spring Boot containe
 | Admin | `ADMIN_EMAIL` | `ADMIN_PASSWORD` |
 | Customer | Register with email OTP | Your password |
 
-*Auth is frontend-only (localStorage). For production, wire to a real JWT backend.*
+Authentication is verified by the backend using signed JWTs.

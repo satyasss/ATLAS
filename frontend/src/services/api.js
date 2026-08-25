@@ -3,10 +3,11 @@ import axios from 'axios';
 const configuredBaseUrl = process.env.REACT_APP_API_URL?.trim();
 
 const normalizeApiBaseUrl = (value) => {
-  let baseUrl = (value || 'http://localhost:8080').replace(/\/+$/, '');
+  if (!value) return '/api';
 
-  // Accept the Render root URL, /api, or /api/products without creating
-  // paths such as /products/products.
+  let baseUrl = value.replace(/\/+$/, '');
+
+  // Accept a server root URL, /api, or /api/products without duplicating paths.
   baseUrl = baseUrl.replace(/\/api\/products$/i, '');
   baseUrl = baseUrl.replace(/\/api$/i, '');
 
@@ -52,7 +53,7 @@ export const getApiErrorMessage = (error, fallback = 'Request failed.') => {
   }
   if (responseMessage) return responseMessage;
   if (error?.code === 'ERR_NETWORK') {
-    return 'Cannot reach the server. Check REACT_APP_API_URL and the Render service.';
+    return 'Cannot reach the server. Check that the API service is running.';
   }
   return error?.message || fallback;
 };
