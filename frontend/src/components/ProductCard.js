@@ -34,10 +34,11 @@ export default function ProductCard({ product, onEdit, onDelete, onAddToCart, is
           loading="lazy"
           onError={e => { e.target.src = `https://via.placeholder.com/400x240?text=Product`; }}
         />
-        <div
-          className="sector-badge"
-          style={{ background: sc.bg, color: sc.color }}
-        >
+        {product.stock === 0 && <div className="oos-overlay">Out of Stock</div>}
+      </div>
+
+      <div className="product-badges">
+        <div className="sector-badge" style={{ background: sc.bg, color: sc.color }}>
           <span className="sector-dot" style={{ background: sc.dot }} />
           {sectorLabel()}
         </div>
@@ -46,7 +47,6 @@ export default function ProductCard({ product, onEdit, onDelete, onAddToCart, is
             {product.createdByRole === 'seller' ? 'Verified Seller' : 'Admin Listed'}
           </div>
         )}
-        {product.stock === 0 && <div className="oos-overlay">Out of Stock</div>}
       </div>
 
       <div className="product-info">

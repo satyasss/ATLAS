@@ -347,6 +347,11 @@ function ClickableProductCard({ product, onAddToCart, onNavigate, onSellerClick 
           loading="lazy"
           onError={e => { e.target.src = `https://via.placeholder.com/400x240?text=Product`; }}
         />
+        {product.stock === 0 && <div className="oos-overlay">Out of Stock</div>}
+        <div className="card-view-overlay">👁 View Details</div>
+      </div>
+
+      <div className="product-badges">
         <div className="sector-badge" style={{ background: sc.bg, color: sc.color }}>
           <span className="sector-dot" style={{ background: sc.dot }} />
           {sectorLabel()}
@@ -356,8 +361,6 @@ function ClickableProductCard({ product, onAddToCart, onNavigate, onSellerClick 
             {product.createdByRole === 'seller' ? 'Verified Seller' : 'Admin Listed'}
           </div>
         )}
-        {product.stock === 0 && <div className="oos-overlay">Out of Stock</div>}
-        <div className="card-view-overlay">👁 View Details</div>
       </div>
 
       <div className="product-info">
