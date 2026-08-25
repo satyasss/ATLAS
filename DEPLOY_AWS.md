@@ -221,3 +221,4 @@ sudo systemctl status nginx
 If OTP fails, check backend logs and verify the Gmail App Password, sender
 address, SMTP port 587, and outbound network access. Do not print OTP codes or
 mail passwords in production logs.
+<!-- hi -->
