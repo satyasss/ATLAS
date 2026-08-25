@@ -51,9 +51,9 @@ npm start
 ### AWS deployment
 
 The production frontend uses the same domain as the backend and calls `/api`.
-Nginx serves the React build and proxies `/api` to Spring Boot on port 8080.
-No frontend API environment variable is required for this setup. See
-`deploy/nginx/atlas.conf` and `deploy/systemd/atlas-backend.service`.
+Docker Compose runs React/Nginx, Spring Boot, and MySQL. Host Nginx handles the
+public domain and HTTPS. No frontend API environment variable is required. See
+`DEPLOY_AWS.md`, `docker-compose.yml`, and `deploy/nginx/atlas.conf`.
 
 ### Customer registration and email OTP
 
@@ -107,9 +107,10 @@ spring.datasource.password=yourpassword
 
 ## AWS EC2 layout
 
-- Copy `frontend/build` to `/var/www/atlas`.
-- Copy the backend JAR and `.env` to `/opt/atlas/backend`.
-- Install the supplied Nginx and systemd configurations from `deploy/`.
+- Clone the repository to `/opt/atlas`.
+- Create the production `.env` from `.env.aws.example`.
+- Start React/Nginx, Spring Boot, and MySQL using Docker Compose.
+- Use the supplied host Nginx configuration for the domain and HTTPS.
 - Keep MySQL private and allow public traffic only on ports 80 and 443.
 
 ---
