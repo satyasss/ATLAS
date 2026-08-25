@@ -10,14 +10,15 @@ export default function ImageCropper({ source, onCancel, onApply }) {
   const [applying, setApplying] = useState(false);
 
   const onImageLoad = (e) => {
-    imgRef.current = e.currentTarget;
-    // Set an initial completed crop
+    const image = e.currentTarget;
+    imgRef.current = image;
+    // ReactCrop reports completed crops in displayed-image pixels.
     setCompletedCrop({
-      unit: '%',
-      width: 80,
-      height: 80,
-      x: 10,
-      y: 10
+      unit: 'px',
+      width: image.width * 0.8,
+      height: image.height * 0.8,
+      x: image.width * 0.1,
+      y: image.height * 0.1
     });
   };
 
@@ -33,7 +34,6 @@ export default function ImageCropper({ source, onCancel, onApply }) {
       const scaleX = image.naturalWidth / image.width;
       const scaleY = image.naturalHeight / image.height;
       
-      const pixelRatio = window.devicePixelRatio || 1;
       const ctx = canvas.getContext('2d');
 
       const cropX = completedCrop.x * scaleX;
@@ -41,10 +41,14 @@ export default function ImageCropper({ source, onCancel, onApply }) {
       const cropWidth = completedCrop.width * scaleX;
       const cropHeight = completedCrop.height * scaleY;
 
-      canvas.width = cropWidth * pixelRatio;
-      canvas.height = cropHeight * pixelRatio;
+      const maxOutputSide = 1600;
+      const outputScale = Math.min(1, maxOutputSide / Math.max(cropWidth, cropHeight));
+      const outputWidth = Math.max(1, Math.round(cropWidth * outputScale));
+      const outputHeight = Math.max(1, Math.round(cropHeight * outputScale));
 
-      ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      canvas.width = outputWidth;
+      canvas.height = outputHeight;
+
       ctx.imageSmoothingQuality = 'high';
 
       ctx.drawImage(
@@ -55,8 +59,8 @@ export default function ImageCropper({ source, onCancel, onApply }) {
         cropHeight,
         0,
         0,
-        cropWidth,
-        cropHeight
+        outputWidth,
+        outputHeight
       );
 
       const base64Image = canvas.toDataURL('image/jpeg', 0.85);
