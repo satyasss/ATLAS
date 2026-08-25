@@ -96,17 +96,8 @@ For Gmail OTP:
 3. Put the email in `MAIL_USERNAME` and `MAIL_FROM`.
 4. Put the 16-character App Password in `MAIL_APP_PASSWORD`.
 
-Set the final origin exactly:
-
-```env
-APP_CORS_ALLOWED_ORIGINS=https://example.com,https://www.example.com
-```
-
-For temporary Elastic-IP testing before DNS/HTTPS, use:
-
-```env
-APP_CORS_ALLOWED_ORIGINS=http://YOUR_ELASTIC_IP
-```
+No API URL or CORS variable is needed. The frontend and `/api` use the same
+public domain through Nginx in both IP-only and HTTPS deployments.
 
 Never commit `.env`.
 
