@@ -275,6 +275,16 @@ export default function Products() {
                       <div className="company-logo-area-only">
                         <img src={company.logoDataUrl} alt={company.businessName} className="company-logo-img-only" />
                       </div>
+                      <button
+                        type="button"
+                        className="company-view-products"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          setSeller(company.businessName);
+                        }}
+                      >
+                        View Products
+                      </button>
                     </div>
                   );
                 })}
