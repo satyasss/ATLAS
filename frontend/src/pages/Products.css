@@ -291,9 +291,9 @@
 /* ── Company Logo-Only Grid (3rd image style) ────────────────── */
 .company-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 180px));
-  gap: 12px;
-  justify-content: start;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  width: 100%;
 }
 
 .company-card {
@@ -303,9 +303,9 @@
   border: 0;
   border-radius: 0;
   width: 100%;
-  max-width: 180px;
+  max-width: none;
   padding: 0;
-  min-height: 92px;
+  min-height: 190px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -326,7 +326,7 @@
 /* Logo-only area */
 .company-logo-area-only {
   width: 100%;
-  height: 76px;
+  height: 190px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -339,8 +339,9 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  padding: 0;
-  transform: scale(1.14);
+  padding: 8px;
+  border: 1px solid #000;
+  transform: none;
 }
 
 /* Compact storefront cards and make the product photo more prominent. */
@@ -500,15 +501,15 @@
     overflow-x: hidden;
   }
   .company-grid {
-    grid-template-columns: repeat(2, minmax(0, 180px));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
   }
   .company-card {
-    min-height: 100px;
+    min-height: 140px;
     padding: 0;
   }
   .company-logo-area-only {
-    height: 70px;
+    height: 140px;
   }
   .sector-tabs {
     overflow-x: auto;
@@ -539,6 +540,16 @@
   .sector-tab { font-size: 12px; padding: 7px 12px; }
   .products-header h1 { font-size: 22px; }
   .company-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .company-card {
+    min-height: 105px;
+  }
+  .company-logo-area-only {
+    height: 105px;
+  }
+  .company-logo-img-only {
+    padding: 4px;
   }
 }
