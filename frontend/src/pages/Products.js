@@ -84,6 +84,18 @@ export default function Products() {
     return names.sort();
   }, [allProducts]);
 
+  // Only show genuine company entries for the selected sector. Sellers without
+  // an uploaded logo used to render as coloured placeholder blocks.
+  const displayedCompanies = useMemo(() => approvedSellers.filter(company => {
+    const hasUploadedLogo = company.logoDataUrl?.startsWith('data:image/');
+    const hasSectorProduct = allProducts.some(product =>
+      product.sellerName === company.businessName &&
+      product.sector === activeSector
+    );
+
+    return hasUploadedLogo && hasSectorProduct;
+  }), [approvedSellers, allProducts, activeSector]);
+
   const filtered = useMemo(() => {
     let list = allProducts;
 
@@ -245,32 +257,14 @@ export default function Products() {
             <h2 className="company-cards-heading">Verified {SECTORS.find(s => s.key === activeSector)?.label || 'Sector'} Companies</h2>
             <p className="company-cards-sub">Select a registered supplier to browse their products</p>
             
-            {approvedSellers.length === 0 ? (
+            {displayedCompanies.length === 0 ? (
               <div className="empty-state">
                 <div className="empty-icon">🏪</div>
                 <p>No verified companies registered yet.</p>
               </div>
             ) : (
               <div className="company-grid">
-                {approvedSellers.map(company => {
-                  // Fallback colors for name initials avatar
-                  const colors = [
-                    ['#10b981', '#059669'], // green
-                    ['#3b82f6', '#2563eb'], // blue
-                    ['#8b5cf6', '#7c3aed'], // purple
-                    ['#f59e0b', '#d97706'], // orange
-                    ['#ec4899', '#db2777'], // pink
-                  ];
-                  const charCodeSum = (company.businessName || '').split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-                  const colorPair = colors[charCodeSum % colors.length];
-                  const hasLogo = company.logoDataUrl && company.logoDataUrl.startsWith('data:');
-                  
-                  // Compute product count for this seller in this sector
-                  const productCount = allProducts.filter(p => 
-                    p.sellerName === company.businessName && 
-                    (activeSector === 'all' || p.sector === activeSector)
-                  ).length;
-                  
+                {displayedCompanies.map(company => {
                   return (
                     <div 
                       key={company.id} 
@@ -279,13 +273,7 @@ export default function Products() {
                       onClick={() => setSeller(company.businessName)}
                     >
                       <div className="company-logo-area-only">
-                        {hasLogo ? (
-                          <img src={company.logoDataUrl} alt={company.businessName} className="company-logo-img-only" />
-                        ) : (
-                          <div className="company-logo-fallback-only" style={{ background: `linear-gradient(135deg, ${colorPair[0]}, ${colorPair[1]})` }}>
-                            {(company.businessName || 'C').charAt(0).toUpperCase()}
-                          </div>
-                        )}
+                        <img src={company.logoDataUrl} alt={company.businessName} className="company-logo-img-only" />
                       </div>
                     </div>
                   );

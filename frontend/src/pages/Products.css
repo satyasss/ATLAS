@@ -291,8 +291,8 @@
 /* ── Company Logo-Only Grid (3rd image style) ────────────────── */
 .company-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 220px));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 180px));
+  gap: 12px;
   justify-content: start;
 }
 
@@ -303,9 +303,9 @@
   border: 1.5px solid #d4def0;
   border-radius: 18px;
   width: 100%;
-  max-width: 220px;
-  padding: 9px;
-  min-height: 100px;
+  max-width: 180px;
+  padding: 7px;
+  min-height: 92px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -327,7 +327,7 @@
 /* Logo-only area */
 .company-logo-area-only {
   width: 100%;
-  height: 78px;
+  height: 76px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -340,7 +340,37 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  padding: 6px;
+  padding: 0;
+  transform: scale(1.14);
+}
+
+/* Compact storefront cards and make the product photo more prominent. */
+.products-page .product-grid {
+  grid-template-columns: repeat(auto-fill, minmax(210px, 250px));
+  gap: 16px;
+  justify-content: start;
+}
+
+.products-page .product-img-wrap img {
+  transform: scale(1.12);
+}
+
+.products-page .product-info {
+  gap: 2px;
+  padding: 12px 16px 14px;
+}
+
+.products-page .product-name {
+  margin: 0;
+}
+
+.products-page .seller-line {
+  margin-top: 0;
+}
+
+.products-page .product-meta {
+  margin-top: 8px;
+  padding-top: 0;
 }
 
 .company-logo-fallback-only {
@@ -451,7 +481,7 @@
     overflow-x: hidden;
   }
   .company-grid {
-    grid-template-columns: repeat(2, minmax(0, 220px));
+    grid-template-columns: repeat(2, minmax(0, 180px));
     gap: 10px;
   }
   .company-card {
