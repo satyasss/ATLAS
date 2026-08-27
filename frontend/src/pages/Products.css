@@ -291,8 +291,8 @@
 /* ── Company Logo-Only Grid (3rd image style) ────────────────── */
 .company-grid {
   display: grid;
-  grid-template-columns: repeat(3, 190px);
-  gap: 8px;
+  grid-template-columns: repeat(auto-fill, 240px);
+  gap: 24px;
   width: 100%;
   justify-content: start;
 }
@@ -300,13 +300,13 @@
 .company-card {
   --company-accent: #0f8e46;
   --company-tint: #e8f5e9;
-  background: transparent;
+  background: #fff;
   border: 0;
-  border-radius: 0;
+  border-radius: 14px;
   width: 100%;
-  max-width: 190px;
-  padding: 0;
-  min-height: 190px;
+  max-width: 240px;
+  padding: 10px 10px 8px;
+  min-height: 210px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -316,24 +316,24 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   position: relative;
   overflow: hidden;
-  box-shadow: none;
+  box-shadow: 0 6px 18px rgba(6, 27, 68, 0.16);
 }
 
 .company-card:hover {
-  transform: scale(1.04);
-  box-shadow: none;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(6, 27, 68, 0.2);
 }
 
 /* Logo-only area */
 .company-logo-area-only {
   width: 100%;
-  height: 154px;
+  height: 165px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: transparent;
-  border-radius: 0;
+  background: #fff;
+  border-radius: 8px;
 }
 
 .company-logo-img-only {
@@ -341,27 +341,26 @@
   height: 100%;
   object-fit: contain;
   padding: 0;
-  border: 1px solid #000;
+  border: 0;
   transform: none;
 }
 
 .company-view-products {
   width: 100%;
-  min-height: 36px;
-  padding: 7px 8px;
-  border: 1px solid #000;
-  border-top: 0;
+  min-height: 37px;
+  padding: 8px 6px 4px;
+  border: 0;
   background: #fff;
-  color: #061b44;
+  color: #000;
   cursor: pointer;
-  font: 800 13px 'Poppins', sans-serif;
+  font: 800 15px 'Poppins', sans-serif;
   line-height: 1.2;
   text-align: center;
 }
 
 .company-view-products:hover {
-  background: #061b44;
-  color: #fff;
+  background: #fff;
+  color: #0a3d8f;
 }
 
 /* Compact storefront cards and make the product photo more prominent. */
@@ -521,15 +520,16 @@
     overflow-x: hidden;
   }
   .company-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
   }
   .company-card {
-    min-height: 140px;
-    padding: 0;
+    max-width: none;
+    min-height: 170px;
+    padding: 8px 8px 6px;
   }
   .company-logo-area-only {
-    height: 108px;
+    height: 130px;
   }
   .sector-tabs {
     overflow-x: auto;
@@ -560,14 +560,14 @@
   .sector-tab { font-size: 12px; padding: 7px 12px; }
   .products-header h1 { font-size: 22px; }
   .company-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 6px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
   .company-card {
-    min-height: 105px;
+    min-height: 150px;
   }
   .company-logo-area-only {
-    height: 73px;
+    height: 110px;
   }
   .company-logo-img-only {
     padding: 0;
