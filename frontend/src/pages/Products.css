@@ -291,9 +291,10 @@
 /* ── Company Logo-Only Grid (3rd image style) ────────────────── */
 .company-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(3, 240px);
   gap: 14px;
   width: 100%;
+  justify-content: start;
 }
 
 .company-card {
@@ -303,7 +304,7 @@
   border: 0;
   border-radius: 0;
   width: 100%;
-  max-width: none;
+  max-width: 240px;
   padding: 0;
   min-height: 190px;
   display: flex;
