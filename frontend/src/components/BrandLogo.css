@@ -44,12 +44,12 @@
 }
 
 .brand-logo--footer {
-  --brand-logo-height: 122px;
-  width: 210px;
+  --brand-logo-height: 108px;
+  width: 180px;
 }
 
 .brand-logo--footer img {
-  width: 210px;
+  width: 180px;
   height: auto;
   max-height: none;
   border-radius: 0;
