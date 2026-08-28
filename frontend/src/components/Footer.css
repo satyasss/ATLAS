@@ -21,7 +21,7 @@
 .footer-logo {
   display: flex;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 0;
 }
 
 .footer-logo .brand-logo--footer {
