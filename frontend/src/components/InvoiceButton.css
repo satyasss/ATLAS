@@ -1,0 +1,2 @@
+.invoice-button { border: 1px solid #0b4a9f; border-radius: 9px; padding: 9px 14px; background: #fff; color: #0b4a9f; font: 800 12px Poppins, sans-serif; cursor: pointer; white-space: nowrap; }
+.invoice-button:hover { background: #0b4a9f; color: #fff; }

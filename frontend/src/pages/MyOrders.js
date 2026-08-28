@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getApiErrorMessage, getOrders } from '../services/api';
+import InvoiceButton from '../components/InvoiceButton';
 import './MyOrders.css';
 
 const STEPS = ['PLACED', 'CONFIRMED', 'PROCESSING', 'SHIPPED', 'OUT_FOR_DELIVERY', 'DELIVERED'];
@@ -44,7 +45,7 @@ export default function MyOrders() {
                 <header>
                   <div><small>Order number</small><h2>#{order.id}</h2></div>
                   <div><small>Placed on</small><strong>{new Date(order.createdAt).toLocaleString('en-IN')}</strong></div>
-                  <div className="customer-order-total"><small>Total</small><strong>₹{order.total?.toLocaleString('en-IN')}</strong></div>
+                  <div className="customer-order-total"><small>Total</small><strong>₹{order.total?.toLocaleString('en-IN')}</strong><InvoiceButton order={order} /></div>
                 </header>
 
                 <div className={`current-tracking ${cancelled ? 'cancelled' : ''}`}>

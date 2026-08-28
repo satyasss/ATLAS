@@ -3,6 +3,7 @@ import { getAllProducts, createProduct, updateProduct, deleteProduct, getApiErro
 import { useAuth } from '../context/AuthContext';
 import ProductCard from '../components/ProductCard';
 import ImageCropper from '../components/ImageCropper';
+import InvoiceButton from '../components/InvoiceButton';
 import './Admin.css';
 
 const EMPTY = { name: '', description: '', price: '', imageUrl: '', sector: 'agri', stock: '', sellerEmail: '' };
@@ -534,7 +535,7 @@ export default function Admin() {
                           <h3>Order #{order.orderId || order.id}</h3>
                           <span className="order-date">{new Date(order.createdAt).toLocaleString('en-IN')}</span>
                         </div>
-                        <div className="order-amount">₹{order.total?.toLocaleString('en-IN')}</div>
+                        <div className="order-amount"><span>₹{order.total?.toLocaleString('en-IN')}</span><InvoiceButton order={order} /></div>
                       </div>
                       <div className="order-details-grid">
                         <div className="order-customer">

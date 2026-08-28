@@ -12,6 +12,7 @@
 .customer-order-card header small, .current-tracking small { display: block; color: #64748b; font-size: 11px; margin-bottom: 4px; }
 .customer-order-card header h2, .customer-order-card header strong { margin: 0; color: #061b44; font-size: 15px; }
 .customer-order-total { text-align: right; }
+.customer-order-total .invoice-button { display: block; margin: 9px 0 0 auto; }
 .current-tracking { margin: 20px 24px; padding: 16px 18px; border-left: 4px solid #0b4a9f; border-radius: 10px; background: #eff6ff; }
 .current-tracking > span { color: #0b4a9f; font-size: 17px; font-weight: 900; }.current-tracking p { margin: 5px 0; color: #334155; }.current-tracking.cancelled { border-color: #dc2626; background: #fef2f2; }.current-tracking.cancelled > span { color: #dc2626; }
 .tracking-steps { display: grid; grid-template-columns: repeat(6, 1fr); padding: 12px 24px 26px; }
@@ -19,4 +20,4 @@
 .tracking-step:not(:last-child)::after { content: ''; position: absolute; top: 15px; left: calc(50% + 17px); right: calc(-50% + 17px); height: 3px; background: #e2e8f0; }
 .tracking-step.past:not(:last-child)::after { background: #0b4a9f; }.tracking-step i { position: relative; z-index: 1; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #e2e8f0; color: #64748b; font-style: normal; }.tracking-step.complete { color: #0b4a9f; }.tracking-step.complete i { background: #0b4a9f; color: #fff; }
 .customer-order-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 20px 24px; background: #f8fafc; }.customer-order-bottom h3 { margin: 0 0 8px; color: #061b44; font-size: 12px; text-transform: uppercase; }.customer-order-bottom p { display: flex; justify-content: space-between; gap: 14px; margin: 5px 0; color: #475569; font-size: 12px; }
-@media (max-width: 700px) { .orders-page-head { align-items: flex-start; flex-direction: column; }.customer-order-card header { grid-template-columns: 1fr 1fr; }.customer-order-total { text-align: left; }.tracking-steps { grid-template-columns: repeat(3, 1fr); row-gap: 18px; }.tracking-step::after { display: none; }.customer-order-bottom { grid-template-columns: 1fr; } }
+@media (max-width: 700px) { .orders-page-head { align-items: flex-start; flex-direction: column; }.customer-order-card header { grid-template-columns: 1fr 1fr; }.customer-order-total { text-align: left; }.customer-order-total .invoice-button { margin-left: 0; }.tracking-steps { grid-template-columns: repeat(3, 1fr); row-gap: 18px; }.tracking-step::after { display: none; }.customer-order-bottom { grid-template-columns: 1fr; } }

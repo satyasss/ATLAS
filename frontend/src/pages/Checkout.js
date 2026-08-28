@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { createOrder, getApiErrorMessage } from '../services/api';
+import InvoiceButton from '../components/InvoiceButton';
 import './AuthFlow.css';
 import './CartCheckout.css';
 
@@ -31,7 +32,16 @@ export default function Checkout() {
         customerEmail: user.email,
         items: items.map(item => ({ productId: item.id, quantity: item.quantity })),
       });
-      setOrder(response.data);
+      setOrder({
+        ...response.data,
+        id: response.data.orderId,
+        ...form,
+        customerEmail: user.email,
+        items: items.map(item => ({
+          name: item.name, price: item.price, quantity: item.quantity,
+          lineTotal: item.price * item.quantity
+        }))
+      });
       clearCart();
     } catch (err) {
       setError(getApiErrorMessage(err, 'Could not place the order.'));
@@ -41,7 +51,7 @@ export default function Checkout() {
   };
 
   if (order) {
-    return <div className="commerce-page"><div className="container"><div className="order-success"><h1>Order placed!</h1><p>Your order number is <strong>#{order.orderId}</strong>. Total: ₹{order.total?.toLocaleString('en-IN')}</p><p>Order details have been sent to your email.</p></div><Link className="commerce-btn" to="/orders">Track My Order</Link><Link className="commerce-btn secondary" to="/products">Continue Shopping</Link></div></div>;
+    return <div className="commerce-page"><div className="container"><div className="order-success"><h1>Order placed!</h1><p>Your order number is <strong>#{order.orderId}</strong>. Total: ₹{order.total?.toLocaleString('en-IN')}</p><p>Your invoice is ready and the order details have been sent to your email.</p><InvoiceButton order={order} /></div><Link className="commerce-btn" to="/orders">Track My Order</Link><Link className="commerce-btn secondary" to="/products">Continue Shopping</Link></div></div>;
   }
 
   return (

@@ -280,7 +280,7 @@
 .order-header-row { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #f1f5f9; padding-bottom: 16px; margin-bottom: 16px; }
 .order-header-row h3 { font-size: 16px; color: #0f172a; margin-bottom: 4px; }
 .order-date { font-size: 13px; color: #64748b; }
-.order-amount { font-size: 18px; font-weight: 700; color: #0f172a; }
+.order-amount { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 700; color: #0f172a; }
 .order-details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
 .order-details-grid h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 10px; }
 .order-details-grid p, .order-details-grid li { font-size: 13px; color: #334155; margin-bottom: 6px; }
