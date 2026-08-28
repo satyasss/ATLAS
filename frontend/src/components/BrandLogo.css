@@ -58,6 +58,8 @@
 
 .brand-logo--footer .brand-logo-subtitle {
   font-size: 15px;
+  text-align: left;
+  text-indent: 0;
 }
 
 .brand-logo--login {
