@@ -57,9 +57,10 @@
 }
 
 .brand-logo--footer .brand-logo-subtitle {
-  font-size: 15px;
+  font-size: 17px;
   text-align: left;
   text-indent: 0;
+  transform: translateX(2px);
 }
 
 .brand-logo--login {
