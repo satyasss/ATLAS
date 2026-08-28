@@ -44,15 +44,20 @@
 }
 
 .brand-logo--footer {
-  --brand-logo-height: 92px;
+  --brand-logo-height: 122px;
   width: 210px;
 }
 
 .brand-logo--footer img {
   width: 210px;
   height: auto;
+  max-height: none;
   border-radius: 0;
   object-fit: contain;
+}
+
+.brand-logo--footer .brand-logo-subtitle {
+  font-size: 15px;
 }
 
 .brand-logo--login {
