@@ -409,6 +409,27 @@
   padding: 2px 0 62px;
 }
 
+.featured-section .product-info {
+  gap: 0;
+  padding: 12px 16px 14px;
+}
+
+.featured-section .product-name,
+.featured-section .seller-line,
+.featured-section .product-meta {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.featured-section .product-name,
+.featured-section .seller-line {
+  line-height: 1.2;
+}
+
+.featured-section .product-meta {
+  padding-top: 0;
+}
+
 .product-grid-3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
