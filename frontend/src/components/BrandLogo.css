@@ -1,7 +1,6 @@
 .brand-logo {
   --brand-logo-height: 48px;
   display: inline-flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: var(--brand-logo-height);
@@ -11,25 +10,11 @@
 
 .brand-logo img {
   display: block;
-  max-height: 78%;
+  max-height: 100%;
   max-width: 100%;
   width: auto;
   object-fit: contain;
   border-radius: 0;
-}
-
-.brand-logo-subtitle {
-  margin-top: 2px;
-  color: #fff;
-  font-family: 'Times New Roman', Times, serif;
-  font-size: calc(var(--brand-logo-height) * .24);
-  font-style: normal;
-  font-weight: 400;
-  letter-spacing: .025em;
-  line-height: 1;
-  white-space: nowrap;
-  transform: scaleX(1.08);
-  transform-origin: center;
 }
 
 .brand-logo--nav {
@@ -55,12 +40,7 @@
 
 .brand-logo--login {
   --brand-logo-height: 80px;
-  padding: 8px 14px;
-  background: #0c3899;
-  border-radius: 12px;
 }
-
-.brand-logo--login .brand-logo-subtitle { font-size: 16px; }
 
 .brand-logo--hero {
   --brand-logo-height: 120px;
