@@ -17,12 +17,12 @@
 }
 
 .brand-logo--nav {
-  --brand-logo-height: 75px;
-  width: 150px;
+  --brand-logo-height: 118px;
+  width: 210px;
 }
 
 .brand-logo--nav img {
-  width: 150px;
+  width: 210px;
   height: auto;
 }
 
@@ -39,6 +39,9 @@
 
 .brand-logo--login {
   --brand-logo-height: 80px;
+  padding: 8px 14px;
+  background: #0c3899;
+  border-radius: 12px;
 }
 
 .brand-logo--hero {

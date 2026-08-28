@@ -372,15 +372,15 @@
   .nav-inner {
     width: 100vw !important;
     max-width: none !important;
-    min-height: 104px;
+    min-height: 124px;
     margin: 0 !important;
     padding: 0 28px 0 14px;
     gap: 20px;
   }
-  .brand-logo--nav { --brand-logo-height: 90px; width: 180px; }
-  .brand-logo--nav img { width: 180px; height: auto; }
+  .brand-logo--nav { --brand-logo-height: 118px; width: 210px; }
+  .brand-logo--nav img { width: 210px; height: auto; }
   .brand-logo--nav img { border-radius: 0; }
-  .nav-logo { margin: 0 18px 0 0; flex: 0 0 180px; }
+  .nav-logo { margin: 0 18px 0 0; flex: 0 0 210px; }
   .nav-links { flex: 1; }
   .nav-links-inner { width: 100%; gap: 8px; }
   .nav-links-inner a { padding: 15px 15px; border: 1px solid transparent; border-radius: 10px; font-size: 14px; }
