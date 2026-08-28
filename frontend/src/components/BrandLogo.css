@@ -19,7 +19,7 @@
 }
 
 .brand-logo-subtitle {
-  margin-top: -3px;
+  margin-top: 2px;
   color: #fff;
   font-family: 'Times New Roman', Times, serif;
   font-size: calc(var(--brand-logo-height) * .24);
