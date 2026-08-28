@@ -13,7 +13,7 @@
   height: 100%;
   width: auto;
   object-fit: contain;
-  border-radius: 7px;
+  border-radius: 0;
 }
 
 .brand-logo--nav {
@@ -39,6 +39,9 @@
 
 .brand-logo--login {
   --brand-logo-height: 80px;
+  padding: 8px 14px;
+  background: #073bb9;
+  border-radius: 12px;
 }
 
 .brand-logo--hero {
