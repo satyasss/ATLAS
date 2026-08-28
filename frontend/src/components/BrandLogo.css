@@ -19,6 +19,8 @@
 }
 
 .brand-logo-subtitle {
+  display: block;
+  width: 100%;
   margin-top: 3px;
   color: #fff;
   font-family: 'Times New Roman', Times, serif;
@@ -26,6 +28,8 @@
   font-weight: 600;
   letter-spacing: .16em;
   line-height: 1;
+  text-align: center;
+  text-indent: .16em;
   white-space: nowrap;
 }
 
@@ -41,11 +45,12 @@
 
 .brand-logo--footer {
   --brand-logo-height: 92px;
+  width: 210px;
 }
 
 .brand-logo--footer img {
-  width: auto;
-  height: 74px;
+  width: 210px;
+  height: auto;
   border-radius: 0;
   object-fit: contain;
 }
