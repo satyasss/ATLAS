@@ -19,16 +19,16 @@
 }
 
 .brand-logo-subtitle {
-  margin-top: -2px;
+  margin-top: -3px;
   color: #fff;
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: calc(var(--brand-logo-height) * .2);
-  font-style: italic;
-  font-weight: 700;
-  letter-spacing: .035em;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: calc(var(--brand-logo-height) * .24);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: .025em;
   line-height: 1;
   white-space: nowrap;
-  transform: skewX(-8deg);
+  transform: scaleX(1.08);
   transform-origin: center;
 }
 
@@ -60,7 +60,7 @@
   border-radius: 12px;
 }
 
-.brand-logo--login .brand-logo-subtitle { font-size: 15px; }
+.brand-logo--login .brand-logo-subtitle { font-size: 16px; }
 
 .brand-logo--hero {
   --brand-logo-height: 120px;
