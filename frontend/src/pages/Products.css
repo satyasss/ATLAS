@@ -350,8 +350,8 @@
   min-height: 37px;
   padding: 8px 6px 4px;
   border: 0;
-  background: #edf5ff;
-  color: #245b9e;
+  background: #90e0ef;
+  color: #06345b;
   cursor: pointer;
   font: 800 15px 'Poppins', sans-serif;
   line-height: 1.2;
@@ -359,8 +359,8 @@
 }
 
 .company-view-products:hover {
-  background: #e1efff;
-  color: #174d8c;
+  background: #a9eaf5;
+  color: #06345b;
 }
 
 /* Compact storefront cards and make the product photo more prominent. */
