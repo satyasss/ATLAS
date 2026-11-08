@@ -91,7 +91,7 @@ export default function Home() {
           <div className="hero-text">
             <div className="hero-badge">✓ Trusted by 500+ businesses</div>
 
-            <h1>Industrial &amp; Agricultural Services</h1>
+            <h1>Industrial &amp; Agricultural</h1>
 
             <p className="hero-subtitle">
               Your All-in-One Industrial &amp; Agricultural Supply Platform

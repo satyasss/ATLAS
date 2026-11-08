@@ -3,6 +3,7 @@ import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import BrandLogo from '../components/BrandLogo';
 import PasswordInput from '../components/PasswordInput';
+import { getApiErrorMessage } from '../services/api';
 import './Login.css';
 
 const emptySeller = {
@@ -111,7 +112,7 @@ export default function Login() {
       setSellerForm(prev => ({ ...prev, otp: '' }));
       setSuccess(result.message || `OTP sent to ${cleanSellerEmail}.`);
     } catch (err) {
-      setError(err?.response?.data?.message || 'Could not send seller OTP.');
+      setError(getApiErrorMessage(err, 'Could not send seller OTP.'));
     } finally {
       setLoading(false);
     }
@@ -188,7 +189,7 @@ export default function Login() {
       resetRegister();
       setTab('login');
     } catch (err) {
-      setError(err?.response?.data?.message || 'Registration failed. Please check all fields and try again.');
+      setError(getApiErrorMessage(err, 'Registration failed. Please check all fields and try again.'));
     } finally {
       setLoading(false);
     }

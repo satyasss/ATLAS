@@ -44,6 +44,8 @@ API.interceptors.response.use(
 export const getApiErrorMessage = (error, fallback = 'Request failed.') => {
   const responseMessage =
     error?.response?.data?.message ||
+    error?.response?.data?.detail ||
+    error?.response?.data?.title ||
     error?.response?.data?.error ||
     (typeof error?.response?.data === 'string' ? error.response.data : '');
 
@@ -54,6 +56,9 @@ export const getApiErrorMessage = (error, fallback = 'Request failed.') => {
   if (responseMessage) return responseMessage;
   if (error?.code === 'ERR_NETWORK') {
     return 'Cannot reach the server. Check that the API service is running.';
+  }
+  if (error?.response?.status === 413) {
+    return 'The uploaded documents are too large for the server. Try smaller files.';
   }
   return error?.message || fallback;
 };
