@@ -195,7 +195,7 @@
 }
 
 .hero .btn-green {
-  background: #90e0ef;
+  background: #7c83c5;
   color: #06345b;
 }
 
@@ -204,8 +204,8 @@
 }
 
 .hero .btn-outline {
-  background: #90e0ef;
-  border-color: #90e0ef;
+  background: #7c83c5;
+  border-color: #7c83c5;
   color: #06345b;
 }
 
@@ -1174,7 +1174,7 @@
   padding: 8px 14px 8px 16px;
   border: 0;
   border-radius: 9px;
-  background: #90e0ef;
+  background: #7c83c5;
   color: #06345b;
   font-size: 12px;
   font-weight: 700;
