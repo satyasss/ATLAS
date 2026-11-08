@@ -195,20 +195,23 @@
 }
 
 .hero .btn-green {
-  background: #347be8;
+  background: #90e0ef;
+  color: #06345b;
 }
 
 .hero .btn-green:hover {
-  background: #5593f2;
+  background: #a9eaf5;
 }
 
 .hero .btn-outline {
-  background: rgba(83, 145, 235, 0.48);
-  border-color: rgba(219, 236, 255, 0.78);
+  background: #90e0ef;
+  border-color: #90e0ef;
+  color: #06345b;
 }
 
 .hero .btn-outline:hover {
-  background: rgba(117, 169, 244, 0.62);
+  background: #a9eaf5;
+  border-color: #a9eaf5;
 }
 
 .stats-panel {

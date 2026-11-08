@@ -204,9 +204,11 @@ export default function Login() {
       </div>
 
       <div className={`login-card ${tab === 'register' ? 'seller-register-card' : ''}`}>
-        <div className="login-logo">
-          <BrandLogo variant="login" />
-        </div>
+        {tab !== 'register' && (
+          <div className="login-logo">
+            <BrandLogo variant="login" />
+          </div>
+        )}
 
         <div className="login-tabs">
           <button type="button" className={tab === 'login' ? 'active' : ''} onClick={() => { setTab('login'); setError(''); setSuccess(''); }}>
