@@ -194,6 +194,23 @@
   min-width: 200px;
 }
 
+.hero .btn-green {
+  background: #347be8;
+}
+
+.hero .btn-green:hover {
+  background: #5593f2;
+}
+
+.hero .btn-outline {
+  background: rgba(83, 145, 235, 0.48);
+  border-color: rgba(219, 236, 255, 0.78);
+}
+
+.hero .btn-outline:hover {
+  background: rgba(117, 169, 244, 0.62);
+}
+
 .stats-panel {
   position: relative;
   z-index: 5;
