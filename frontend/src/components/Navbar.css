@@ -373,7 +373,7 @@
     max-width: none !important;
     min-height: 96px;
     margin: 0 !important;
-    padding: 0 28px 0 14px;
+    padding: 0 max(28px, calc((100vw - 1320px) / 2));
     gap: 20px;
   }
   .brand-logo--nav { --brand-logo-height: 78px; width: 170px; }
